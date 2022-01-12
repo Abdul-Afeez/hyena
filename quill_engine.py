@@ -96,11 +96,8 @@ class Quill:
                 Quill.browser.get_screenshot_as_file("screenshot.png")
 
                 email = Quill.browser.find_element(By.XPATH, "//input[@type='text'][1]")
-                time.sleep(1)
+                time.sleep(3)
                 email.value('zeefain54@gmail.com')
-                time.sleep(1)
-                email.value('zeefain54@gmail.com')
-                time.sleep(1)
 
 
                 password = Quill.browser.find_element(By.XPATH, "//input[@type='password'][1]")
