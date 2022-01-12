@@ -97,14 +97,14 @@ class Quill:
 
                 email = Quill.browser.find_element(By.XPATH, "//input[@type='text'][1]")
                 time.sleep(1)
-                email.send_keys('zeefain54@gmail.com')
+                email.value('zeefain54@gmail.com')
                 time.sleep(1)
-                email.send_keys('zeefain54@gmail.com')
+                email.value('zeefain54@gmail.com')
                 time.sleep(1)
 
 
                 password = Quill.browser.find_element(By.XPATH, "//input[@type='password'][1]")
-                password.send_keys('11111111')
+                password.value('11111111')
 
                 time.sleep(1)
                 btn = Quill.browser.find_element(By.XPATH,
