@@ -95,9 +95,11 @@ class Quill:
                 time.sleep(2)
                 Quill.browser.get_screenshot_as_file("screenshot.png")
 
-                email = Quill.browser.find_element(By.XPATH, "//input[@type='text'][1]")
+                # email = Quill.browser.find_element(By.XPATH, "//input[@type='text'][1]")
                 time.sleep(3)
-                email.send_keys('zeefain54@gmail.com')
+                script = "document.querySelectorAll('input')[0].value='zeefain54@gmail.com';"
+                Quill.browser.execute_script(script)
+                # email.send_keys('zeefain54@gmail.com')
                 time.sleep(1)
 
                 password = Quill.browser.find_element(By.XPATH, "//input[@type='password'][1]")
