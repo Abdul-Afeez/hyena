@@ -16,7 +16,7 @@ class Quill:
             print(f"counter={counter} of max_attempt={max_attempt}")
             counter += 1
             if counter >= max_attempt:
-                Quill.browser.refresh()
+                Quill.browser.quit()
             try:
                 time.sleep(3)
                 print('Trying to close_any_modal')
@@ -32,6 +32,7 @@ class Quill:
                 pass
 
     def paraphraser(self, to_be_paraphrased):
+        to_be_paraphrased = to_be_paraphrased.replace('\n', ' ')
         print('inside paraphraser')
         time.sleep(3)
         print('Getting input text to location')
