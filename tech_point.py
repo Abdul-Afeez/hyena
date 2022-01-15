@@ -129,10 +129,17 @@ class Blogger:
         h6 = re.findall('#h6#(.+?)@h6@', self.html_to_text)
         p = re.findall('#p#(.+?)@p@', self.html_to_text)
         li = re.findall('#li#(.+?)@li@', self.html_to_text)
-        self.save_local_content(f'li = {li} \n\n\n description={self.post.description_text} \n\n'
-                                f'alt_in, {self.alt}')
-        raise Exception('BYE')
-        quill.set_browser()
+        description = [self.post.description_text]
+        alt = self.alt
+
+        walked = 0
+        work = h1+h2+h3+h4+h5+h6+p+li+description+alt
+        work_distance = len(work)
+        # self.save_local_content(f'li = {li} \n\n\n description={self.post.description_text} \n\n'
+        #                         f'alt_in, {self.alt}')
+        # raise Exception('BYE')
+
+        quill.set_browser(work_distance)
         h1_in, h1_out = quill.paraphrase(h1)
         print('h1_in')
 
@@ -144,15 +151,13 @@ class Blogger:
         h5_in, h5_out = quill.paraphrase(h5)
         h6_in, h6_out = quill.paraphrase(h6)
         print('p_in')
-
         p_in, p_out = quill.paraphrase(p)
         print('li_in')
         li_in, li_out = quill.paraphrase(li)
         print('description_in')
-        description_in, description_out = quill.paraphrase([self.post.description_text])
+        description_in, description_out = quill.paraphrase(description)
         print('alt_in', self.alt)
-        alt_in, alt_out = quill.paraphrase(self.alt)
-
+        alt_in, alt_out = quill.paraphrase(alt)
         try:
             for index, alt in enumerate(alt_in):
                 self.html_to_text = self.html_to_text.replace(f"alt=\"{alt}\"", f"alt=\"{alt_out[index]}\"")

@@ -7,6 +7,9 @@ from selenium.webdriver.common.by import By
 class Quill:
     browser = None
     modal_on = False
+    death_recovery = 0
+    work_distance = 0
+    distance_covered = 0
     def __init__(self):
         self.output = []
 
@@ -15,8 +18,13 @@ class Quill:
         while Quill.modal_on:
             print(f"counter={counter} of max_attempt={max_attempt}")
             counter += 1
-            if counter >= max_attempt:
+            if Quill.death_recovery >= 4:
                 Quill.browser.quit()
+                Quill.modal_on = False
+
+            if counter >= max_attempt:
+                Quill.modal_on = False
+                Quill.death_recovery += 1
             try:
                 time.sleep(3)
                 print('Trying to close_any_modal')
@@ -30,6 +38,13 @@ class Quill:
                     Quill.modal_on = False
             except:
                 pass
+
+    @staticmethod
+    def get_percentage_work_done():
+        try:
+            return (Quill.distance_covered / Quill.work_distance) * 100
+        except:
+            return 0
 
     def paraphraser(self, to_be_paraphrased):
         to_be_paraphrased = to_be_paraphrased.replace('\n', ' ')
@@ -52,7 +67,8 @@ class Quill:
         continua = True
         while continua:
             try:
-                print('Finding quillArticleBtn, loading...')
+                time.sleep(3)
+                print(f'{Quill.get_percentage_work_done()}% Finding quillArticleBtn, loading...')
                 paraphrase_btn = Quill.browser.find_element(By.XPATH, "//button[contains(@class, 'quillArticleBtn')]")
 
                 # paraphrase_btn = Quill.browser.find_element(By.XPATH, "//div[contains(@class, 'jss237')]")
@@ -74,7 +90,9 @@ class Quill:
 
 
 
-    def set_browser(self):
+    def set_browser(self, work_distance):
+        Quill.work_distance = work_distance
+        Quill.distance_covered = 0
         if not Quill.browser:
             try:
                 chrome_options = webdriver.ChromeOptions()
@@ -145,4 +163,5 @@ class Quill:
                     time.sleep(5)
                     self.paraphraser(paragraph)
             x += 1
+            Quill.distance_covered += 1
         return paragraphs, self.output
