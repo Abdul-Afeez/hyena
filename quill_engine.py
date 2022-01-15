@@ -39,6 +39,7 @@ class Quill:
                     print('modal closed successfully')
                     time.sleep(3)
                     Quill.modal_on = False
+                    Quill.death_recovery = 0
             except:
                 pass
 
