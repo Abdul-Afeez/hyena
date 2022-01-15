@@ -165,7 +165,11 @@ class Quill:
                     print('Cant close modal resulting to close_any_modal')
                     self.close_any_modal()
                     time.sleep(5)
-                    self.paraphraser(paragraph)
+                    try:
+                        self.paraphraser(paragraph)
+                    except Exception as e:
+                        print(e)
+                        pass
             x += 1
             Quill.distance_covered += 1
         return paragraphs, self.output
