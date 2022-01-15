@@ -1,3 +1,4 @@
+import math
 import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -13,21 +14,23 @@ class Quill:
     def __init__(self):
         self.output = []
 
-    def close_any_modal(self, max_attempt=4):
+    def close_any_modal(self, max_attempt=6):
         counter = 0
         while Quill.modal_on:
-            print(f"counter={counter} of max_attempt={max_attempt}")
-            counter += 1
-            if Quill.death_recovery >= 4:
-                Quill.browser.quit()
-                Quill.modal_on = False
 
-            if counter >= max_attempt:
-                Quill.modal_on = False
-                Quill.death_recovery += 1
             try:
                 time.sleep(3)
                 print('Trying to close_any_modal')
+                print(f"counter={counter} of max_attempt={max_attempt}")
+                counter += 1
+                if Quill.death_recovery >= 6:
+                    Quill.browser.quit()
+                    Quill.modal_on = False
+
+                if counter >= max_attempt:
+                    Quill.modal_on = False
+                    Quill.death_recovery += 1
+                    print(f'Recovering from death channel {Quill.death_recovery}')
                 close_modal_btn = Quill.browser.find_element(By.XPATH,
                                                                 "//button[contains(@style, 'position: absolute; top: 0px; right: 0px; padding: 8px;')]")
                 if close_modal_btn:
@@ -42,7 +45,7 @@ class Quill:
     @staticmethod
     def get_percentage_work_done():
         try:
-            return (Quill.distance_covered / Quill.work_distance) * 100
+            return math.ceil(Quill.distance_covered / Quill.work_distance) * 100
         except:
             return 0
 
