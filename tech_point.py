@@ -409,6 +409,9 @@ class TechCabal(Blogger):
         for raw_article in raw_articles:
             print('Trying to curl page')
             url = raw_article.find('a', class_="article-list-title").attrs['href']
+            category_link = raw_article.find('a', class_="article-list-category").attrs['href']
+            if 'newsletter' in category_link:
+                continue
             crawled = self.confirm_page_crawled(url)
 
             if not crawled:
