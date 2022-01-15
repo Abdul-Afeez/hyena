@@ -417,7 +417,7 @@ class TechCabal(Blogger):
                 x += 1
                 # break
             print('Sleeping for 2 seconds')
-            time.sleep(2)
+            # time.sleep(2)
 
     def clean_empty_tags(self):
         super().clean_empty_tags()
