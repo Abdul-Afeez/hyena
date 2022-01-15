@@ -46,7 +46,7 @@ class Quill:
     @staticmethod
     def get_percentage_work_done():
         try:
-            return math.ceil(Quill.distance_covered / Quill.work_distance) * 100
+            return math.ceil(Quill.distance_covered / Quill.work_distance * 100)
         except:
             return 0
 
