@@ -201,7 +201,7 @@ class Blogger:
             image_title = attrs["title"] if "title" in attr_keys else None
             alt_text = alt_text or image_title
             if alt_text:
-                self.alt.append(alt_text)
+                self.alt.append(alt_text.replace('"', '').replace(';', ''))
             alt_ppt = f" alt=\"{alt_text}\"" if alt_text else None
             main_content = main_content.replace(str(image),
                                                 f"<img src=\"{attrs['src']}\"{alt_ppt if alt_ppt else ''} />")
