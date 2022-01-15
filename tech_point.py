@@ -129,7 +129,9 @@ class Blogger:
         h6 = re.findall('#h6#(.+?)@h6@', self.html_to_text)
         p = re.findall('#p#(.+?)@p@', self.html_to_text)
         li = re.findall('#li#(.+?)@li@', self.html_to_text)
-
+        self.save_local_content(f'li = {li} \n\n\n description={self.post.description_text} \n\n'
+                                f'alt_in, {self.alt}')
+        raise Exception('BYE')
         quill.set_browser()
         h1_in, h1_out = quill.paraphrase(h1)
         print('h1_in')
@@ -400,13 +402,17 @@ class TechCabal(Blogger):
         raw_articles = soup.find_all('article', class_="article-list-item")
         x = 0
         for raw_article in raw_articles:
+            print('Trying to curl page')
             url = raw_article.find('a', class_="article-list-title").attrs['href']
             crawled = self.confirm_page_crawled(url)
+
             if not crawled:
                 self.unvisited_latest.append(url)
                 self.description_images[url] = soup.find('img', class_='wp-post-image').attrs["src"]
                 x += 1
                 # break
+            print('Sleeping for 2 seconds')
+            time.sleep(2)
 
     def clean_empty_tags(self):
         super().clean_empty_tags()
