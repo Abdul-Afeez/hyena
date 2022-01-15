@@ -62,7 +62,7 @@ class Blogger:
         print(url)
         try:
             r = requests.post(endpoint, data={'url': url})
-            print(r.text)
+            # print(r.text)
             # r_dictionary = r.json()
             r_dictionary = json.loads(r.text)
         except:
@@ -410,8 +410,13 @@ class TechCabal(Blogger):
             print('Trying to curl page')
             url = raw_article.find('a', class_="article-list-title").attrs['href']
             category_link = raw_article.find('a', class_="article-list-category").attrs['href']
+            print(f'category_link {category_link}')
             if 'newsletter' in category_link:
+
                 continue
+            else:
+                pass
+            print(url)
             crawled = self.confirm_page_crawled(url)
 
             if not crawled:
@@ -420,6 +425,8 @@ class TechCabal(Blogger):
                 x += 1
                 # break
             print('Sleeping for 2 seconds')
+        self.save_local_content(self.unvisited_latest)
+        raise Exception('Done')
             # time.sleep(2)
 
     def clean_empty_tags(self):
