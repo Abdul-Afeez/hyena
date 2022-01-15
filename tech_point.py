@@ -412,13 +412,11 @@ class TechCabal(Blogger):
             category_link = raw_article.find('a', class_="article-list-category").attrs['href']
             print(f'category_link {category_link}')
             if 'newsletter' in category_link:
-
                 continue
             else:
                 pass
             print(url)
             crawled = self.confirm_page_crawled(url)
-
             if not crawled:
                 self.unvisited_latest.append(url)
                 self.description_images[url] = soup.find('img', class_='wp-post-image').attrs["src"]
@@ -426,7 +424,7 @@ class TechCabal(Blogger):
                 # break
             print('Sleeping for 2 seconds')
         self.save_local_content(self.unvisited_latest)
-        raise Exception('Done')
+        # raise Exception('Done')
             # time.sleep(2)
 
     def clean_empty_tags(self):
