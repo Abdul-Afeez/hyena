@@ -142,22 +142,14 @@ class Blogger:
         # raise Exception('BYE')
 
         quill.set_browser(work_distance)
-        h1_in, h1_out = quill.paraphrase(h1)
-        print('h1_in')
 
-        h2_in, h2_out = quill.paraphrase(h2)
-        print('h2_in')
-
-        h3_in, h3_out = quill.paraphrase(h3)
-        h4_in, h4_out = quill.paraphrase(h4)
-        h5_in, h5_out = quill.paraphrase(h5)
-        h6_in, h6_out = quill.paraphrase(h6)
-        print('p_in')
-        p_in, p_out = quill.paraphrase(p)
-        print('li_in')
-        li_in, li_out = quill.paraphrase(li)
         print('description_in')
         description_in, description_out = quill.paraphrase(description)
+        if description_out:
+            print('00000000000000AAAAAAAAAAAAA')
+            self.post.description_text = description_out[0]
+            print('1111111111111111BBBBBBBBBBB')
+
         print('alt_in', self.alt)
         alt_in, alt_out = quill.paraphrase(alt)
         try:
@@ -165,27 +157,40 @@ class Blogger:
                 self.html_to_text = self.html_to_text.replace(f"alt=\"{alt}\"", f"alt=\"{alt_out[index]}\"")
         except:
             raise Exception('ppppppppppppppppp')
+
+        h1_in, h1_out = quill.paraphrase(h1)
+        print('h1_in')
+        self.replace('h1', h1_in, h1_out)
         if h1_out:
             print('00000000000000CCCCCCCCCCCCCCC')
             self.post.title = h1_out[0]
-        if description_out:
-            print('00000000000000AAAAAAAAAAAAA')
-            self.post.description_text = description_out[0]
-            print('1111111111111111BBBBBBBBBBB')
 
-
-        time.sleep(4)
-        self.replace('h1', h1_in, h1_out)
+        h2_in, h2_out = quill.paraphrase(h2)
         self.replace('h2', h2_in, h2_out)
+        print('h2_in')
+
+        h3_in, h3_out = quill.paraphrase(h3)
         self.replace('h3', h3_in, h3_out)
-        # self.save_local_content(f"h1_in = {h1_in}, h1_out={h1_out}, content={self.html_to_text}")
-        # raise Exception('done')
+
+        h4_in, h4_out = quill.paraphrase(h4)
         self.replace('h4', h4_in, h4_out)
+
+        h5_in, h5_out = quill.paraphrase(h5)
         self.replace('h5', h5_in, h5_out)
+
+        h6_in, h6_out = quill.paraphrase(h6)
         self.replace('h6', h6_in, h6_out)
+
+        print('p_in')
+        p_in, p_out = quill.paraphrase(p)
         self.replace('p', p_in, p_out)
+
+        print('li_in')
+        li_in, li_out = quill.paraphrase(li)
         self.replace('li', li_in, li_out)
+
         print('DOne replacessssssssssssssssss')
+
     def get_description(self, soup):
         return soup.find('meta', property="og:description").attrs['content']
 
@@ -246,11 +251,14 @@ class Blogger:
 
             self.html_to_text = re.sub(r"(.*)#p##img#.*src=(.*)@img@@p@(.*)", f"\g<1><img src=\g<2> /><br /><span>Source: {self.name}</span>\g<3>",
                                        self.html_to_text)
-            self.clean_empty_tags()
-            self.terminate()
-            self.rephrase_text()
-            self.identify_keyword()
-            self.save_local_content(self.html_to_text)
+            try:
+                self.clean_empty_tags()
+                self.terminate()
+                self.rephrase_text()
+                self.identify_keyword()
+                self.save_local_content(self.html_to_text)
+            except Exception as e:
+                print(e)
             self.post.template = self.html_to_text
         else:
             self.post = Post()
@@ -313,6 +321,7 @@ class Blogger:
         print(f"Result is {r.text}")
 
     def replace(self, tag, tags_in, tags_out):
+        time.sleep(2)
         x = 0
         for tag_in in tags_in:
             self.html_to_text = self.html_to_text.replace(f"#{tag}#{tag_in}@{tag}@", f"<{tag}>{tags_out[x]}</{tag}>")
