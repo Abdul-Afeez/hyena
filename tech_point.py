@@ -510,15 +510,15 @@ class DisruptAfrica(Blogger):
     def clean_empty_tags(self):
         super().clean_empty_tags()
 
-# try:
-#     print('Step 11111111')
-#     muyiwa = TechPoint()
-#     print('Step 22222222')
-#     muyiwa.set_latest_post()
-#     print('Step 33333333')
-#     muyiwa.crawl_and_publish()
-# except:
-#     pass
+try:
+    print('Step 11111111')
+    muyiwa = TechPoint()
+    print('Step 22222222')
+    muyiwa.set_latest_post()
+    print('Step 33333333')
+    muyiwa.crawl_and_publish()
+except:
+    pass
 
 try:
     print('Step 11111111')
