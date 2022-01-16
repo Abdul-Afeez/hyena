@@ -129,7 +129,9 @@ class Blogger:
         h6 = re.findall('#h6#(.+?)@h6@', self.html_to_text)
         p = re.findall('#p#(.+?)@p@', self.html_to_text)
         li = re.findall('#li#(.+?)@li@', self.html_to_text)
-        description = [self.post.description_text]
+        description_text = (self.post.description_text.replace('"', '').replace(';', ''))
+
+        description = [description_text]
         alt = self.alt
 
         walked = 0
