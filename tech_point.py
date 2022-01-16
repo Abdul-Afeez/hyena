@@ -228,11 +228,13 @@ class Blogger:
             self.post.url = unvisited_latest
             self.post.description_text = self.get_description(soup)
             self.post.title = soup.find('h1', class_=self.get_h1_class()).text
-            self.post.description_image = self.description_images[unvisited_latest]
             main_content = self.get_main_content(soup)
             first_image = main_content.find('img')
             if self.preferred_first_image or (not self.post.description_image and first_image):
                 self.post.description_image = first_image.attrs["src"]
+            else:
+                self.post.description_image = self.description_images[unvisited_latest]
+
             main_content = self.remove_unwanted_blocks(main_content)
 
             main_content = self.secure_image(main_content)
@@ -248,7 +250,7 @@ class Blogger:
                         tag.string = f"#{each_tag}#{tag.text}@{each_tag}@"
 
             self.html_to_text = str(main_content.text)
-
+            print(f'Still going through {unvisited_latest}')
             self.html_to_text = re.sub(r"(.*)#p##img#.*src=(.*)@img@@p@(.*)", f"\g<1><img src=\g<2> /><br /><span>Source: {self.name}</span>\g<3>",
                                        self.html_to_text)
             try:
@@ -446,6 +448,7 @@ class DisruptAfrica(Blogger):
     def __init__(self):
         super().__init__()
         self.name = 'DisruptAfrica'
+        self.preferred_first_image = True
 
     def get_h1_class(self):
         return 'post-title'
@@ -487,7 +490,7 @@ class DisruptAfrica(Blogger):
             if not crawled:
                 self.unvisited_latest.append(url)
                 # self.description_images[url] = image
-                break
+                # break
         cow_dungs = soup.find_all('span', class_='cat cat-title cat-38')
         for cow_dung in cow_dungs:
             cow_dung.decompose()
@@ -505,10 +508,20 @@ class DisruptAfrica(Blogger):
             if not crawled:
                 self.unvisited_latest.append(url)
                 self.description_images[url] = image
-                break
+                # break
 
     def clean_empty_tags(self):
         super().clean_empty_tags()
+
+try:
+    print('Step 11111111')
+    muyiwa = DisruptAfrica()
+    print('Step 22222222')
+    muyiwa.set_latest_post()
+    print('Step 33333333')
+    muyiwa.crawl_and_publish()
+except:
+    pass
 
 try:
     print('Step 11111111')
