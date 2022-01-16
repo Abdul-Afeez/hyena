@@ -477,38 +477,28 @@ class DisruptAfrica(Blogger):
     def set_latest_post(self):
         page = requests.get(self.url)
         soup = BeautifulSoup(page.content, "html.parser")
-        raw_articles = soup.find('ul', class_="posts-list").find_all('li')
-        for raw_article in raw_articles:
-            a = raw_article.find('a')
-            try:
-                image = a.find('img').attrs['src']
-            except:
-                pass
-            url = a.attrs['href']
-            # url = "https://disrupt-africa.com/2021/12/31/applications-open-for-8th-tony-elumelu-entrepreneurship-programme/"
-            crawled = self.confirm_page_crawled(url)
-            if not crawled:
-                self.unvisited_latest.append(url)
-                # self.description_images[url] = image
-                # break
+
+        # raw_articles = soup.find('ul', class_="posts-list").find_all('li')
+        # for raw_article in raw_articles:
+        #     a = raw_article.find('a')
+        #     url = a.attrs['href']
+        #     crawled = self.confirm_page_crawled(url)
+        #     if not crawled:
+        #         self.unvisited_latest.append(url)
+
         cow_dungs = soup.find_all('span', class_='cat cat-title cat-38')
         for cow_dung in cow_dungs:
             cow_dung.decompose()
+
         raw_articles = soup.find_all('article')
         for raw_article in raw_articles:
             a = raw_article.find('a')
-            try:
-                image = a.find('img').attrs['src']
-            except:
-                image = ''
-                # raise Exception('here 2222222')
             url = a.attrs['href']
-            # url = "https://disrupt-africa.com/2021/12/31/applications-open-for-8th-tony-elumelu-entrepreneurship-programme/"
+            if 'category' in url:
+                continue
             crawled = self.confirm_page_crawled(url)
             if not crawled:
                 self.unvisited_latest.append(url)
-                self.description_images[url] = image
-                # break
 
     def clean_empty_tags(self):
         super().clean_empty_tags()
@@ -523,22 +513,22 @@ try:
 except:
     pass
 
-try:
-    print('Step 11111111')
-    muyiwa = TechPoint()
-    print('Step 22222222')
-    muyiwa.set_latest_post()
-    print('Step 33333333')
-    muyiwa.crawl_and_publish()
-except:
-    pass
-
-try:
-    print('Step 11111111')
-    muyiwa = TechCabal()
-    print('Step 22222222')
-    muyiwa.set_latest_post()
-    print('Step 33333333')
-    muyiwa.crawl_and_publish()
-except:
-    pass
+# try:
+#     print('Step 11111111')
+#     muyiwa = TechPoint()
+#     print('Step 22222222')
+#     muyiwa.set_latest_post()
+#     print('Step 33333333')
+#     muyiwa.crawl_and_publish()
+# except:
+#     pass
+#
+# try:
+#     print('Step 11111111')
+#     muyiwa = TechCabal()
+#     print('Step 22222222')
+#     muyiwa.set_latest_post()
+#     print('Step 33333333')
+#     muyiwa.crawl_and_publish()
+# except:
+#     pass
