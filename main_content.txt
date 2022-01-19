@@ -1,44 +1,383 @@
-<img src="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2020/10/wale_adetona_endsars.jpg" alt="endsars protests 2020"  /><br /><span>Source: TechCabal</span>
-<p>"It's past time," Aubrey Hruby, an African Investment Advisor, tweeted in favor of calls for an end to <strong>police</strong> violence in Nigeria.</p>
 
-<p>"Last year, I brought VC investors to Nigeria from Egypt, and they were completely shaken down and robbed by the <strong>police</strong> as they were leaving the country after an amazing week of meeting with stellar Nigerian entrepreneurs #EndSARS," Hruby concluded, describing her encounter with the rogue <strong>police</strong> unit, Special Anti-Robbery Squad (SARS).</p>
 
-<p>Many of the <strong>people</strong> who reacted to her account expressed concern that the occurrence would reduce investment in Nigeria's IT sector. The rise of the services industry, which is the backbone of the Nigerian economy, has been fueled by the technology sub-sector.</p>
 
-<p>Imagine if additional investors who contribute the capital essential to fund the sector's expansion were subjected to SARS-style persecution.</p>
 
-<p>Foreign investors may be pursued by the police.</p>
 
-<p>The EndSARS situation, as well as previous <strong>policy</strong> blunders, may cause investors to be wary of Nigeria. In 2019, foreign investors provided $75 million to the technology sector. According to figures from the Central Bank of Nigeria, this is a 703 percent increase over the $9 million invested in 2018.</p>
-<img src="https://lh6.googleusercontent.com/ZMzDX0VbB1oNkouDA42YS_VIWesX7df-f8NIhTqlOcHYb8m8UGBM3zsee67Q7TnviZohoz9QBqS5VKxbHvbYvn3aDaykUVC06Q-E7dIBTjCqzHSG309KaRKEZOQMoCrEedAP6WZV"  /><br /><span>Source: TechCabal</span>
-<p>Perhaps the agreement that saw Stripe purchase Nigerian payments company Paystack would not have happened if Stripe CEO Patrick Collison had been subjected to <strong>police</strong> <strong>harassment</strong> in Nigeria. Perhaps it would have. However, the security <strong>threat</strong> causes uncertainty, which inhibits Nigerian youth's great talent. SARS horror stories abound among Nigerian technology employees.</p>
+#p#Social Media@p@
 
-<p>"Investors who overlook Nigeria now have to ask themselves: What do I know that Patrick Collison doesn't?" remarked Paul Graham, co-founder of the US-based startup <strong>incubator</strong> Y Combinator, following the announcement of the Paystack takeover transaction.</p>
 
-<p>People in the comments expressed the idea that, in the absence of weak administration, Nigeria might become Africa's focus of foreign investment.</p>
+#h1##Twitterban update: A precedent for future shutdowns?@h1@
 
-<p>Nigeria, which now ranks 131 out of 190 nations in terms of ease of doing business, has to take concrete actions to improve its attractiveness to investors.</p>
+#p##img# src="https://techpoint.africa/wp-content/uploads/2021/06/Featured-Image-1.1-01.jpeg" alt="Twitter" @img@@p@
 
-<p>Policymakers should be worried about this.</p>
 
-<p>Regulators, politicians, and <strong>political</strong> leaders aren't doing enough to protect this fast-growing business, which is shocking.</p>
+#p#The Federal Government of Nigeria has finally lifted the country’s 7-month old Twitter ban. From the details of the agreement, the microblogging platform has agreed to some conditions which must be fulfilled before Q1 2022 ends. @p@
+#p#Twitter has shown a willingness to register as a company in Nigeria, appoint a country representative to act as a liaison between the company and the Federal Government. In addition to enrolling Nigeria in its Partner Support and Law Enforcement Portals, the company has also agreed to applicable tax obligations on its operations under Nigerian law. @p@
+#h3#Users’ reactions@h3@
+#p#Since the announcement…@p@
 
-<p>From Q1 2018 to Q4 2019, the technology sector grew at the second-fastest rate, after only transportation and storage. It contributed almost 13% to the economy. This is around 10 times the transportation and storage sub-input. sector's</p>
+#p#We are pleased that Twitter has been restored for everyone in Nigeria. Our mission in Nigeria & around the world, is to serve the public conversation. We are deeply committed to Nigeria, where Twitter is used by people for commerce, cultural engagement, and civic participation.@p@— Twitter Public Policy (@Policy) January 13, 2022
 
-<p>Over the previous ten years, Nigeria's technology sector has increased its real GDP. After Nigeria entered a recession in 2016, it fell somewhat in 2017.</p>
+#p#… many Nigerians are happy about the development…@p@
 
-<p>It also contributes more to GDP than the oil and gas sector, which is the country's main source of revenue. Government measures that favor the technology sector may result in an increase in GDP.</p>
-<img src="https://lh4.googleusercontent.com/zgBtUfldp_AfqBwoE3AOJ2lGRp_M7bHt1LccVJrj_hBexmMt4dkEdXkd6niRfaoMcPfFvBCUd7yO8Aw8dpuHehxXsXQZzOMyiBk66Sgi__NgqTeeY6lijnTHewrPCNRycN6Hw70p"  /><br /><span>Source: TechCabal</span>
-<p>Over $1 billion might be lost in the technology sector.</p>
+#p#Feels great to be back here ❤️ #TwitterBan@p@— Cool DJ Jimmy Jatt (@djjimmyjatt) January 12, 2022
 
-<p>The COVID-19 epidemic has inflicted a blow to Nigeria's economy, potentially slowing the technology sector's growth.</p>
 
-<p>The national economic production in Q2 2020 dropped by 6.1 percent. After the recent social turmoil clouded Nigeria's economy, a financial services firm, Cordros Capital, reduced its GDP <strong>growth</strong> prediction. It predicted that the economy would shrink by 6.91 percent in Q4 2020 and 4.15 percent for the entire year 2020.</p>
+#p#Good to be back after suspension of #TwitterBan@p@— The Nation Nigeria (@TheNationNews) January 13, 2022
 
-<p>Even if that proportion appears tiny, it translates to a loss of $12.9 billion (6.91 percent of Nigeria's GDP in 2019). Technically, the country would be in a downturn (if Q3 2020 national economic output <strong>growth</strong> is also negative).</p>
+#p#…while others are either indifferent or sceptical. @p@
 
-<p>Between 2010 and 2019, there was a 93 percent positive association between the real GDP of the technology <strong>industry</strong> and the overall economy. To put it another way, they both go in the same direction. The IT industry's GDP could fall to $24.6 billion this year, down from $25.6 billion last year. However, the pandemic isn't the only issue confronting Nigeria's IT sector.</p>
+#p#I think Nigerians should keep using their VPNs.Make it harder for the government to trace you. Any government that can have this much power over service providers must also be doing a lot of electronic surveillance. Even GEJ tried the shit. Can't trust these ones more.@p@— Osaretin Victor Asemota (@asemota) January 13, 2022
 
-<p>Unfavorable <strong>policy</strong> decisions, such as Lagos' ban on bike-hailing and other anti-innovation statements, pose a <strong>threat</strong> to Nigeria's technology economy, which is mostly driven by the country's youth. Rogue <strong>police</strong> officers constitute a security danger, which is becoming more prevalent. These issues will further reduce the sector's pie and, as a result, the Nigerian economy.</p>
 
-<p>Note from the editor: This is a <strong>data article</strong> from TC Insights. With research and data, TC Insights clarifies the business and human impact of technology and innovation in Africa. Here's where you can learn more about what we do. If you have a request for us, please submit it here.</p>
+#p#Nobody:Nigerians presenting their contents to lai mohammed before tweeting#TwitterBan pic.twitter.com/UwaRdoHw9F@p@— Dr. GHOST 👻 (@ghostperson01) January 13, 2022
+
+
+#p#On lifting of #TwitterBan pic.twitter.com/F2CLDQ3xGF@p@— Amnesty International Nigeria (@AmnestyNigeria) January 12, 2022
+
+#p#For all it’s worth, VPN companies might miss Nigerians…@p@
+
+#p#People in Nigeria be like… #TwitterBan pic.twitter.com/e9wuHruBgj@p@— Windscribe (@windscribecom) January 13, 2022
+
+
+#p##TwitterbanVPN companies to Nigerians right now: pic.twitter.com/ztLDEE7PJh@p@— Pulse Nigeria (@PulseNigeria247) January 12, 2022
+
+#p#…or the other way round.@p@
+
+#p#VPN farewell thread: Say goodbye to your VPN apps here 👇🏾 #TwitterBan@p@— Techpoint Africa (@Techpointdotng) January 13, 2022
+
+#h3#Notes for concern@h3@
+#p#While the implications of the ban are evident -— disruption of livelihoods, infringement on human rights, and other economic and social impacts — it remains to be seen who the losers and winners will be following this agreement. @p@
+
+#TwitterBan update: Should you worry if Twitter succumbs to Nigerian government’s demands?
+
+#p#It is, however, necessary to note that Twitter’s compliance could mean that it is obligated to take down tweets on authorities’ orders, divulge sensitive user information, or have its staff or executives punished if the company doesn’t comply with Nigerian laws.@p@
+#p#This, invariably, will see the social media platform share the same fate as telcos and broadcasting outfits under the regulations of the Nigerian Communications Commission (NCC) and the National Broadcasting Commission (NBC). Going by recent cases, it is commonplace to find these organisations severely sanctioned for violating rules with grey areas. @p@
+#p#Local telecommunications companies are unlikely to push back when orders clearly violating citizens’ fundamental right of access to information are given. Ordinarily, this does not apply to social media sites because they are not under their jurisdiction. @p@
+#p#Even though it seems the company might be giving the government too much discretionary power, it chose to negotiate rather than go the litigation route, as was the case in India.@p@
+#h4#A flawed precedent?@h4@
+#p#If any other country has given Twitter a hard time, it’s India. The repression started early in 2021 when, on the premise of promoting free speech and privacy, Twitter restored the accounts of some journalists and media organisations that the government gave the order to deactivate or suspend. Asides from that, the company failed to comply with the country’s IT rules. In the months that followed, Twitter ran into more problems with the government, leading to the police visiting the company’s office in India to serve a notice.@p@
+#p#By July, Twitter agreed to comply with all government conditions following a legal suit fully. The court directed Twitter to issue a statement saying it intends to abide by the rules. @p@
+#p#India made a scapegoat of Twitter, which became an example for other Big Tech companies. As the government argued, Twitter has lost legal immunity for users’ posts in India. Could this be the Nigerian government’s plan? @p@
+#p#If anything, strong-arming is common with governments that have shown authoritarian traits in the past and global company compliance might only fuel it.@p@
+#h3#Far from over: Possible tales of ‘once again’@h3@
+#p#While China is considered the region with the strictest Internet shutdowns, Africa is often regarded as the most volatile environment for social media. Sub-Saharan Africa’s history of Internet shutdowns dates back to 2007 with Guinea, and it was only a matter of time before other countries followed suit, with Nigeria joining the trend in 2020. @p@
+#p#Currently, 32 of Africa’s 54 countries have restricted access to the Internet for similar reasons ranging from protests to strikes. Elections, national security, and examinations also present opportunities for restrictions. Specifically, shutdowns have proven to be one of the government’s tools to control information and communication.@p@
+#p#It thus appears that a successful Internet shutdown in a country might result in many more. Ethiopia, for instance, has had 12 Internet shutdowns, and as of 2020, Chad had accumulated almost two and a half years of Internet disruptions within five years.@p@
+#p#While circumventing social media censorship with VPNs appears to be the easiest way out, the issue of privacy and free speech are still cause for worry. Only time will tell if there will be more cases.@p@
+#p#https://techpoint.africa/2021/02/26/sub-; there-africa-internet-shutdown-loses/@p@
+
+
+
+
+
+#p#On January 22, 2022, be part of the largest gathering of innovators, startup founders, thinkers, programmers, policymakers, and investors in West Africa. Register free.@p@
+
+
+
+ 
+
+
+
+
+
+ Subscribe 
+
+
+Connect with 
+
+
+
+
+
+Notify of 
+
+
+new follow-up comments
+new replies to my comments
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+#p##img# src="https://secure.gravatar.com/avatar/?s=56&d=blank&r=g" alt="guest" @img@@p@
+
+
+Label
+
+
+
+
+
+
+
+
+
+
+
+
+{}
+[+]
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Name*
+
+
+
+
+Email
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Connect with
+
+
+
+
+
+#p##img# src="https://secure.gravatar.com/avatar/?s=56&d=blank&r=g" alt="guest" @img@@p@ 
+
+
+Label
+
+
+
+
+
+
+
+
+
+
+
+
+{}
+[+]
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Name*
+
+
+
+
+Email
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+0 Comments                    
+
+
+
+
+
+
+
+ Inline Feedbacks
+View all comments
+
+
+ 
+
+
+
+
+
+
+
+
+#h3#Recent News@h3@
+
+
+
+#p##img# src="https://techpoint.africa/wp-content/uploads/2016/03/branch-app-home-page-1080x675.jpg" alt="Cashflow for African SMEs, Asset financing in Uganda" @img@@p@
+#h4#Cashflow for African SMEs, Asset financing in Uganda@h4@
+#p#In this edition of #Techpointdigest, we analyse how a Ghanaian startup wants to create cash flow for African eCommerce, how a Ugandan startup plans to aid asset acquisition.@p@
+
+
+
+#p##img# src="https://techpoint.africa/wp-content/uploads/2021/03/market-size.jpg" alt="The WiiCreate story, investing in Morocco" @img@@p@
+#h4#The WiiCreate story, investing in Morocco@h4@
+#p#Today on Techpoint Digest, I’m discussing WiiCreate’s backstory as told by Oreoluwa Shonibare and Morocco’s digital nation ambitions@p@
+
+
+
+#p##img# src="https://techpoint.africa/wp-content/uploads/2021/03/20201120_072956-1080x675.jpg" alt="TwitterBan and future shutdowns, Lipa Later’s $12m pre-Series A, Fintech Farm’s $7.4m seed" @img@@p@
+#h4#TwitterBan and future shutdowns, Lipa Later’s $12m pre-Series A, Fintech Farm’s $7.4m seed@h4@
+
+
+
+#p##img# src="https://techpoint.africa/wp-content/uploads/2021/05/claudio-schwarz-purzlbaum-FMJAYeRwtDY-unsplash.jpg" alt="Twitter ban lifted, cracking YC’s SAFE, SeamlessHR’s $10m funding" @img@@p@
+#h4#Twitter ban lifted, cracking YC’s SAFE, SeamlessHR’s $10m funding@h4@
+#p#Today on Techpoint Digest, I’m discussing Nigeria’s Twitter ban, what YC’s new deal means, SeamlessHR’s $10m funding. @p@
+
+
+
+#p##img# src="https://techpoint.africa/wp-content/uploads/2021/03/20201120_072956-1080x675.jpg" alt="TwitterBan and future shutdowns, Lipa Later’s $12m pre-Series A, Fintech Farm’s $7.4m seed" @img@@p@
+#h4#Nigerians can finally access Twitter as government lifts 7-month suspension@h4@
+#p#After suspending Twitter for almost seven months Nigeria finally lifts its ban on the microblogging site. @p@
+
+
+
+
+
+
+
+#p##img# src="https://techpoint.africa/wp-content/uploads/2021/11/zenith.webp" alt="SME Grow My Biz" @img@@p@
+
+
+
+#h3#Editors' Pick@h3@
+
+
+
+
+#p##img# src="https://techpoint.africa/wp-content/uploads/2021/12/The-Next-Frontier-Music-1080x675.png" alt="Blockchain-powered music and bigger investments: The next frontier for music tech" @img@@p@
+#h4#Blockchain-powered music and bigger investments: The next frontier for music tech@h4@
+#p#by Bolu Abiodun | Dec 20, 2021@p@
+
+
+#p##img# src="https://techpoint.africa/wp-content/uploads/2021/12/Sanitation-tech-1080x675.png" alt="3.6 billion people don’t have toilets worldwide; who’s changing that in Africa?" @img@@p@
+#h4#3.6 billion people don’t have toilets worldwide; who’s changing that in Africa?@h4@
+#p#by Ogheneruemu Oneyibo | Dec 13, 2021@p@
+
+
+#p##img# alt="Enterprise Hotel is democratising real estate investments for regular Africans" class="" height="675" loading="lazy" sizes="(min-width: 0px) and (max-width: 480px) 480px, (min-width: 481px) 1080px, 100vw" src="https://techpoint.africa/wp-content/uploads/2021/12/enterprise-hotel-featured-image.jpeg" srcset="https://techpoint.africa/wp-content/uploads/2021/12/enterprise-hotel-featured-image.jpeg 1080w, https://techpoint.africa/wp-content/uploads/2021/12/enterprise-hotel-featured-image-480x291.jpeg 480w" width="1080"@img@@p@
+#h4#Enterprise Hotel is democratising real estate investments for regular Africans@h4@
+#p#by Chimgozirim Nwokoma | Dec 10, 2021@p@
+
+
+#p##img# alt="The next frontier for fintech: Disruptive business models" class="" height="675" loading="lazy" sizes="(min-width: 0px) and (max-width: 480px) 480px, (min-width: 481px) and (max-width: 980px) 980px, (min-width: 981px) 1080px, 100vw" src="https://techpoint.africa/wp-content/uploads/2021/11/The-Next-Frontier-Fintech-1080x675.png" srcset="https://techpoint.africa/wp-content/uploads/2021/11/The-Next-Frontier-Fintech-1080x675.png 1080w, https://techpoint.africa/wp-content/uploads/2021/11/The-Next-Frontier-Fintech-980x551.png 980w, https://techpoint.africa/wp-content/uploads/2021/11/The-Next-Frontier-Fintech-480x270.png 480w" width="1080"@img@@p@
+#h4#The next frontier for fintech: Disruptive business models@h4@
+#p#by Ogheneruemu Oneyibo | Nov 25, 2021@p@
+
+
+#p##img# alt="After bootstrapping for almost 3 years, Nigerian crypto exchange, Busha raises $4.2m seed for Africa-wide expansion" class="" height="675" loading="lazy" sizes="(min-width: 0px) and (max-width: 480px) 480px, (min-width: 481px) and (max-width: 980px) 980px, (min-width: 981px) 1080px, 100vw" src="https://techpoint.africa/wp-content/uploads/2021/11/Team-1080x675.jpg" srcset="https://techpoint.africa/wp-content/uploads/2021/11/Team-980x653.jpg 980w, https://techpoint.africa/wp-content/uploads/2021/11/Team-480x320.jpg 480w" width="1080"@img@@p@
+#h4#After bootstrapping for almost 3 years, Nigerian crypto exchange, Busha raises $4.2m seed for Africa-wide expansion@h4@
+#p#by Bolu Abiodun | Nov 23, 2021@p@
+
+
+#p##img# alt="“Watch out for pastor Eazi!” —  Mr Eazi, on creative prospects beyond tech investments" class="" height="675" loading="lazy" sizes="(min-width: 0px) and (max-width: 480px) 480px, (min-width: 481px) and (max-width: 980px) 980px, (min-width: 981px) 1080px, 100vw" src="https://techpoint.africa/wp-content/uploads/2021/11/TE-Fi-Eazy-1080x675.png" srcset="https://techpoint.africa/wp-content/uploads/2021/11/TE-Fi-Eazy-1080x675.png 1080w, https://techpoint.africa/wp-content/uploads/2021/11/TE-Fi-Eazy-980x551.png 980w, https://techpoint.africa/wp-content/uploads/2021/11/TE-Fi-Eazy-480x270.png 480w" width="1080"@img@@p@
+#h4#“Watch out for pastor Eazi!” —  Mr Eazi, on creative prospects beyond tech investments@h4@
+#p#by Oluwanifemi Kolawole | Nov 23, 2021@p@
+
+
+#p##img# alt="Wakanda Inu: What meme tokens are and why you should care" class="" height="675" loading="lazy" sizes="(min-width: 0px) and (max-width: 480px) 480px, (min-width: 481px) and (max-width: 980px) 980px, (min-width: 981px) 1080px, 100vw" src="https://techpoint.africa/wp-content/uploads/2021/11/Meme-Coins-1080x675.jpg" srcset="https://techpoint.africa/wp-content/uploads/2021/11/Meme-Coins-1080x675.jpg 1080w, https://techpoint.africa/wp-content/uploads/2021/11/Meme-Coins-980x551.jpg 980w, https://techpoint.africa/wp-content/uploads/2021/11/Meme-Coins-480x270.jpg 480w" width="1080"@img@@p@
+#h4#Wakanda Inu: What meme tokens are and why you should care@h4@
+#p#by Bolu Abiodun | Nov 16, 2021@p@
+
+
+#p##img# alt="7 things to expect at Techpoint Build 2021" class="" height="675" loading="lazy" sizes="(min-width: 0px) and (max-width: 480px) 480px, (min-width: 481px) 1080px, 100vw" src="https://techpoint.africa/wp-content/uploads/2021/11/expect-at-Techpoint-build.jpg" srcset="https://techpoint.africa/wp-content/uploads/2021/11/expect-at-Techpoint-build.jpg 1080w, https://techpoint.africa/wp-content/uploads/2021/11/expect-at-Techpoint-build-480x270.jpg 480w" width="1080"@img@@p@
+#h4#7 things to expect at Techpoint Build 2021@h4@
+#p#by Precious Mogoli | Nov 16, 2021@p@
+
+
+ 
+
+
+
+
+
+
+
+
+
+ 

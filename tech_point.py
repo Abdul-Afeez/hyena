@@ -239,6 +239,10 @@ class Blogger:
 
             main_content = self.secure_image(main_content)
             main_content = BeautifulSoup(main_content, "html.parser")
+            data = {
+                'text': '',
+                'h1': []
+            }
             for each_tag in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li', 'p']:
                 for tag in main_content.find_all(each_tag):
                     try:
@@ -253,6 +257,8 @@ class Blogger:
             print(f'Still going through {unvisited_latest}')
             self.html_to_text = re.sub(r"(.*)#p##img#.*src=(.*)@img@@p@(.*)", f"\g<1><img src=\g<2> /><br /><span>Source: {self.name}</span>\g<3>",
                                        self.html_to_text)
+            self.save_local_content(self.html_to_text)
+            raise Exception('Done')
             try:
                 self.clean_empty_tags()
                 self.terminate()
