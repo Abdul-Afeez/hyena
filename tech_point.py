@@ -257,8 +257,8 @@ class Blogger:
             print(f'Still going through {unvisited_latest}')
             self.html_to_text = re.sub(r"(.*)#p##img#.*src=(.*)@img@@p@(.*)", f"\g<1><img src=\g<2> /><br /><span>Source: {self.name}</span>\g<3>",
                                        self.html_to_text)
-            self.save_local_content(self.html_to_text)
-            raise Exception('Done')
+            # self.save_local_content(self.html_to_text)
+            # raise Exception('Done')
             try:
                 self.clean_empty_tags()
                 self.terminate()
