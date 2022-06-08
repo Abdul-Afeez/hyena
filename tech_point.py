@@ -9,8 +9,10 @@ from bs4 import BeautifulSoup
 from keyword_bot import extract_keywords, nlp, get_fuzzy_similarity
 from quill_engine import Quill
 
-server = "http://104.248.169.198"
-# server = "http://localhost"
+# server = "http://104.248.169.198"
+from tech_point_browser import TechPointBrowser
+
+server = "http://localhost"
 quill = Quill()
 
 
@@ -21,6 +23,7 @@ class Post:
         self.keywords = ''
         self.description_image = ''
         self.description_text = ''
+        self.created_at = None
         self.template = ''
 
     def __str__(self):
@@ -37,6 +40,21 @@ class Post:
 
 
 class Blogger:
+    recognizable_tags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li', 'p']
+    month_dict = {
+        'jan': '01',
+        'feb': '02',
+        'mar': '03',
+        'apr': '04',
+        'may': '05',
+        'jun': '06',
+        'jul': '07',
+        'aug': '08',
+        'sep': '09',
+        'oct': '10',
+        'nov': '11',
+        'dec': '12',
+    }
 
     def __init__(self):
         self.name = 'Blogger'
@@ -45,7 +63,10 @@ class Blogger:
         self.unvisited_latest = []
         self.posts = []
         self.old_failed_posts = {}
+        self.soup = None
         self.post = None
+        self.word_map = []
+        self.reverse_word_map_lookup = {}
         self.description_images = {}
         self.alt = []
         self.preferred_first_image = False
@@ -81,8 +102,15 @@ class Blogger:
         print('44444444444')
         return False
 
-    def crawl_and_publish(self):
+    def get_article_date(self):
+        raise Exception('Not Implemented')
+
+    def crawl_and_publish(self, max=None):
+        counter = 0
         for unvisited_latest in self.unvisited_latest:
+            if max and counter >= max:
+                break
+            counter += 1
             self.crawl(unvisited_latest)
             # break
 
@@ -120,76 +148,80 @@ class Blogger:
         except:
             pass
 
+    def encapsulate_word_with_tag(self, word, tag, tag_type='hash'):
+        if tag_type == 'hash':
+            return f'#{tag}#{word}@{tag}@'
+        elif tag_type == 'html':
+            return f'<{tag}>{word}</{tag}>'
+        else:
+            pass
+
+    def encapsulate_alt(self, word):
+        return f'alt="{word}"'
+
+    def stamp_tag_map(self, word_array, tag):
+        for raw_word in word_array:
+            word = raw_word.replace(f'\\n', '')
+            word = word.replace(f'\n', '').strip()
+            self.word_map.append(f'{word}\n')
+            lookup_index = len(self.word_map) - 1
+            if tag in self.recognizable_tags:
+                self.reverse_word_map_lookup[lookup_index] = {'tag': tag, 'lookup': self.
+                                                                            encapsulate_word_with_tag(raw_word, tag)}
+            elif tag.strip() == 'alt':
+                self.reverse_word_map_lookup[lookup_index] = {'tag': tag, 'lookup': self.encapsulate_alt(raw_word)}
+            elif tag.strip() == 'description':
+                self.reverse_word_map_lookup[lookup_index] = {'tag': tag, 'lookup': raw_word}
+            else:
+                raise Exception('Omooooooooooooooo', raw_word)
+
+    def remove_stamp_from_tag_map(self, body):
+        body = body.replace(f'\\n', '\n')
+        body = body.replace(f'\n\n', '\n')
+        rephrased = body.split('\n')
+        if len(self.word_map) != len(rephrased):
+            raise Exception('Integrity lost during paraphrasing')
+        self.save_local_content(self.reverse_word_map_lookup, '-reverse_word_map_lookup')
+        self.save_local_content(rephrased, '-blocks')
+        for index, block in enumerate(rephrased):
+            block = block.replace('\\n', '').strip()
+            block = block.replace('\n', '').strip()
+            print(index, block)
+            reverse_word_map = self.reverse_word_map_lookup[index]
+            print(reverse_word_map)
+            tag = reverse_word_map.get('tag')
+            if tag in self.recognizable_tags:
+                self.html_to_text = self.html_to_text.replace(reverse_word_map.get('lookup'),
+                                                              self.encapsulate_word_with_tag(block, tag, 'html'))
+            elif tag.strip() == 'alt':
+                self.html_to_text = self.html_to_text.replace(reverse_word_map.get('lookup'),
+                                                              self.encapsulate_alt(block))
+            elif tag.strip() == 'description':
+                self.post.description_text = block
+
+    def find_all(self, tag):
+        return re.findall(f'#{tag}#(.+?)@{tag}@', self.html_to_text)
+
     def rephrase_text(self):
-        h1 = re.findall('#h1#(.+?)@h1@', self.html_to_text)
-        h2 = re.findall('#h2#(.+?)@h2@', self.html_to_text)
-        h3 = re.findall('#h3#(.+?)@h3@', self.html_to_text)
-        h4 = re.findall('#h4#(.+?)@h4@', self.html_to_text)
-        h5 = re.findall('#h5#(.+?)@h5@', self.html_to_text)
-        h6 = re.findall('#h6#(.+?)@h6@', self.html_to_text)
-        p = re.findall('#p#(.+?)@p@', self.html_to_text)
-        li = re.findall('#li#(.+?)@li@', self.html_to_text)
         description_text = (self.post.description_text.replace('"', '').replace(';', ''))
-
-        description = [description_text]
-        alt = self.alt
-
-        walked = 0
-        work = h1+h2+h3+h4+h5+h6+p+li+description+alt
-        work_distance = len(work)
-        # self.save_local_content(f'li = {li} \n\n\n description={self.post.description_text} \n\n'
-        #                         f'alt_in, {self.alt}')
-        # raise Exception('BYE')
-
-        quill.set_browser(work_distance)
-
-        print('description_in')
-        description_in, description_out = quill.paraphrase(description)
-        if description_out:
-            print('00000000000000AAAAAAAAAAAAA')
-            self.post.description_text = description_out[0]
-            print('1111111111111111BBBBBBBBBBB')
-
-        print('alt_in', self.alt)
-        alt_in, alt_out = quill.paraphrase(alt)
-        try:
-            for index, alt in enumerate(alt_in):
-                self.html_to_text = self.html_to_text.replace(f"alt=\"{alt}\"", f"alt=\"{alt_out[index]}\"")
-        except:
-            raise Exception('ppppppppppppppppp')
-
-        h1_in, h1_out = quill.paraphrase(h1)
-        print('h1_in')
-        self.replace('h1', h1_in, h1_out)
-        if h1_out:
-            print('00000000000000CCCCCCCCCCCCCCC')
-            self.post.title = h1_out[0]
-
-        h2_in, h2_out = quill.paraphrase(h2)
-        self.replace('h2', h2_in, h2_out)
-        print('h2_in')
-
-        h3_in, h3_out = quill.paraphrase(h3)
-        self.replace('h3', h3_in, h3_out)
-
-        h4_in, h4_out = quill.paraphrase(h4)
-        self.replace('h4', h4_in, h4_out)
-
-        h5_in, h5_out = quill.paraphrase(h5)
-        self.replace('h5', h5_in, h5_out)
-
-        h6_in, h6_out = quill.paraphrase(h6)
-        self.replace('h6', h6_in, h6_out)
-
-        print('p_in')
-        p_in, p_out = quill.paraphrase(p)
-        self.replace('p', p_in, p_out)
-
-        print('li_in')
-        li_in, li_out = quill.paraphrase(li)
-        self.replace('li', li_in, li_out)
-
-        print('DOne replacessssssssssssssssss')
+        self.stamp_tag_map(self.find_all('h1'), 'h1')
+        self.stamp_tag_map(self.find_all('h2'), 'h2')
+        self.stamp_tag_map(self.find_all('h3'), 'h3')
+        self.stamp_tag_map(self.find_all('h4'), 'h4')
+        self.stamp_tag_map(self.find_all('h5'), 'h5')
+        self.stamp_tag_map(self.find_all('h6'), 'h6')
+        self.stamp_tag_map(self.find_all('li'), 'li')
+        self.stamp_tag_map(self.find_all('p'), 'p')
+        self.stamp_tag_map(self.alt, 'alt')
+        self.stamp_tag_map([description_text], 'description')
+        output = '\\n\\n'.join(self.word_map)
+        self.save_local_content(self.html_to_text, '-paraphrased')
+        self.save_local_content(output, '-output')
+        self.save_local_content(self.word_map, '-word_map')
+        quill.set_browser(1)  # body and description text
+        all_in, all_out = quill.paraphrase([output])
+        self.remove_stamp_from_tag_map(all_out[0])
+        print('Done paraphrasing')
 
     def get_description(self, soup):
         return soup.find('meta', property="og:description").attrs['content']
@@ -218,60 +250,69 @@ class Blogger:
 
     def crawl(self, unvisited_latest):
         old_failed_post_keys = self.old_failed_posts.keys()
+
         already_paraphrased = None
         if unvisited_latest in old_failed_post_keys:
             already_paraphrased = self.old_failed_posts[unvisited_latest]
+
         if not already_paraphrased:
             page = requests.get(unvisited_latest)
-            soup = BeautifulSoup(page.content, "html.parser")
+            self.soup = BeautifulSoup(page.content, "html.parser")
             self.post = Post()
             self.post.url = unvisited_latest
-            self.post.description_text = self.get_description(soup)
-            self.post.title = soup.find('h1', class_=self.get_h1_class()).text
-            main_content = self.get_main_content(soup)
+            try:
+                self.post.created_at = self.get_article_date()
+            except:
+                print('error processing date')
+            self.post.description_text = self.get_description(self.soup)
+            self.post.title = self.soup.find('h1', class_=self.get_h1_class()).text
+            main_content = self.get_main_content(self.soup)
             first_image = main_content.find('img')
             if self.preferred_first_image or (not self.post.description_image and first_image):
                 self.post.description_image = first_image.attrs["src"]
             else:
                 self.post.description_image = self.description_images[unvisited_latest]
-
             main_content = self.remove_unwanted_blocks(main_content)
 
             main_content = self.secure_image(main_content)
+            main_content = main_content.replace('<br>', ' ')
+            main_content = main_content.replace('<br/>', ' ')
+            self.save_local_content(main_content, 'main-content')
             main_content = BeautifulSoup(main_content, "html.parser")
             data = {
                 'text': '',
                 'h1': []
             }
-            for each_tag in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li', 'p']:
+            for each_tag in self.recognizable_tags:
                 for tag in main_content.find_all(each_tag):
                     try:
                         if not tag.text:
                             tag.decompose()
                         else:
-                            tag.string = f"#{each_tag}#{tag.text.splitlines()[0]}@{each_tag}@"
+                            # tag.string = f"#{each_tag}#{tag.text.splitlines()[0]}@{each_tag}@"
+                            tag.string = f"#{each_tag}#{tag.text}@{each_tag}@"
                     except:
                         tag.string = f"#{each_tag}#{tag.text}@{each_tag}@"
 
             self.html_to_text = str(main_content.text)
             print(f'Still going through {unvisited_latest}')
-            self.html_to_text = re.sub(r"(.*)#p##img#.*src=(.*)@img@@p@(.*)", f"\g<1><img src=\g<2> /><br /><span>Source: {self.name}</span>\g<3>",
+            self.html_to_text = re.sub(r"(.*)#p##img#.*src=(.*)@img@@p@(.*)", f"\g<1><img src=\g<2> />\g<3>",
                                        self.html_to_text)
-            # self.save_local_content(self.html_to_text)
-            # raise Exception('Done')
             try:
                 self.clean_empty_tags()
                 self.terminate()
                 self.rephrase_text()
+                # return
                 self.identify_keyword()
                 self.save_local_content(self.html_to_text)
+                self.post.template = self.html_to_text
+                self.send_post()
             except Exception as e:
                 print(e)
-            self.post.template = self.html_to_text
         else:
-            self.post = Post()
-            self.post = self.post + already_paraphrased
-        self.send_post()
+            pass
+            # self.post = Post()
+            # self.post = self.post + already_paraphrased
 
     def identify_keyword(self):
         last_soup = BeautifulSoup(self.html_to_text, "html.parser")
@@ -299,16 +340,21 @@ class Blogger:
         for raw_keyword in raw_keywords:
             keywords.append(raw_keyword[0])
         keywords.sort()
-        for keyword in keywords:
-            self.post.keywords += f', {keyword}'
+        keywords = list(set(keywords))
+        for index, keyword in enumerate(keywords):
+            self.post.keywords += f', {keyword}' if index > 0 else f'{keyword}'
             keyword_length = len(keyword.split(' '))
             if keyword_length <= 2:
                 self.html_to_text = self.html_to_text.replace(f" {keyword} ", f" <strong>{keyword}</strong> ")
             else:
                 self.html_to_text = self.html_to_text.replace(f" {keyword} ", f" <strong>{keyword}</strong> ")
-
-    def save_local_content(self, content):
-        file1 = open('main_content.txt', 'w')
+            if index > 20:
+                break
+    def save_local_content(self, content, index=None):
+        if index:
+            file1 = open(f'main_content{index}.txt', 'w')
+        else:
+            file1 = open(f'main_content{index}.txt', 'w')
         file1.writelines(str(content))
         file1.close()
 
@@ -319,16 +365,17 @@ class Blogger:
             'url': self.post.url,
             'title': self.post.title,
             'keywords': self.post.keywords,
-            'image': self.post.description_image,
+            'description_image': self.post.description_image,
             'description': self.post.description_text,
             'template': self.post.template,
+            'created_at': self.post.created_at
         }
         print(f"Sending {data}")
 
         r = requests.post(f"{server}/api/save-article", data)
         print(f"Result is {r.text}")
 
-    def replace(self, tag, tags_in, tags_out):
+    def replacer(self, tag, tags_in, tags_out):
         time.sleep(2)
         x = 0
         for tag_in in tags_in:
@@ -337,7 +384,7 @@ class Blogger:
 
     def clean_empty_tags(self):
         self.html_to_text = self.html_to_text.replace("\n", '')
-        for tag in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li', 'p']:
+        for tag in self.recognizable_tags:
             self.html_to_text = self.html_to_text.replace(f"#{tag}#@{tag}@", '')
             self.html_to_text = self.html_to_text.replace(f"#{tag}#", f'\n#{tag}#')
             self.html_to_text = self.html_to_text.replace(f"@{tag}@", f'@{tag}@\n')
@@ -353,47 +400,51 @@ class TechPoint(Blogger):
         return 'https://techpoint.africa/'
 
     def get_h1_class(self):
-        return 'entry-title'
+        return 'lg:text-4xl'
+
+    def get_article_date(self):
+        date = self.soup.find('h5', class_='mt-5 text-sm')
+        if date:
+            date = date.text.split('<!')[0].replace(',', '').strip().lower().split(' ')
+            print('date = ', date)
+            formatted_date = f"{date[1]}-{self.month_dict[f'{date[0]}'[:3]]}-{date[2]}"
+            return formatted_date
+        return None
+
+    def get_description(self, soup):
+        return soup.find('meta', property="og:description").attrs['content']
 
     def get_main_content(self, soup):
-        main = soup.find('div', id='main-content')
-        return main.contents[1]
+        main = soup.find('div', id='article-content')
+        return main.contents[0]
 
     def remove_unwanted_blocks(self, soup):
-        soup = self.decompose(soup, 'div', 'ss-inline-share-wrapper')
-        soup = self.decompose(soup, 'div', 'abfd-container')
-        soup = self.decompose(soup, 'p', 'et_pb_title_meta_container')
-        soup = self.decompose(soup, 'p', 'abfd_et_pb_row')
-        soup = self.decompose(soup, 'p', 'abfd-photograph')
-        soup = self.decompose(soup, 'p', 'abfd-biography')
-        soup = self.decompose(soup, 'p', 'ss-social-icons-container')
         return soup
 
     def get_main_content_terminator(self):
-        return '#h3#Recent News'
+        return '@#*%(%(%'
 
     def terminate(self, terminator=None):
         super().terminate()
-        super().terminate("Subscribe Connect")
 
     def set_latest_post(self):
-        page = requests.get(self.url)
-        soup = BeautifulSoup(page.content, "html.parser")
-        raw_links = soup.find_all('h4', class_="entry-title")
+        tech_point_browser = TechPointBrowser()
+        tech_point_browser.set_browser(self.url)
+        raw_links = tech_point_browser.get_page_content()
+        tech_point_browser.browser.quit()
+        # raw_links = raw_links + tech_point_browser.click_next_page()
         x = 0
-        for raw_link in raw_links:
-            url = raw_link.find('a').attrs['href']
-            # url = "https://disrupt-africa.com/2021/12/31/applications-open-for-8th-tony-elumelu-entrepreneurship-programme/"
+        stages = []
+        for url in raw_links:
+            url = f'{self.get_url()}20{url}'
             crawled = self.confirm_page_crawled(url)
             if not crawled:
                 self.unvisited_latest.append(url)
-                image = raw_link.parent.find('img', class_='webpexpress-processed')
-                image_attrs = image.attrs.keys()
-                if 'src' in image_attrs:
-                    self.description_images[url] = image.attrs['src']
                 x += 1
-        # self.save_local_content()
-                # break
+            # if x == 2:
+            #     break
+        stages.append(len(self.unvisited_latest))
+        print(stages)
 
 
 class TechCabal(Blogger):
@@ -401,6 +452,7 @@ class TechCabal(Blogger):
         super().__init__()
         self.name = 'TechCabal'
         self.preferred_first_image = True
+
     def get_h1_class(self):
         return 'single-article-title'
 
@@ -409,6 +461,17 @@ class TechCabal(Blogger):
         soup = self.decompose(soup, 'div', 'single-article-category')
         soup = self.decompose(soup, 'div', 'list-newsletter-form shortcode')
         return soup
+
+    def get_article_date(self):
+        self.save_local_content(self.html_to_text)
+        date = self.soup.find('span', class_='single-article-date')
+        print(f'date = {date.text}')
+        if date:
+            date = date.text.replace(',', '').replace('th', '').replace('nd', '') \
+                .replace('rd', '').replace('st', '').strip().lower().split(' ')
+            formatted_date = f"{date[0]}-{self.month_dict[date[1][:3]]}-{date[2]}"
+            return formatted_date
+        return None
 
     def get_url(self):
         return 'https://techcabal.com/'
@@ -425,10 +488,14 @@ class TechCabal(Blogger):
         soup = BeautifulSoup(page.content, "html.parser")
         raw_articles = soup.find_all('article', class_="article-list-item")
         x = 0
+        stages = []
         for raw_article in raw_articles:
             print('Trying to curl page')
             url = raw_article.find('a', class_="article-list-title").attrs['href']
-            category_link = raw_article.find('a', class_="article-list-category").attrs['href']
+            a = raw_article.find('a', class_="article-list-category")
+            if not a:
+                continue
+            category_link = a.attrs['href']
             print(f'category_link {category_link}')
             if 'newsletter' in category_link:
                 continue
@@ -440,14 +507,22 @@ class TechCabal(Blogger):
                 self.unvisited_latest.append(url)
                 self.description_images[url] = soup.find('img', class_='wp-post-image').attrs["src"]
                 x += 1
-                # break
-            print('Sleeping for 2 seconds')
-        self.save_local_content(self.unvisited_latest)
-        # raise Exception('Done')
-            # time.sleep(2)
+                break
+        stages.append(len(self.unvisited_latest))
+        print(stages)
 
     def clean_empty_tags(self):
         super().clean_empty_tags()
+
+    def secure_image(self, main_content):
+        main_content = super().secure_image(main_content)
+        main_content = main_content.replace('<li><a', '<a')  # to fix issue with li a img
+        main_content = main_content.replace('</a></li>', '</a>')
+        main_content = main_content.replace('<li class="blocks-gallery-item"><figure>',
+                                            '<figure>')  # to fix issue with li a img
+        main_content = main_content.replace('</figure>', '</figure>')  # to fix issue with li a img
+        self.save_local_content(main_content)
+        return main_content
 
 
 class DisruptAfrica(Blogger):
@@ -467,6 +542,14 @@ class DisruptAfrica(Blogger):
     def get_url(self):
         return 'https://disrupt-africa.com/'
 
+    def get_article_date(self):
+        date = self.soup.find('time', class_='value-title')
+        if date:
+            date = date.text.replace(',', '').strip().lower().split(' ')
+            formatted_date = f"{date[1]}-{self.month_dict[date[0]]}-{date[2]}"
+            return formatted_date
+        return None
+
     def get_main_content(self, soup):
         main = soup.find('div', class_='main-content')
         return main.contents[1]
@@ -483,14 +566,16 @@ class DisruptAfrica(Blogger):
     def set_latest_post(self):
         page = requests.get(self.url)
         soup = BeautifulSoup(page.content, "html.parser")
-
-        raw_articles = soup.find('ul', class_="posts-list").find_all('li')
+        self.save_local_content(soup)
+        raw_articles = soup.find('ul', class_="wpp-list wpp-cards").find_all('li')
+        stages = []
         for raw_article in raw_articles:
             a = raw_article.find('a')
             url = a.attrs['href']
             crawled = self.confirm_page_crawled(url)
             if not crawled:
                 self.unvisited_latest.append(url)
+        stages.append(len(self.unvisited_latest))
 
         raw_articles = soup.find_all('a', class_='title')
         for raw_article in raw_articles:
@@ -498,10 +583,12 @@ class DisruptAfrica(Blogger):
             crawled = self.confirm_page_crawled(url)
             if not crawled:
                 self.unvisited_latest.append(url)
+        stages.append(len(self.unvisited_latest))
 
         cow_dungs = soup.find_all('span', class_='cat cat-title cat-38')
         for cow_dung in cow_dungs:
             cow_dung.decompose()
+        stages.append(len(self.unvisited_latest))
 
         raw_articles = soup.find_all('article')
         for raw_article in raw_articles:
@@ -512,93 +599,11 @@ class DisruptAfrica(Blogger):
             crawled = self.confirm_page_crawled(url)
             if not crawled:
                 self.unvisited_latest.append(url)
+        stages.append(len(self.unvisited_latest))
+        print(stages)
 
     def clean_empty_tags(self):
         super().clean_empty_tags()
-
-
-virus = """
-
-
-
-
-
-#p#Social Media@p@
-
-
-#h1##Twitterban update: A precedent for future shutdowns?@h1@
-
-#p##img# src="https://techpoint.africa/wp-content/uploads/2021/06/Featured-Image-1.1-01.jpeg" alt="Twitter" @img@@p@
-
-
-#p#The Federal Government of Nigeria has finally lifted the country’s 7-month old Twitter ban. From the details of the agreement, the microblogging platform has agreed to some conditions which must be fulfilled before Q1 2022 ends. @p@
-#p#Twitter has shown a willingness to register as a company in Nigeria, appoint a country representative to act as a liaison between the company and the Federal Government. In addition to enrolling Nigeria in its Partner Support and Law Enforcement Portals, the company has also agreed to applicable tax obligations on its operations under Nigerian law. @p@
-#h3#Users’ reactions@h3@
-#p#Since the announcement…@p@
-
-#p#We are pleased that Twitter has been restored for everyone in Nigeria. Our mission in Nigeria & around the world, is to serve the public conversation. We are deeply committed to Nigeria, where Twitter is used by people for commerce, cultural engagement, and civic participation.@p@— Twitter Public Policy (@Policy) January 13, 2022
-
-#p#… many Nigerians are happy about the development…@p@
-
-#p#Feels great to be back here ❤️ #TwitterBan@p@— Cool DJ Jimmy Jatt (@djjimmyjatt) January 12, 2022
-
-
-#p#Good to be back after suspension of #TwitterBan@p@— The Nation Nigeria (@TheNationNews) January 13, 2022
-
-#p#…while others are either indifferent or sceptical. @p@
-
-#p#I think Nigerians should keep using their VPNs.Make it harder for the government to trace you. Any government that can have this much power over service providers must also be doing a lot of electronic surveillance. Even GEJ tried the shit. Can't trust these ones more.@p@— Osaretin Victor Asemota (@asemota) January 13, 2022
-
-
-#p#Nobody:Nigerians presenting their contents to lai mohammed before tweeting#TwitterBan pic.twitter.com/UwaRdoHw9F@p@— Dr. GHOST 👻 (@ghostperson01) January 13, 2022
-
-
-#p#On lifting of #TwitterBan pic.twitter.com/F2CLDQ3xGF@p@— Amnesty International Nigeria (@AmnestyNigeria) January 12, 2022
-
-#p#For all it’s worth, VPN companies might miss Nigerians…@p@
-
-#p#People in Nigeria be like… #TwitterBan pic.twitter.com/e9wuHruBgj@p@— Windscribe (@windscribecom) January 13, 2022
-
-
-#p##TwitterbanVPN companies to Nigerians right now: pic.twitter.com/ztLDEE7PJh@p@— Pulse Nigeria (@PulseNigeria247) January 12, 2022
-
-#p#…or the other way round.@p@
-
-#p#VPN farewell thread: Say goodbye to your VPN apps here 👇🏾 #TwitterBan@p@— Techpoint Africa (@Techpointdotng) January 13, 2022
-
-#h3#Notes for concern@h3@
-#p#While the implications of the ban are evident -— disruption of livelihoods, infringement on human rights, and other economic and social impacts — it remains to be seen who the losers and winners will be following this agreement. @p@
-
-#TwitterBan update: Should you worry if Twitter succumbs to Nigerian government’s demands?
-
-#p#It is, however, necessary to note that Twitter’s compliance could mean that it is obligated to take down tweets on authorities’ orders, divulge sensitive user information, or have its staff or executives punished if the company doesn’t comply with Nigerian laws.@p@
-#p#This, invariably, will see the social media platform share the same fate as telcos and broadcasting outfits under the regulations of the Nigerian Communications Commission (NCC) and the National Broadcasting Commission (NBC). Going by recent cases, it is commonplace to find these organisations severely sanctioned for violating rules with grey areas. @p@
-#p#Local telecommunications companies are unlikely to push back when orders clearly violating citizens’ fundamental right of access to information are given. Ordinarily, this does not apply to social media sites because they are not under their jurisdiction. @p@
-#p#Even though it seems the company might be giving the government too much discretionary power, it chose to negotiate rather than go the litigation route, as was the case in India.@p@
-#h4#A flawed precedent?@h4@
-#p#If any other country has given Twitter a hard time, it’s India. The repression started early in 2021 when, on the premise of promoting free speech and privacy, Twitter restored the accounts of some journalists and media organisations that the government gave the order to deactivate or suspend. Asides from that, the company failed to comply with the country’s IT rules. In the months that followed, Twitter ran into more problems with the government, leading to the police visiting the company’s office in India to serve a notice.@p@
-#p#By July, Twitter agreed to comply with all government conditions following a legal suit fully. The court directed Twitter to issue a statement saying it intends to abide by the rules. @p@
-#p#India made a scapegoat of Twitter, which became an example for other Big Tech companies. As the government argued, Twitter has lost legal immunity for users’ posts in India. Could this be the Nigerian government’s plan? @p@
-#p#If anything, strong-arming is common with governments that have shown authoritarian traits in the past and global company compliance might only fuel it.@p@
-#h3#Far from over: Possible tales of ‘once again’@h3@
-#p#While China is considered the region with the strictest Internet shutdowns, Africa is often regarded as the most volatile environment for social media. Sub-Saharan Africa’s history of Internet shutdowns dates back to 2007 with Guinea, and it was only a matter of time before other countries followed suit, with Nigeria joining the trend in 2020. @p@
-#p#Currently, 32 of Africa’s 54 countries have restricted access to the Internet for similar reasons ranging from protests to strikes. Elections, national security, and examinations also present opportunities for restrictions. Specifically, shutdowns have proven to be one of the government’s tools to control information and communication.@p@
-#p#It thus appears that a successful Internet shutdown in a country might result in many more. Ethiopia, for instance, has had 12 Internet shutdowns, and as of 2020, Chad had accumulated almost two and a half years of Internet disruptions within five years.@p@
-#p#While circumventing social media censorship with VPNs appears to be the easiest way out, the issue of privacy and free speech are still cause for worry. Only time will tell if there will be more cases.@p@
-#p#https://techpoint.africa/2021/02/26/sub-; there-africa-internet-shutdown-loses/@p@
-
-
-
-
-
-#p#On January 22, 2022, be part of the largest gathering of innovators, startup founders, thinkers, programmers, policymakers, and investors in West Africa. Register free.@p@
-
-
-
- 
-
-"""
-# print(virus.split('\n'))
 
 
 try:
@@ -607,26 +612,26 @@ try:
     print('Step 22222222')
     muyiwa.set_latest_post()
     print('Step 33333333')
-    muyiwa.crawl_and_publish()
+    muyiwa.crawl_and_publish(1)
 except:
     pass
 
-try:
-    print('Step 11111111')
-    muyiwa = TechPoint()
-    print('Step 22222222')
-    muyiwa.set_latest_post()
-    print('Step 33333333')
-    muyiwa.crawl_and_publish()
-except:
-    pass
-
+# # try:
+# print('Step 11111111')
+# muyiwa = TechPoint()
+# print('Step 22222222')
+# muyiwa.set_latest_post()
+# print('Step 33333333')
+# muyiwa.crawl_and_publish(2)
+# # except:
+# #     pass
+# #
 try:
     print('Step 11111111')
     muyiwa = TechCabal()
     print('Step 22222222')
     muyiwa.set_latest_post()
     print('Step 33333333')
-    muyiwa.crawl_and_publish()
+    muyiwa.crawl_and_publish(1)
 except:
     pass

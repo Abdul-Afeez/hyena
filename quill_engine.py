@@ -14,6 +14,18 @@ class Quill:
     def __init__(self):
         self.output = []
 
+    def click_close_location(self, location, message):
+        try:
+            close_location = Quill.browser.find_element(By.XPATH, location)
+            if close_location:
+                print(f'Trying to close {message} modal')
+                close_location.click()
+                print('modal closed successfully')
+                time.sleep(3)
+                Quill.modal_on = False
+                Quill.death_recovery = 0
+        except:
+            print(f'Cant find {message} modal')
     def close_any_modal(self, max_attempt=6):
         counter = 0
         while Quill.modal_on:
@@ -31,17 +43,14 @@ class Quill:
                     Quill.modal_on = False
                     Quill.death_recovery += 1
                     print(f'Recovering from death channel {Quill.death_recovery}')
-                close_modal_btn = Quill.browser.find_element(By.XPATH,
-                                                                "//button[contains(@style, 'position: absolute; top: 0px; right: 0px; padding: 8px;')]")
-                if close_modal_btn:
-                    print('close_any_modal handle found closing modal')
-                    close_modal_btn.click()
-                    print('modal closed successfully')
-                    time.sleep(3)
-                    Quill.modal_on = False
-                    Quill.death_recovery = 0
-            except:
-                pass
+                premium_green_modal = "//button[contains(@class, 'MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-30h9jf')]"
+                close_go_premium_modes_yellow_modal_btn = "//svg[contains(@class, 'MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-10dohqv')]"
+                print('About to make the latest close modal engine')
+                self.click_close_location(premium_green_modal, 'premium_green_modal')
+                self.click_close_location(close_go_premium_modes_yellow_modal_btn, 'close_go_premium_modes_yellow_modal_btn')
+
+            except Exception as e:
+                print(e)
 
     @staticmethod
     def get_percentage_work_done():
@@ -56,14 +65,14 @@ class Quill:
         time.sleep(3)
         print('Getting input text to location')
         inputText = Quill.browser.find_element(By.ID, 'inputText')
-        print('Setting input text to ' + to_be_paraphrased)
+        # print('Setting input text to ' + to_be_paraphrased)
         script = "document.getElementById('inputText').innerHTML = \"" + to_be_paraphrased + "\";"
         Quill.browser.execute_script(script)
         print('Setting input text to successful')
         inputText.send_keys(Keys.ENTER)
+        # return
         print('Pressing enter key')
         time.sleep(7)
-        # btn = browser.find_element(By.CSS_SELECTOR, "div div div  div div div div button")
         print('Finding quillArticleBtn')
         btn = Quill.browser.find_element(By.XPATH, "//button[contains(@class, 'quillArticleBtn')]")
         print('Clicking quillArticleBtn')
@@ -104,7 +113,7 @@ class Quill:
                 # chrome_options.add_argument("--disable-extensions")
                 # chrome_options.add_argument("--proxy-server='direct://'")
                 # chrome_options.add_argument("--proxy-bypass-list=*")
-                # chrome_options.add_argument("--start-maximized")
+                chrome_options.add_argument("--start-maximized")
                 # chrome_options.add_argument('--headless')
                 # chrome_options.add_argument('--disable-gpu')
                 # chrome_options.add_argument('--disable-dev-shm-usage')
@@ -128,15 +137,17 @@ class Quill:
                 password = Quill.browser.find_element(By.XPATH, "//input[@type='password'][1]")
                 time.sleep(3)
                 password.send_keys('11111111')
-
-                time.sleep(1)
+                time.sleep(3)
                 btn = Quill.browser.find_element(By.XPATH,
-                                                 "//button[contains(@class, 'MuiButtonBase-root MuiButton-root MuiButton-contained auth-btn MuiButton-containedPrimary MuiButton-fullWidth')]")
+                                                 "//button[contains(@class, 'MuiButtonBase-root auth-btn')]")
                 btn.click()
-                time.sleep(4)
+                time.sleep(6)
 
                 Quill.browser.get('https://quillbot.com/')
-                time.sleep(1)
+                time.sleep(3)
+                script = "document.getElementById('modes-Expand').children[0].click();"
+                Quill.browser.execute_script(script)
+
             except:
                 Quill.modal_on = True
                 print('An error occured while getting browser')
