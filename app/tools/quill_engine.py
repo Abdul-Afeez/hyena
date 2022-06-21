@@ -13,6 +13,7 @@ class Quill:
     distance_covered = 0
     def __init__(self):
         self.output = []
+        self.counter = 0
 
     def click_close_location(self, location, message):
         try:
@@ -90,7 +91,9 @@ class Quill:
                 time.sleep(3)
                 print(f'{dots_counter*3}s Finding quillArticleBtn, loading{dots} \r')
                 paraphrase_btn = Quill.browser.find_element(By.XPATH, "//button[contains(@class, 'quillArticleBtn')]")
-
+                if dots_counter*3 >= 240:
+                    self.output = []
+                    continua = False
                 # paraphrase_btn = Quill.browser.find_element(By.XPATH, "//div[contains(@class, 'jss237')]")
                 if paraphrase_btn and paraphrase_btn.get_attribute('innerText') == 'Rephrase':
                     print('quillArticleBtn Founding exiting loop \r')
@@ -102,13 +105,19 @@ class Quill:
                     outputText = Quill.browser.find_element(By.ID, 'editable-content-within-article')
                     # print(f"here is the outputText={outputText.get_attribute('innerText')}")
                     print('Saving output text into outputs')
+                    self.counter += 1
                     self.output.append(outputText.get_attribute('innerText'))
                     continua = False
 
             except:
                 pass
 
-
+    def refresh_browser(self):
+        Quill.browser.get('https://quillbot.com/')
+        time.sleep(8)
+        script = "document.getElementById('modes-Expand').children[0].click();"
+        Quill.browser.execute_script(script)
+        time.sleep(2)
 
     def set_browser(self, work_distance):
         Quill.work_distance = work_distance
@@ -116,20 +125,22 @@ class Quill:
         if not Quill.browser:
             try:
                 chrome_options = webdriver.ChromeOptions()
+                chrome_options.add_experimental_option("prefs", {"profile.managed_default_content_settings.images": 2})
+                # driver = webdriver.Chrome(chrome_options=chrome_options)
                 # chrome_options.add_argument("--window-size=1920,1080")
                 # chrome_options.add_argument("--disable-extensions")
                 # chrome_options.add_argument("--proxy-server='direct://'")
                 # chrome_options.add_argument("--proxy-bypass-list=*")
                 chrome_options.add_argument("--start-maximized")
-                # chrome_options.add_argument('--headless')
+                chrome_options.add_argument('--headless')
                 # chrome_options.add_argument('--disable-gpu')
                 # chrome_options.add_argument('--disable-dev-shm-usage')
                 # chrome_options.add_argument('--no-sandbox')
                 # chrome_options.add_argument('--ignore-certificate-errors')
                 # user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36'
                 # chrome_options.add_argument(f'user-agent={user_agent}')
-                chrome_options.headless = False
-                Quill.browser = webdriver.Chrome(executable_path="./drivers/chromedriver", options=chrome_options)
+                chrome_options.headless = True
+                Quill.browser = webdriver.Chrome(executable_path="app/tools/drivers/chromedriver", options=chrome_options)
                 Quill.browser.get('https://quillbot.com/login?returnUrl=%2F')
                 time.sleep(2)
                 Quill.browser.get_screenshot_as_file("screenshot.png")
@@ -149,11 +160,7 @@ class Quill:
                                                  "//button[contains(@class, 'MuiButtonBase-root auth-btn')]")
                 btn.click()
                 time.sleep(6)
-
-                Quill.browser.get('https://quillbot.com/')
-                time.sleep(3)
-                script = "document.getElementById('modes-Expand').children[0].click();"
-                Quill.browser.execute_script(script)
+                self.refresh_browser()
 
             except:
                 Quill.modal_on = True
@@ -162,6 +169,11 @@ class Quill:
 
     def paraphrase(self, paragraphs):
         self.output = []
+        if self.counter >= 2:
+            self.counter = 0
+            print('About To Refresh Browser')
+            self.refresh_browser()
+            print('Done Refreshing Browser')
         x = 0
         for paragraph in paragraphs:
             try:
@@ -188,7 +200,13 @@ class Quill:
                         self.paraphraser(paragraph)
                     except Exception as e:
                         print(e)
-                        pass
+                        self.output = []
             x += 1
             Quill.distance_covered += 1
+            while not len(self.output):
+                print('Hard refreshing.................................')
+                self.refresh_browser()
+                print('Waiting after Hard refreshing.................................')
+                time.sleep(120)
+                self.paraphraser(paragraph)
         return paragraphs, self.output

@@ -2,62 +2,16 @@ import re
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-import requests
-import json
 
+from app.websites.spider import Spider
+from app.websites.validate_url import ValidateUrl
 
 server = "https://techvented.com"
 
 
-class TechPointBrowser:
-    browser = None
-    def __init__(self):
-        self.output = []
-        self.urls = []
-        
-    def set_browser(self, url):
-        if not TechPointBrowser.browser:
-            try:
-                chrome_options = webdriver.ChromeOptions()
-                chrome_options.headless = False
-                TechPointBrowser.browser = webdriver.Chrome(executable_path="./drivers/chromedriver", options=chrome_options)
-                TechPointBrowser.browser.get(url)
-                time.sleep(6)
-
-            except:
-                pass
-
+class TechPointBrowser(Spider):
     def get_url(self):
         return 'https://techpoint.africa/'
-
-    def confirm_page_crawled(self, url):
-        if self.double_confirm_page_crawled(url, 'http://localhost'):
-            return True
-        elif self.double_confirm_page_crawled(url):
-            return True
-        else:
-            return False
-
-    def double_confirm_page_crawled(self, url, preferred_server=None):
-        print('Calling Endpoint')
-        endpoint = f"{preferred_server if preferred_server else server}/api/third-party-exists"
-        print(url)
-        try:
-            r = requests.post(endpoint, data={'url': url})
-            r_dictionary = json.loads(r.text)
-        except:
-            return True
-
-        if not r_dictionary:
-            print('111111111')
-            return False
-        status = r_dictionary['status']
-        if status == "processed":
-            return True
-        elif status == "raw":
-            return False
-        print('44444444444')
-        return False
 
     def crawl(self, maximum):
         links = self.get_page_content()
@@ -65,36 +19,44 @@ class TechPointBrowser:
             while len(links):
                 link = links.pop()
                 reformed_link = f'{self.get_url()}20{link}'
-                if 'podcast' in link \
+                if self.cache.get(link, False) or 'podcast' in link \
                         or 'digest' in link \
                         or link in self.urls \
                         or self.double_confirm_page_crawled(reformed_link, 'http://localhost'):
+                    self.cache[link] = True
                     continue
                 if len(self.urls) == maximum:
                     break
+                if len(self.urls) in [50, 100, 150, 200]:
+                    self.save_content(self.urls, '-techpoint-urls', 'tech-point-urls')
                 self.urls.append(reformed_link)
                 self.urls = list(set(self.urls))
+                print(f'Crawling length == {len(self.urls)}')
             links = self.click_next_page()
         print(self.urls)
         return self.urls
 
     def get_page_content(self):
-        print('get_page_content waiting for content to load')
-        time.sleep(3)
-        print('Content loaded')
-        body = TechPointBrowser.browser.find_element(By.XPATH, "//body").get_attribute('innerHTML')
-        print('Body copied')
-        hrefs = re.findall('href="/20(.+?)">', str(body))
+        hrefs = re.findall('href="/20(.+?)">', str(super().get_page_content()))
         return hrefs
+
+    def get_read_more_button(self):
+        read_more_btn = None
+        while not read_more_btn:
+            print('Finding read_more_btn done')
+            try:
+                read_more = '//button[text()="Read More"]'
+                read_more_btn = self.browser.find_element(By.XPATH, read_more)
+            except Exception as e:
+                print(e)
+
+            time.sleep(2)
+        return read_more_btn
 
     def click_next_page(self):
         print('click_next_page Waiting for content to load')
-        time.sleep(10)
+        read_more_btn = self.get_read_more_button()
         print('Content loaded clicking button')
-        read_more = '//button[text()="Read More"]'
-        read_more_btn = TechPointBrowser.browser.find_element(By.XPATH, read_more)
-        print('Clicking read_more_btn done')
-        time.sleep(2)
         read_more_btn.click()
-        time.sleep(6)
+        self.get_read_more_button()
         return self.get_page_content()

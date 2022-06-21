@@ -1,0 +1,144 @@
+Table of Contents
+\n\n\nA history of Nigeria’s space programme
+\n\n\nWhat Nigeria’s National Space Policy looks like
+\n\n\nDown the rabbit hole of implementation
+\n\n\nNotable achievements by NASRDA
+\n\n\nGoing back to the basics
+\n\n\nWhat is the solution?
+\n\n\nA new age?
+\n\n\nCommunication satellites
+\n\n\nCommercialisation of space tech
+\n\n\nThriving or declining?
+\n\n\nA history of Nigeria’s space programme
+\n\n\nWhat Nigeria’s National Space Policy looks like
+\n\n\nDown the rabbit hole of implementationCommunication satellitesCommercialisation of space tech
+\n\n\nNotable achievements by NASRDA
+\n\n\nGoing back to the basics
+\n\n\nWhat is the solution?
+\n\n\nA new age?
+\n\n\nShort-term, the government is responsible for all investments in space technology development.
+\n\n\nMedium-term, the government implements the partial commercialisation of NASRDA’s products and services developed during the short-term economic development plan.
+\n\n\nLong-term, the government partners with the private sector to implement the public-private partnership framework for the space programme.
+\n\n\nLaunch of NigeriaSat-1 by 2002
+\n\n\nTraining of Nigerian engineers to build earth observation ( EO) satellites abroad by 2006
+\n\n\nLaunch of two new satellites by 2011
+\n\n\nTraining of Nigerian astronauts by 2015
+\n\n\nSynthetic Aperture Radar by 2015
+\n\n\nDevelopment and Building of Made in Nigeria Satellites by 2018
+\n\n\nDevelopment of Rocketry/ Propulsion Systems by 2025
+\n\n\nDevelopment of Spin-Off of Allied Industries – Electronics, Software etc. by 2028
+\n\n\nLarge-Scale Commercialisation of Space Technology & Know-how by 2030
+\n\n\nWater. Earth. Fire. Air.
+\n\n\nIf you are an Avatar: The Last Airbender head like me, you are probably expecting to see the following tagline, “ Long ago, the four nations…”
+\n\n\nAll in due time, my friend. But please, follow closely.
+\n\n\nOn Monday, August 29, 2005, the historic storm, Hurricane Katrina, hit cities lined up on the Louisiana-Mississippi border in New Orleans. For many, that was the last time they saw their homes and over 1,000 lives were lost.
+\n\n\nOn Boxing Day in 2004, the world’s third-largest earthquake occurred, resulting in one of the worst natural disasters — The Asian Tsunami. An estimated 227,898 people died in 14 countries on the coastline, including India, Indonesia, and Thailand.
+\n\n\nSo, why the Avatar reference and what does it mean here? The original idea was to list different natural disasters, but I felt that all four elements play a vital role in these situations. Water: tsunamis and earthquakes; Earth: the world; Air: tornadoes and earthquakes; and Fire: the aftermath.
+\n\n\nBut I digress.
+\n\n\nA common ground connecting both disasters is the major focus of this article. But before that, why mention the disasters in the first place? What is the connection?
+\n\n\nIn both situations, the NigeriaSat-1, built by the UK’s Surrey Satellite Technology Limited ( SSTL) in 2003, was the first satellite to send images of the US east coast after Hurricane Katrina. It also provided valuable images for aid workers following the Asian Tsunami.
+\n\n\nBefore being decommissioned in 2014 as part of the Disaster Monitoring Constellation, NigeriaSat-1 was used to respond to floods in Argentina, Paraguay, Uruguay, and West Africa. It has also been used for various mapping campaigns like the Amazon and Vietnam’s coastal areas.
+\n\n\nNigeria does have other satellites, and they’ve been used in different situations, but before that, let’s do some backtracking.
+\n\n\nNigeria’s space history is a long and chequered one. Few people know — or remember — that the National Aeronautics and Space Administration ( NASA) built the first satellite earth station in Nigeria, the NASA Tracking Station 5, in 1961 in Kano to monitor the Gemini and Apollo space missions.
+\n\n\nInterestingly, the station was closed in 1963 before both missions were concluded in 1966 and 1972, respectively.
+\n\n\nIn 1976, at an ECOWAS meeting held in Addis Ababa, Nigeria first declared its space ambition, and it took 23 years to set up a space agency. In May 1999, the National Space Research and Development Agency ( NASRDA) was born following the recommendation of a nine-person committee of experts constituted by the National Agency for Science and Engineering Infrastructure ( NASENI).
+\n\n\nSide note: NASENI was established in 1992 by the Nigerian federal government on the recommendations of the White Paper Committee on the 1991 Report of a 150-member National Committee on Engineering Infrastructure comprising scientists, engineers, administrators, federal and state civil servants, economists, lawyers, bankers, and industrialists.
+\n\n\nNASRDA’s mandate is to “vigorously pursue the attainment of space capabilities as an essential tool for the socio-economic development and the enhancement of the quality of life of Nigerians.”
+\n\n\nThe agency is under the purview of the Ministry of Science, Technology, and Innovation.
+\n\n\nCurrently, Nigeria’s space programme is managed by NASRDA. And in 2000, the National Space Policy ( NSP) was approved, and a 25-year roadmap for its implementation was endorsed in 2005. But we’ll get to those in a bit.
+\n\n\nIn 2006, the state-owned Nigerian Communications Satellite ( NIGCOMSAT) Limited was formed to manage and operate Nigeria’s communication satellites under the Ministry of Communication and Digital Economy.
+\n\n\nIn its 15 years of existence, the company, a limited liability enterprise that is yet to turn a profit, does not have an establishing Act and has been the subject of controversy after recently claiming it would acquire two new satellites in 2023 and 2025.
+\n\n\nIt also has a subsidiary, GeoApps Plus Limited, which is expected to handle the sale of satellite images acquired by Nigeria’s earth observation satellites. According to its Facebook page, it provides training in Geographic Information System and Remote Sensing for Ministries, Departments, and Agencies ( MDAs), and the military, among others.
+\n\n\nIn 2017, after the Defence Space Administration Act was passed into law, and following the suggestions of the NSP, the Defence Space Administration ( DSA) was officially commissioned to acquire more space science technologies to aid the military.
+\n\n\nFormerly known as the Defence Space Agency, the DSA was first established on October 9, 2014, and is currently training several engineers in partnership with NIGCOMSAT and NASRDA.
+\n\n\nBut there’s still a lot to unpack from the NSP and we’ll be taking a look soon.
+\n\n\nBack to Table of Contents ↑
+\n\n\nAs we found out in 2018, as with most countries, Nigeria’s space programme is shrouded in secrecy.
+\n\n\nBy some stroke of luck and a dedicated LinkedIn search, I found the profile of Dr Halilu Ahmad Shaba, NASRDA DG, who agreed to talk to me for this article.
+\n\n\nI asked him what kind of policies we might expect under his tenure, and while he didn’t tell me, he said one thing for certain, the NSP will be reviewed. A task that would be done alongside the overhaul of the current roadmap, which President Muhammadu Buhari has sanctioned.
+\n\n\nBut while we await the review, we can visit the current policy.
+\n\n\nThe NSP is a ten-chapter document outlining several objectives like defence and law enforcement, disaster prediction, earth observation, poverty alleviation, promotion of international cooperation, and the establishment of research centres.
+\n\n\nIt also provides Nigeria’s space economic model, a public-private partnership that involves short, medium, and long-term plans.
+\n\n\nTo achieve this, the roadmap contains benchmarks:
+\n\n\nBack to Table of Contents ↑
+\n\n\nAs far as implementation goes, Nigeria has had some success. We already talked about NigeriaSat-1. NASRDA has also facilitated the training of engineers in building EO satellites, with the NigeriaSat-X solely built by Nigerians, alongside the Nigeria-Sat-2 launched by the SSTL in 2011.
+\n\n\nThe NigeriaSat-1 and NigeriaSat-X have a lifespan of seven years and should have deorbited in 2018. But, four years later, both are still functioning by “grace”, as said by Shaba, and as an expert I spoke to told me, Nigeria is getting more value for money.
+\n\n\nIn 2017, the EduSat-1, a collaboration between the Federal University of Technology Akure ( FUTA), Ondo State, Nigeria, and NASRDA, was built by Nigerians and launched from NASA’s Kennedy Space Center, but was decommissioned in 2019.
+\n\n\nAs to astronauts, you’d probably remember the current Minister of Science, Technology, and Innovation, Ogbonnaya Onu, telling Nigerians in March 2016 that Nigeria would have an astronaut in space on or before 2030. Before then, a fraudulent email about a Nigerian astronaut stranded in space had circulated, eliciting varying reactions. However, Shaba confirms that this milestone has not been achieved.
+\n\n\nNigeria’s dream to launch in space by 2030 does not look any closer to reality. As of 2021, 44 satellites have been launched by 14 African countries, but none have been done from an African launch site.
+\n\n\nAs of 2019, the Centre for Space Transport and Propulsion ( CSTP), Epe, Lagos State, has completed three successful experimental rocket launches.
+\n\n\nBut, due to the hushed nature of Nigeria’s space programme, we only know a previous milestone altitude of 10km before 2019. Although Shaba says it has increased since then.
+\n\n\n“ Because it can also be used for utility purposes, we made a case that we are not going to announce that. So we closed it to the public and only made some skeletal speeches about that.”
+\n\n\nOne vital aspect of space technology is communication satellites. Although they may not provide as fast Internet speeds as subsea cables or be as reliable, in a country like Nigeria where broadband penetration is as low as 41%, any little thing helps.
+\n\n\nCurrently, however, satellites only contribute 0.2% to Nigeria’s Internet connectivity.
+\n\n\nAfter the NigeriaSat-1’s successful launch, in 2004, the government contracted state-owned China Great Wall Industry Corporation Limited ( CGWIC) to build the NigComSat-1, a communication satellite.
+\n\n\nThe NigComSat-1 was launched in 2007, but due to an anomaly in its solar array, which meant it did not have enough power, it was shut down in 2008. Thankfully, the Nigerian government had a failsafe insurance policy that enabled them to contract CGWIC again to build the NigComSat-1R.
+\n\n\nThe NigComat-1R was launched in 2011 and has a 15-year life span, and, just like its predecessor, was managed by NIGCOMSAT. It had the exact specifications as the NigComSat-1, seeing that it was a replacement.
+\n\n\nIn 2018, Reuters reported that Nigeria had agreed to a $550 million deal with the CGWIC once again for two communication satellites which were to be ready by 2020 and 2021. But there’s no accurate information as to whether the deal pushed through or not. Especially after the world’s focus moved to the COVID-19 pandemic.
+\n\n\nShaba, however, calls this move and the current one by NIGCOMSAT to contract new satellites as counterproductive to what has already been done by NASRDA in training engineers and building satellites.
+\n\n\n“ You cannot have two satellite manufacturing agencies. And NIGCOMSAT is [a] communications limited, and we said it should restrict itself to transpondence.”
+\n\n\nSide note: Transpondence is the receiving, sending, or reciprocal actions of receiving and sending messages or information through transponders or one of various radio transmission devices.
+\n\n\nAs Temidayo Onisosun, Founder, Space in Africa, an Africa-focused media, analytics, and consulting firm focusing on the space and satellite industry, explained, the space ecosystem is divided into upstream and downstream.
+\n\n\nLike upstream companies in the oil and gas sector, space startups specialise in exploration and drilling. In the space ecosystem, this could mean rocket or satellite launching or space missions.
+\n\n\nA company downstream would be more focused on remote sensing, communication, among others. Currently, Nigeria’s space ecosystem is mostly government run, especially in upstream activities.
+\n\n\nTo aid its 2030 goal of large scale commercialisation, in 2010, the NASRDA Act was passed, establishing the National Space Council ( NSC) as regulator. The Act says the NSC can approve licences for space activities in Nigeria. It, however, makes no provision for private partnership, thus limiting private companies to a participatory role.
+\n\n\nAccording to Shaba, as part of Nigeria’s medium-term goals, NASRDA’s products are to be commercialised.
+\n\n\n“ We try to call them and let them know. For example, if data is supposed to cost  30 million, we sell it at 25 million. You sell it and make your money. And then you return the remaining money to the agency.”
+\n\n\nThis data is information gotten from Nigeria’s available satellites.
+\n\n\nShaba also mentioned spin-offs from its Quick Win projects, which focused on specific issues like food security, human security, disaster management, climate change, data management, and educational packages in space science.
+\n\n\nThis included research done on the effect of high-frequency radiation on Wistar rats. A study which was to help the Agency determine the former on humans. Although it is not clear what this new research brings to the table as it appears to be a well-researched field. But, of course, science is always a curiosity.
+\n\n\nIn 2020, there were 23 Quick Win projects.
+\n\n\nBack to Table of Contents ↑
+\n\n\nFor most Nigerians, in a country heavily hit by recession and facing continued insecurity, a space programme looks like vanity metrics, showboating, if you will. But space technology is quite important.
+\n\n\nAccording to Statista, in 2020, the global space economy made approximately $446.9 billion, increasing from $428 billion in the previous year, with commercial space products and services accounting for almost 50% of the total turnover.
+\n\n\nBut beyond the economic impact, there are spillovers into other sectors, like agriculture, medicine, transport, the environment, and communications.
+\n\n\nOver the last few years, NASRDA has worked with Nigerian and foreign military agencies to eliminate insurgency in West Africa.
+\n\n\nAccording to The Guardian, the Agency used the NigeriaSat-X to produce a 10-metre digital elevation simulation map and vegetation density map of Sambisa Forest to help the military in the insurgency fight.
+\n\n\nBasically, using data obtained from the satellite, NASRDA created a digital representation of the forest.
+\n\n\nIn 2012, NASRDA aided the Malian government during the civil war between Southern and Northern factions.
+\n\n\nThe media house also says, “the space agency donated over 4000 satellite images estimated to be worth ₦3 billion ($8.3 million) to Nigerian universities and research institutions, using NigeriaSat-1 alone. In all, NigeriaSat-1 directly contributed over ₦10.5 billion ($29 million) to Nigeria’s economy within its first nine years in orbit.”
+\n\n\nThese activities were also continued using the newer satellites, the NigeriaSat-2 and NigeriaSat-X.
+\n\n\nIn 2015, NIGCOMSAT won the contract to manage Belarus’ satellite, the BelinterSat-1, a revenue source which was estimated would bring in $400,000 annually.
+\n\n\nCombining these with the Quick Win projects and several other spin-offs, it would appear the Agency has not completely failed.
+\n\n\nHowever, although Shaba describes the Nigerian space ecosystem as “vibrant”, the country still lags behind, a problem he attributes to funding.
+\n\n\nBack to Table of Contents ↑
+\n\n\nWhile I talked to Henry Ibitolu, a former Research Intern at NASRDA, he drew an interesting comparison with India.
+\n\n\n“ India right now has almost joined the league of countries launching rockets. When the US government, through NASA, sent rockets to Mars, they spent $2 billion. But when India leveraged its local manpower and technology to land a rover on Mars, they spent $20 million. That’s about 10% or less of what the US spent.”
+\n\n\nI would later check the figures, and although not accurate, the numbers do say a lot. India spent $73 million and was successful on its first try.
+\n\n\nTo be fair, India’s space mission was done in 2013 while the US first successful Mars landing happened in 1975; several things made it much cheaper, even by previous standards.
+\n\n\nIndia was careful to work with only local companies and engineers and made several adjustments to the technology to make it more efficient. A position made possible by an educational system that prioritises Science Technology, Engineering, and Mathematics ( STEM) courses.
+\n\n\nOnly two Nigerian Universities — Kwara State University, Malete, Kwara State, and recently the Lagos State University, Lagos, offer courses in aerospace and Aeronautical engineering.
+\n\n\nI also found only one university — FUTA — that teaches remote Sensing and GIS as a course separate from geomatics and surveying. Several universities also offer Masters in Remote Sensing.
+\n\n\nIbitolu said the government should invest in STEM education.
+\n\n\n“ For example, the government should partner with universities to come up with innovative ideas. We have local technology that we can leverage on to make use of that.”
+\n\n\nAn opinion Oniosun shares.
+\n\n\nInterestingly, all seven NASRDA research centres are situated in universities.
+\n\n\nBut beyond, education is funding. The space industry is capital intensive. I mean, we just talked about India spending $74 million for its Mars landing.
+\n\n\nIn 2021, NASRDA and its parastatals received ₦22.8 billion ($55.6 million) — 14.4% — from the total budget allocation for the Ministry of Science and Technology.
+\n\n\nThe total budgetary allocation for Nigeria’s space programme was ₦35.7 billion ($86.8 million), with NASRDA accounting for 64%, NIGCOMSAT, 22%, and DSA, 14%.
+\n\n\nTo put all of this into perspective, given the world’s current fascination with Mars and using NASA’s current Mars mission named Perseverance, which is expected to cost $2.7 billion, Nigeria’s entire space budget is barely 2% of the total cost.
+\n\n\nA more obvious choice might be a satellite, which costs anything from $400,000 to $1 million to build.
+\n\n\nIt still leaves us with one conclusion, Nigeria’s space programme is grossly underfunded.
+\n\n\nBack to Table of Contents ↑
+\n\n\nWhile there is no clear-cut solution, Nigeria’s best bet lies in its space economic model, the long-term plan to be precise. A public-private partnership where the government works with privately-owned companies.
+\n\n\nBut Ibitolu advises NASRDA to achieve its dream of sending an astronaut into space before taking on a more regulatory role.
+\n\n\n“ Before you move to being a regulatory agency, you must have led by example. Before you tell people to do something, you must have done it yourself. But if you’ve not done anything and you are telling people to do it, it’s not possible. Because you don’t know.”
+\n\n\nA position reminiscent of current startup woes in Nigeria.
+\n\n\nUsing the NASA-Space-X analogy, Oniosun believes NASRDA should work with universities and private companies empowering local startups.
+\n\n\n“ At some point, the US government, NASA had to trust SpaceX, to innovate and do awesome stuff. Maybe Nigeria has to do that.
+\n\n\n“ The Space agency has trained hundreds of persons to Masters and PHD level, but it doesn’t mean anything. It has not done anything before, and maybe they should stop wasting their money.
+\n\n\n“ Instead of the Agency trying to do all of that by itself, it should trust these companies and begin to outsource its technology.”
+\n\n\nBut what does the private sector look like in Nigeria?
+\n\n\nAccording to Ibitolu, the downstream sector is thriving with several remote sensing and GIS companies in the space. But currently, there’s no private company in the upstream space.
+\n\n\nA problem that could also perhaps be attributed to the capital intensive nature of the industry, as funding remains a challenge. And Olayinka Fagbemiro, Assistant Chief Scientific Officer at NASRDA, believes banks could be the solution, most especially the African Development Bank ( AfDB), but there has to be trust.
+\n\n\n“ In terms of the private sector, this is an aspect that the government has to work on. Why? There has to be an enabling environment. There has to be a certain ease of doing business in that aspect that would make individuals able to commit the huge, enormous resources that need to go into the private sector and be a player in the space programme.
+\n\n\n“ If banks, for example, can provide some sort of loans for startups in the space sector, there are a lot of smart, young Nigerians coming up daily with expertise, but the major challenge is capital. And Africa is losing out a whole lot as a result because Africa has a lot to gain from space products.”
+\n\n\nBut it would have to be a long term investment or credit plan. However, Shaba decries Nigerian investors’ eye for  quick profit.
+\n\n\nBack to Table of Contents ↑
+\n\n\nIn May 2021, Shaba was appointed as the new Director-General of NASRDA, and I asked him what to expect from NASRDA under his reign. Shaba’s answers: lots of restructuring, more satellites, and functioning in line with the government.
+\n\n\nIbitolu expects some changes.
+\n\n\n“ We are hopeful that we will see change with the new administration. When I did my IT with NASRDA, under the previous administration, I saw people being employed who had studied Yoruba. But we are hopeful we will see new developments at NASRDA.”
+\n\n\nA position Fagbemiro agrees with.
+\n\n\nBefore writing this, I hoped to determine whether the Space Agency has failed in its duties. My conclusion is that, to a large extent, compared to other space programmes, while it cannot be regarded as a total failure, it cannot be regarded as an out and out success either.
+\n\n\nBut, it could be better. What say ye?
+\n\n\nIn May 1999, Nigeria’s Space Agency was born 22 years, 6 satellites, and several Directors-General later, what can we say? Failure? Success? Both? Well, Ogheneruemu Oneyibo did some digging, and we might have some answers.
