@@ -1,6 +1,7 @@
 import json
 import os
 import re
+import time
 
 import requests
 
@@ -40,6 +41,7 @@ class ValidateUrl:
         print('Calling Endpoint')
         endpoint = f"{preferred_server if preferred_server else SERVER}/api/third-party-exists"
         print(url)
+        time.sleep(1)
         try:
             r = requests.post(endpoint, data={'url': url})
             r_dictionary = json.loads(r.text)

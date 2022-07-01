@@ -9,12 +9,11 @@ import requests
 from bs4 import BeautifulSoup
 from app.consts.const import SERVER
 from app.post.post import Post
+from app.tools.browser import Browser
 from app.tools.keyword_bot import get_fuzzy_similarity, extract_keywords, nlp
 from app.tools.quill_engine import Quill
 from app.websites.spider import Spider
 from app.websites.validate_url import ValidateUrl
-
-quill = Quill()
 
 
 class Blogger(ValidateUrl):
@@ -41,7 +40,6 @@ class Blogger(ValidateUrl):
         self.unvisited_latest = []
         self.posts = []
         self.soup = None
-        self.spider = Spider()
 
         self.post = None
         self.word_map = []
@@ -49,6 +47,14 @@ class Blogger(ValidateUrl):
         self.description_images = {}
         self.alt = []
         self.preferred_first_image = False
+        self.browser = Browser()
+        self.browser.get_driver()
+        self.quill = Quill()
+        self.quill.set_browser(self.browser)
+        self.spider = Spider()
+        self.spider.set_browser(self.browser)
+
+
 
     def get_url(self):
         raise Exception('Y')
@@ -65,8 +71,10 @@ class Blogger(ValidateUrl):
             if max and counter >= max:
                 break
             counter += 1
-            self.crawl(unvisited_latest)
-            # break
+            try:
+                self.crawl(unvisited_latest)
+            except Exception as e:
+                self.resurrect(e)
 
     def get_main_content(self, soup):
         raise Exception('You must implement this function')
@@ -182,8 +190,8 @@ class Blogger(ValidateUrl):
         self.save_local_content(self.html_to_text, '-paraphrased')
         self.save_local_content(c_input, '-input')
         self.save_local_content(self.word_map, '-word_map')
-        quill.set_browser(1)  # body and description text
-        all_in, all_out = quill.paraphrase([c_input])
+        self.browser.switch_to_tab(Quill.landing_page)
+        all_in, all_out = self.quill.paraphrase([c_input])
         self.save_local_content(all_out[0].replace('\n\n\n', '\n'), '-output-1')
         self.remove_stamp_from_tag_map(all_out[0])
         print('Done paraphrasing')
@@ -233,8 +241,15 @@ class Blogger(ValidateUrl):
         page = requests.get(url)
         return BeautifulSoup(page.content, "html.parser")
 
+    def resurrect(self, e):
+        self.save_local_content(self.html_to_text, '-template')
+        self.save_local_content(str(e), '-error')
+        self.browser.switch_to_tab(self.browser.history[0])
+        print(e)
+
     def crawl(self, unvisited_latest):
         print('crawling 123')
+        print(self.browser.history)
         self.soup = self.get_page(unvisited_latest)
         self.post = Post()
         self.post.url = unvisited_latest
@@ -245,22 +260,22 @@ class Blogger(ValidateUrl):
             print('error processing date')
         self.post.description_text = self.get_description(self.soup)
         self.post.title = self.soup.find('h1', class_=self.get_h1_class()).text
-
+        print('Getting main content')
         try:
             main_content = self.get_main_content(self.soup)
         except Exception as e:
-            self.save_local_content(self.html_to_text, '-template')
-            self.save_local_content(str(e), '-error')
-            print(e)
-            # self.send_post(status='failed')
+            self.resurrect(e)
             return
+        print('Setting description image')
         self.set_description_image(main_content)
+        print('remove_unwanted_blocks')
         main_content = self.remove_unwanted_blocks(main_content)
         main_content = self.secure_image(main_content)
         main_content = main_content.replace('<br>', ' ')
         main_content = main_content.replace('<br/>', ' ')
         self.save_local_content(main_content, 'main-content')
         main_content = BeautifulSoup(main_content, "html.parser")
+        print('Escaping tags')
         for each_tag in self.recognizable_tags:
             for tag in main_content.find_all(each_tag):
                 try:
@@ -276,6 +291,7 @@ class Blogger(ValidateUrl):
         print(f'Still going through {unvisited_latest}')
         self.html_to_text = re.sub(r"(.*)#p##img#.*src=(.*)@img@@p@(.*)", f"\g<1><img src=\g<2> />\g<3>",
                                    self.html_to_text)
+        print('Paraphrasing')
         try:
             self.clean_empty_tags()
             self.terminate()
@@ -289,8 +305,8 @@ class Blogger(ValidateUrl):
             self.save_local_content(str(e), '-error')
             self.send_post(status='failed')
             print(e)
-        print('Cooling engine down for 100 seconds before the next move')
-        time.sleep(100)
+        print('Cooling engine down for 60 seconds before the next move')
+        time.sleep(60)
 
     def identify_keyword(self):
         last_soup = BeautifulSoup(self.html_to_text, "html.parser")

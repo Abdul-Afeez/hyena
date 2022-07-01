@@ -1,6 +1,7 @@
 
 from flask import Flask
 
+from app.tools.quill_engine import Quill
 from app.websites.disrupt_africa.disrupt_africa import DisruptAfrica
 from app.websites.techcabal.techcabal import TechCabal
 from app.websites.techpoint.techpoint import TechPoint
@@ -58,3 +59,9 @@ def every():
     disrupt_africa()
     tech_cabal()
     tech_point()
+
+@app.route('/quill')
+def quill():
+    quill = Quill()
+    quill.set_browser()
+    return 'dONE'

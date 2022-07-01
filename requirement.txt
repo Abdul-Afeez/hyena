@@ -17,6 +17,7 @@ langcodes==3.3.0
 lxml==4.7.1
 MarkupSafe==2.0.1
 murmurhash==1.0.6
+numpy==1.22.0
 outcome==1.1.0
 packaging==21.3
 pathy==0.6.1
