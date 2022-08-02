@@ -1,5 +1,8 @@
 FROM tiangolo/uwsgi-nginx-flask:python3.8
-COPY ./ /app
-ADD requirement.txt /app
+COPY ./ /code
+WORKDIR /code
 RUN pip3 install -r requirement.txt
-# CMD ["gunicorn", "-w 4", "-b", "0.0.0.0:8000", "main:app"]
+
+EXPOSE 8000
+
+CMD ["/bin/bash", "start_api.sh"]

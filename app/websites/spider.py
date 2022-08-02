@@ -26,8 +26,8 @@ class Spider(ValidateUrl):
         print('get_page_content waiting for content to load')
         time.sleep(3)
         print('Content loaded')
-        body = self.driver.find_element(By.XPATH, "//html").get_attribute('innerHTML')
+        html = self.driver.find_element(By.XPATH, "//html").get_attribute('innerHTML')
         print('Body copied')
-        self.save_content(body, '-last-body', 'tech-point-urls')
+        # self.save_content(body, '-last-body', 'tech-point-urls')
         # Spider.browser.quit()
-        return body
+        return html

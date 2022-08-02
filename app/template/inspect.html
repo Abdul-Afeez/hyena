@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Correction sheet for {{data['job'].meta.get('url') if data['job'].meta else ''}} {% endblock %}</h1>
+    <form method="post">
+        <div class="d-flex justify-content-between">
+            <div>
+            <label for="Status">Status</label>
+            <br>
+            <select name="status" id="status">
+                <option value="QUEUED" {{ 'selected' if data['status'] == 'QUEUED'}}>QUEUED</option>
+                <option value="PENDING" {{ 'selected' if data['status'] == 'PENDING'}}>PENDING</option>
+                <option value="RUNNING" {{ 'selected' if data['status'] == 'RUNNING'}}>RUNNING</option>
+                <option value="RAN" {{ 'selected' if data['status'] == 'RAN'}}>RAN</option>
+                <option value="TIMEOUT" {{ 'selected' if data['status'] == 'TIMEOUT'}}>TIMEOUT</option>
+                <option value="FAILED" {{ 'selected' if data['status'] == 'FAILED'}}>FAILED</option>
+            </select>
+        </div>
+            <div>
+                        <a class="btn btn-primary " href="/jobs">Go back</a>
+                        <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+        </div>
+        <br>
+        <div style="display: flex">
+            <div>
+                <label for="c_input">Input Content</label>
+                <br>
+                <textarea name="c_input" id="c_input" class="textarea"
+                  placeholder="Message content"
+                  rows="150"
+                  cols="55"
+                  wrap='off'
+                  >{{ data['c_input']}}</textarea>
+            </div>
+            <div>
+                <label for="paraphrased_text">Output Content</label>
+                <br>
+                <textarea name="paraphrased_text" id="paraphrased_text" class="textarea"
+                  placeholder="Message content"
+                  rows="150"
+                  cols="55"
+                  wrap='off'
+                  >{{ data['paraphrased_text']}}</textarea>
+            </div>
+        </div>
+
+        <br>
+    </form>
+{% endblock %}

@@ -1,0 +1,92 @@
+# To start Docker in Swarm mode, you need to run `docker swarm init`
+# To deploy the Grid, `docker stack deploy -c docker-compose-v3-swarm.yml grid`
+# Stop with `docker stack rm grid`
+# Stop swarm mode `docker swarm leave --force`
+
+version: '3.7'
+
+services:
+  chrome:
+    image: selenium/node-chrome:4.3.0-20220624
+    shm_size: 2gb
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_SESSION_TIMEOUT=1200000
+
+    deploy:
+      replicas: 1
+    entrypoint: bash -c 'SE_OPTS="--host $$HOSTNAME" /opt/bin/entry_point.sh'
+    ports:
+      - "5900:5900"
+
+  selenium-hub:
+    image: selenium/hub:4.3.0-20220624
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+
+  hyena:
+    build: .
+    volumes:
+      - .:/code
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - selenium-hub
+    environment:
+      - SERVER_URL=http://selenium-hub:8080/myserver
+  nginx:
+    image: nginx:1.19.2-alpine
+    container_name: hyena-nginx
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/live/:/etc/nginx/conf.d/:ro
+    depends_on:
+      - hyena
+      - selenium-hub
+
+  db:
+    image: mysql:5.7
+    container_name: mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: "hyena"
+      MYSQL_ROOT_PASSWORD: "*121*HYEna#"
+      MYSQL_PASSWORD: "*121*HYEna#"
+      MYSQL_USER: "hyena_engine_user"
+      SERVICE_TAGS: dev
+      SERVICE_NAME: db
+    volumes:
+      - hyenadbdata:/var/lib/mysql
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
+
+  #phpmyadmin Service
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    #    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_TAGS: dev
+      SERVICE_NAME: phpmyadmin
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+
+
+#Volumes
+volumes:
+  hyenadbdata:
+    driver: local

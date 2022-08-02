@@ -1,3 +1,5 @@
+peewee
+pymysql
 async-generator==1.10
 attrs==21.4.0
 beautifulsoup4==4.10.0
@@ -48,3 +50,4 @@ typing_extensions==4.0.1
 urllib3==1.26.7
 wasabi==0.9.0
 wsproto==1.0.0
+gunicorn==20.0.4

@@ -1,12 +1,8 @@
 import re
-
-import requests
-from bs4 import BeautifulSoup
-
 from app.websites.blogger import Blogger
 
 
-class DisruptAfrica(Blogger):
+class DisruptAfricaParser(Blogger):
     def __init__(self):
         super().__init__()
         self.name = 'DisruptAfrica'
@@ -44,45 +40,45 @@ class DisruptAfrica(Blogger):
         main_content = re.sub(r"(.*)<img(.*)/>(.*)", "\g<1><p>#img#\g<2>@img@</p>\g<3>", main_content)
         return main_content
 
-    def set_latest_post(self):
-        page = requests.get(self.url)
-        soup = BeautifulSoup(page.content, "html.parser")
-        # self.save_local_content(soup, '')
-        print('000000000000000')
-        raw_articles = soup.find('ul', class_="wpp-list wpp-cards").find_all('li')
-        stages = []
-        for raw_article in raw_articles:
-            a = raw_article.find('a')
-            url = a.attrs['href']
-            crawled = self.confirm_page_crawled(url)
-            if not crawled:
-                self.unvisited_latest.append(url)
-        stages.append(len(self.unvisited_latest))
-        print('000000000000000')
-        raw_articles = soup.find_all('a', class_='title')
-        for raw_article in raw_articles:
-            url = raw_article.attrs['href']
-            crawled = self.confirm_page_crawled(url)
-            if not crawled:
-                self.unvisited_latest.append(url)
-        stages.append(len(self.unvisited_latest))
-
-        cow_dungs = soup.find_all('span', class_='cat cat-title cat-38')
-        for cow_dung in cow_dungs:
-            cow_dung.decompose()
-        stages.append(len(self.unvisited_latest))
-
-        raw_articles = soup.find_all('article')
-        for raw_article in raw_articles:
-            a = raw_article.find('a')
-            url = a.attrs['href']
-            if 'category' in url:
-                continue
-            crawled = self.confirm_page_crawled(url)
-            if not crawled:
-                self.unvisited_latest.append(url)
-        stages.append(len(self.unvisited_latest))
-        print(stages)
+    # def set_latest_post(self):
+    #     page = requests.get(self.url)
+    #     soup = BeautifulSoup(page.content, "html.parser")
+    #     # self.save_local_content(soup, '')
+    #     print('000000000000000')
+    #     raw_articles = soup.find('ul', class_="wpp-list wpp-cards").find_all('li')
+    #     stages = []
+    #     for raw_article in raw_articles:
+    #         a = raw_article.find('a')
+    #         url = a.attrs['href']
+    #         crawled = self.confirm_page_crawled(url)
+    #         if not crawled:
+    #             self.unvisited_latest.append(url)
+    #     stages.append(len(self.unvisited_latest))
+    #     print('000000000000000')
+    #     raw_articles = soup.find_all('a', class_='title')
+    #     for raw_article in raw_articles:
+    #         url = raw_article.attrs['href']
+    #         crawled = self.confirm_page_crawled(url)
+    #         if not crawled:
+    #             self.unvisited_latest.append(url)
+    #     stages.append(len(self.unvisited_latest))
+    #
+    #     cow_dungs = soup.find_all('span', class_='cat cat-title cat-38')
+    #     for cow_dung in cow_dungs:
+    #         cow_dung.decompose()
+    #     stages.append(len(self.unvisited_latest))
+    #
+    #     raw_articles = soup.find_all('article')
+    #     for raw_article in raw_articles:
+    #         a = raw_article.find('a')
+    #         url = a.attrs['href']
+    #         if 'category' in url:
+    #             continue
+    #         crawled = self.confirm_page_crawled(url)
+    #         if not crawled:
+    #             self.unvisited_latest.append(url)
+    #     stages.append(len(self.unvisited_latest))
+    #     print(stages)
 
     def clean_empty_tags(self):
         super().clean_empty_tags()
