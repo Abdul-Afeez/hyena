@@ -2,7 +2,7 @@ SERVER = "https://techvented.com"
 LOCALHOST = "http://localhost"
 
 QUILL_URL = 'https://quillbot.com/'
-TECH_POINT_URL = 'https://techpoint.africa/'
+TECH_POINT_URL = 'https://disrupt-africa.com/'
 
 
 # JOB STATUS

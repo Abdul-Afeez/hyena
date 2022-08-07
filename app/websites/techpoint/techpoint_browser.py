@@ -1,41 +1,53 @@
 import re
 from selenium.webdriver.common.by import By
 
-from app.consts.const import QUEUED, TECH_POINT_URL
+from app.consts.const import QUEUED
 from app.models.base import Job
-from app.websites.spider import Spider
+from app.websites.scanner import Scanner
 
 
-class TechPointBrowser(Spider):
-    
-    def __init__(self):
+class Spider(Scanner):
+
+    def __init__(self, config):
         super().__init__()
+        self.first_page = 0
+        self.current_page = 0
+        self.last_page = 0
+        self.config = config
         self.links = []
-    
-    def get_url(self):
-        return TECH_POINT_URL
+        self.detect_pagination()
+
+    def detect_pagination(self):
+        pages = self.config.get('read_more_text', '').split('-')
+        if len(pages) == 2:
+            self.first_page = int(pages[0])
+            self.last_page = int(pages[1])
 
     def crawl(self):
         while len(self.links):
             link = self.links.pop()
-            reformed_link = f'{self.get_url()}20{link}'
-            if self.invalid_cache.get(link, False) or self.valid_cache.get(link, False) or 'podcast' in link \
-                    or 'digest' in link \
-                    or link in self.urls:
+            base_url = self.config.get('base_url')
+            url_pattern = self.config.get('url_pattern')
+            exclude_hrefs = self.config.get('exclude_hrefs')
+            reformed_link = url_pattern.replace('{base_url}', base_url).replace('{link}', link)
+            to_be_continued = False
+            for href in exclude_hrefs:
+                if href in link:
+                    to_be_continued = True
+                    break
+            if to_be_continued or self.invalid_cache.get(link, False) or self.valid_cache.get(link,
+                                                                                              False) or link in self.urls:
                 self.invalid_cache[link] = True
                 continue
             elif self.confirm_page_crawled(reformed_link):
                 self.invalid_cache[link] = True
                 continue
-            valid_links = len(self.urls)
-            if not valid_links % 10:
-                self.save_content(self.urls, '-techpoint-urls', 'tech-point-urls')
             self.urls.append(reformed_link)
             try:
                 job = Job()
                 job.url = reformed_link
-                job.meta = {'url': reformed_link}
-                job.link = TECH_POINT_URL
+                job.meta = {'url': reformed_link, 'endpoint': self.config.get('endpoint')}
+                job.link = base_url
                 print(f'Saving {reformed_link}')
                 job.status = QUEUED
                 job.save()
@@ -46,15 +58,43 @@ class TechPointBrowser(Spider):
             print(f'Crawling length == {len(self.urls)}')
 
     def get_page_content(self):
-        hrefs = re.findall('href="/20(.+?)">', str(super().get_page_content()))
+        print(str(super().get_page_content()))
+        hrefs = re.findall(self.config.get('href_regex'), str(super().get_page_content()))
         self.links = hrefs
         return hrefs
 
+    def find_or_click_read_more(self, find=True):
+        read_more_text = self.config.get('read_more_text')
+        possible_tags = ['a', 'button']
+        read_more_btn = None
+        for possible_tag in possible_tags:
+            if read_more_btn:
+                break
+            try:
+                script = f"Array.from(document.getElementsByTagName('{possible_tag}')).filter(item => item.innerText === '{read_more_text}')[0]"
+                print(script)
+                if find:
+                    self.browser.driver \
+                        .execute_script(f'{script}.innerText')
+                    read_more_btn = True
+                    # print(read_more_btn)
+                else:
+                    self.browser.driver \
+                        .execute_script(f'{script}.click()')
+                    read_more_btn = True
+                    print(read_more_btn)
+            except Exception as e:
+                # print(e)
+                read_more_btn = None
+
+        return read_more_btn
+
     def get_read_more_button(self):
         print('Finding read_more_btn done')
+        if self.first_page:
+            return True
         try:
-            read_more = '//button[text()="Read More"]'
-            read_more_btn = self.browser.driver.find_element(By.XPATH, read_more)
+            read_more_btn = self.find_or_click_read_more(True)
             if read_more_btn:
                 return read_more_btn
         except Exception as e:
@@ -63,6 +103,9 @@ class TechPointBrowser(Spider):
 
     def click_next_page(self):
         print('click_next_page Waiting for content to load')
-        read_more_btn = self.get_read_more_button()
         print('Content loaded clicking button')
-        read_more_btn.click()
+        if self.first_page:
+            self.current_page += 1
+            self.driver.get(self.config.get('url').replace('{page}', str(self.current_page)))
+            return
+        self.find_or_click_read_more(False)

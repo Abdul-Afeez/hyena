@@ -7,27 +7,30 @@ from app.tools.browser import Browser
 from app.tools.quill_engine import Quill
 from app.websites.blogger import Blogger
 from app.websites.disrupt_africa.disrupt_africa import DisruptAfricaParser
-from app.websites.spider import Spider
-from app.websites.techpoint.techpoint_browser import TechPointBrowser
+from app.websites.scanner import Scanner
+from app.websites.techpoint.techpoint_browser import Spider
 from app.websites.techpoint.techpointparser import TechPointParser
 
 
 class Scheduler:
     rules = [
-        {'link': QUILL_URL, 'max_session': 1, 'delay': 3},
+        # {'link': QUILL_URL, 'max_session': 1, 'delay': 3},
         {'link': TECH_POINT_URL, 'max_session': 4, 'delay': 3},
     ]
 
     def __init__(self):
         # Delete Quill jobs
-        Job.delete().where((Job.url == QUILL_URL & Job.sub_status != PARAPHRASING_MISMATCH_ERROR) & ((Job.status == RUNNING) | (Job.status == RAN))).execute()
+        Job.delete().where((Job.url == QUILL_URL & Job.sub_status != PARAPHRASING_MISMATCH_ERROR) & (
+                (Job.status == RUNNING) | (Job.status == RAN))).execute()
 
         # Delete old running jobs
         Job.delete().where(Job.status == RUNNING).execute()
 
-        pending_or_queued_quill_job = Job.filter((Job.url == QUILL_URL) & ((Job.status == PENDING) | (Job.status == QUEUED)))
+        pending_or_queued_quill_job = Job.filter(
+            (Job.url == QUILL_URL) & ((Job.status == PENDING) | (Job.status == QUEUED)))
         if not pending_or_queued_quill_job:
-            Thread.queue_job(QUILL_URL, QUILL_URL, {'url': QUILL_URL, 'opener': True})
+            pass
+            # Thread.queue_job(QUILL_URL, QUILL_URL, {'url': QUILL_URL, 'opener': True})
         self.pending_jobs = []
 
     def get_pending_jobs(self):
@@ -38,9 +41,10 @@ class Scheduler:
             next_run = rule.get('next_run', None)
             delay = rule.get('delay', 1)
             now = round(time.time())
-            pending_or_running_jobs = Job.filter((Job.link == link) & ((Job.status == PENDING) | (Job.status == RUNNING)))
+            pending_or_running_jobs = Job.filter(
+                (Job.link == link) & ((Job.status == PENDING) | (Job.status == RUNNING)))
             if not next_run:
-                new_next_run = now + delay*60
+                new_next_run = now + delay * 60
                 # print(f'Setting next run time to {new_next_run}')
                 Scheduler.rules[index] = {**Scheduler.rules[index], 'next_run': new_next_run}
             elif now < next_run and len(pending_or_running_jobs):
@@ -195,7 +199,8 @@ class Thread:
             if not retries or (self.job.status == RUNNING and timed_out):
                 print('Timed out')
                 self.job.status = FAILED if retries else 'TIMEOUT'
-                self.job.meta = {**self.job.meta, 'retries': retries, 'execution_time': execution_time, 'timed_out': timed_out }
+                self.job.meta = {**self.job.meta, 'retries': retries, 'execution_time': execution_time,
+                                 'timed_out': timed_out}
                 self.job.save()
                 self.release()
                 if self.exit_on_complete:
@@ -205,19 +210,19 @@ class Thread:
                 # print(f'Executing...................... {index}')
                 # print(f'Started running step {index + 1} of {len(self.steps)} steps under url === {url} ')
                 try:
-                    # print(f'Changing step {step.get("method")} to RUNNING')
                     step.get('method')()
+                    # print(f'Changing step {step.get("method")} to RUNNING')
                     self.job.status = Thread.RUNNING
                     self.job.save()
                     steps[index] = {**steps[index], 'status': Thread.RUNNING, 'started_at': started_at}
                     self.steps = steps
                 except Exception as e:
-                    # print('Encountered error while running')
+                    print('Encountered error while running')
                     print(e)
                     steps[index] = {**steps[index], 'status': Thread.PENDING,
                                     'retries': retries - 1}
                     self.steps = steps
-                    self.browser.driver.save_screenshot(f'{self.job.meta.get("url")}-error-retries{retries-1}.png')
+                    # self.browser.driver.save_screenshot(f'{self.job.meta.get("url")}-error-retries{retries - 1}.png')
                     # print(e)
                 # print(f'Ended running step {index + 1} of {len(self.steps)} steps under url === {url}')
                 break
@@ -231,10 +236,10 @@ class Thread:
                 health_check = step.get('method')(health_check=True)
                 print(f'Healthcheck returned {health_check}')
                 if health_check:
-                    print('health_check and setting thread status to RAN')      # WIP, please wait and check back later
+                    print('health_check and setting thread status to RAN')  # WIP, please wait and check back later
                     steps[index] = {**steps[index], 'status': Thread.RAN}
                 elif max_health_check:
-                    print('Using max_health_check potion to retry')      # WIP, please wait and check back later
+                    print('Using max_health_check potion to retry')  # WIP, please wait and check back later
                     steps[index] = {**steps[index], 'max_health_check': max_health_check - 1}
                 else:
                     print(f'Terminating {health_check} for no reason I guess')
@@ -272,7 +277,7 @@ class ThreadFactory:
             return existing_thread
 
         if url == TECH_POINT_URL:
-            new_thread = TechPointReconnaissanceThread(job)
+            new_thread = ReconnaissanceThread(job)
         elif TECH_POINT_URL in url:
             new_thread = ParserThread(job, TechPointParser)
         elif 'https://disrupt-africa.com' in url:
@@ -339,7 +344,8 @@ class QuillThread(Thread):
             self.blogger = blogger
             c_input = blogger.get_rephrase_text()
             paraphrased_text = self.job.meta.get('paraphrased_text', None)
-            if self.payload.get('opener', False) or (self.job.status not in [PENDING, RUNNING]):   # FAILED OR QUEUED along
+            if self.payload.get('opener', False) or (
+                    self.job.status not in [PENDING, RUNNING]):  # FAILED OR QUEUED along
                 steps = self.steps
                 steps[2] = {**self.steps[2], 'status': RAN}
                 steps[3] = {**self.steps[3],
@@ -386,12 +392,46 @@ class QuillThread(Thread):
                 # print(e)
 
 
-class TechPointReconnaissanceThread(Thread):
+config = [
+    {
+        'base_url': 'https://techpoint.africa/',
+        'target_links': 100,
+        'url': 'https://techpoint.africa/',
+        'read_more_text': "Read More",
+        'href_regex': 'href="/20(.+?)">',
+        'exclude_hrefs': ['digest', 'podcast'],
+        'url_pattern': '{base_url}20{link}',
+        'endpoint': 'https://techvented.com/api/save-article'
+    },
+    {
+        'base_url': 'https://techcabal.com/',
+        'target_links': 100,
+        'url': 'https://techcabal.com/category/features/',
+        'read_more_text': "See More Articles",
+        'href_regex': 'href="https://techcabal.com/20(.+?)/">',
+        'exclude_hrefs': [],
+        'url_pattern': '{base_url}20{link}/',
+        'endpoint': 'https://techvented.com/api/save-article',
+    },
+    {
+        'base_url': 'https://disrupt-africa.com/',
+        'target_links': 100,
+        'url': 'https://disrupt-africa.com/category/region/east-africa/page/{page}/',
+        'read_more_text': "1-300",
+        'href_regex': 'href="https://disrupt-africa.com/20(.+?)/">',
+        'exclude_hrefs': [],
+        'url_pattern': '{base_url}20{link}/',
+        'endpoint': 'https://techvented.com/api/save-article',
+    }
+]
 
+
+class ReconnaissanceThread(Thread):
     def __init__(self, job):
         super().__init__(job)
         self.exit_on_complete = False
-        self.tpb = TechPointBrowser()
+        self.config = config[2]
+        self.spider = Spider(self.config)
         self.steps = [
             {'method': self.step_1, 'retries': 4,
              'timeout': 600, 'max_health_check': 40, 'sleep': 0},
@@ -403,29 +443,30 @@ class TechPointReconnaissanceThread(Thread):
         self.maximum = job.meta.get('maximum', 5)
 
     def release(self):
-        super().release()
-        if len(self.tpb.urls) <= self.maximum:
-            self.job.status = 'RUNNING'
+        super().release()  # reverse the thread to PENDING
+        below_last_page = self.spider.first_page and (self.spider.current_page <= self.spider.last_page)
+        if len(self.spider.urls) <= self.config.get('target_links') or below_last_page:
+            self.job.status = 'RUNNING'  # Keep the main job running
             self.job.save()
 
     def step_1(self, health_check=False):
         if health_check:
             return True
         else:
-            self.tpb.set_browser(self.browser)
+            self.spider.set_browser(self.browser)
 
     def step_2(self, health_check=False):
         if health_check:
-            return self.tpb.get_read_more_button()
+            return self.spider.get_read_more_button()
         else:
-            self.tpb.click_next_page()
+            self.spider.click_next_page()
 
     def step_3(self, health_check=False):
         if health_check:
             return True
         else:
-            self.tpb.get_page_content()
-            self.tpb.crawl()
+            self.spider.get_page_content()
+            self.spider.crawl()
 
 
 class ParserThread(Thread):
@@ -434,7 +475,7 @@ class ParserThread(Thread):
         super().__init__(job)
         self.exit_on_complete = True
         self.blogger = parser()
-        self.spider = Spider()
+        self.spider = Scanner()
         self.spider.set_browser(self.browser)
         self.html = None
         self.steps = [

@@ -7,7 +7,7 @@ from app.websites.validate_url import ValidateUrl
 server = "https://techvented.com"
 
 
-class Spider(ValidateUrl):
+class Scanner(ValidateUrl):
     browser = None
     driver = None
 
@@ -19,8 +19,8 @@ class Spider(ValidateUrl):
         self.valid_cache = {}
 
     def set_browser(self, browser):
-        Spider.browser = browser
-        Spider.driver = browser.driver
+        Scanner.browser = browser
+        Scanner.driver = browser.driver
 
     def get_page_content(self):
         print('get_page_content waiting for content to load')

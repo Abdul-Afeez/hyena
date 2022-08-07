@@ -12,7 +12,7 @@ from app.post.post import Post
 from app.tools.browser import Browser
 from app.tools.keyword_bot import get_fuzzy_similarity, extract_keywords, nlp
 from app.tools.quill_engine import Quill
-from app.websites.spider import Spider
+from app.websites.scanner import Scanner
 from app.websites.validate_url import ValidateUrl
 
 
@@ -78,6 +78,9 @@ class Blogger(ValidateUrl):
 
     def get_h1_class(self):
         return 'single-article-title'
+
+    def get_h1(self):
+        raise Exception('Not Implemented')
 
     def splice(self, start, end):
         try:
@@ -207,6 +210,13 @@ class Blogger(ValidateUrl):
                 image.decompose()
         main_content = re.sub(r"(.*)<img(.*)src(.*)/>(.*)", "\g<1><p>#img#\g<2>src\g<3>@img@</p>\g<4>",
                               str(main_content))
+        main_content = re.sub(r"(.*)>\n</img>(.*)", "\g<1>/>\g<2>", main_content)
+        main_content = re.sub(r"(.*)<img(.*)/>(.*)", "\g<1><p>#img#\g<2>@img@</p>\g<3>", main_content)
+        main_content = main_content.replace('<li><a', '<a')  # to fix issue with li a img
+        main_content = main_content.replace('</a></li>', '</a>')
+        main_content = main_content.replace('<li class="blocks-gallery-item"><figure>',
+                                            '<figure>')  # to fix issue with li a img
+        main_content = main_content.replace('</figure>', '</figure>')
         return main_content
 
     def set_description_image(self, main_content):
@@ -234,12 +244,13 @@ class Blogger(ValidateUrl):
         except:
             self.post.created_at = datetime.datetime.now()
             print('error processing date')
-        self.post.title = self.soup.find('h1', class_=self.get_h1_class()).text
+        self.post.title = self.get_h1()
         print('Getting main content')
         try:
             main_content = self.get_main_content(self.soup)
         except Exception as e:
-            print(e)
+
+            print('Error occured', e)
             return
         print('Setting description image')
         self.set_description_image(main_content)
