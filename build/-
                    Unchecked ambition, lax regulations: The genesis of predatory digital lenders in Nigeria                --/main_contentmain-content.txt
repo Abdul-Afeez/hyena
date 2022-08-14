@@ -1,0 +1,179 @@
+<section class="single-article">
+<div class="content">
+<article>
+<div class="single-article-meta">
+<div class="single-article-category">
+<a href="https://techcabal.com/category/features/">Features</a>
+</div>
+<h1 class="single-article-title">
+                    Unchecked ambition, lax regulations: The genesis of predatory digital lenders in Nigeria                </h1>
+<div class="single-article-info">
+<span class="single-article-author">By
+                                                        <a href="https://techcabal.com/author/daniel/" rel="author" title="Posts by Daniel Adeyemi">Daniel Adeyemi</a> </span>
+<span class="single-article-date">11th January 2022</span>
+</div>
+<div class="single-article-img poster-image">
+<div class="image-holder"><p>#img# src="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/01/The-genesis-of-predatory-digital-lenders-in-Nigeria.gif" @img@</p></div>
+<p class="wp-caption-text">
+                                        Image source: Techcabal
+                                    </p>
+</div>
+</div>
+<div class="single-article-main">
+<div class="single-article-content" id="single-article">
+<p>Ebuka Anyaeji thought he had seen it all, so when he first received a threat message about being a guarantor to a debtor on the run, he dismissed it as a joke, a message sent by an angry creditor to the wrong phone number. But the messages (WhatsApp and text) kept coming in; then Anyaeji found out his friends were also getting the same. </p>
+<p>Later on, the harassment moved from messages to phone calls—real-time and pre-recorded calls. The content of the messages transitioned from just informing him that someone was owing the creditor money to threatening to embarrass him if he didn’t get the defaulting debtor in question to pay. </p>
+<p>“The messages typically went along this line: ‘This person is owing us money, and you’re one of his guarantors. Tell him to pay or else we’ll embarrass both of you’,” Anyaeji told TechCabal. “In some instances, they mentioned the amount of money owed, which was surprisingly low—about ₦10,000 ($17.8) or ₦30,000 ($53.6)—or in other cases they just referred to the debtor as a chronic debtor or fraudulent individual.”</p>
+<p>Out of the numerous messages he’s gotten, there’s been only one occasion where he knew the debtor being referred to—a university mate. What did he do about this case? He didn’t bother informing the person, because they weren’t close.</p>
+<p class="has-text-align-center has-small-font-size"><p>#img# src="https://lh6.googleusercontent.com/hBeawPZA2hNuE9rqyuVyUSfksHySA7VJQD3_tIr39-XN-DpmdoxOgjShNmodApzZ5ZusajpvIdOA-TQUlrLHcZGwUTGcvQ0ssdC0io3STRaI3BTrpAEJ0XGXhklUDwHjbBc8lUpo" @img@</p></p>
+<p class="has-text-align-center has-small-font-size"><em>A screenshot of Anyaeji’s Whatsapp chat.</em></p>
+<p>For Anyaeji, who now occasionally dishes out witty responses to the senders of these messages just for fun, he wonders why the debt collection practices of digital lenders like Soko Loan, LCash, 9Jacash among others use shaming tactics and, more importantly, whether this new trend would continue unchecked.</p>
+<h2 class="has-medium-font-size"><strong>It wasn’t always like this </strong></h2>
+<p>There is no doubt that Africans have embraced taking loans through digital-lending apps. They are discreet, quick to access, and require no collateral. But this also means lenders who use the repayment habits of users to gauge their creditworthiness—and never physically meet their customers—often struggle with loan repayment.</p>
+<p>But it hasn’t always been like this in Nigeria. Loans were primarily issued out by traditional banks, who rarely ever gave out loans without the backing of collateral or guarantors. </p>
+<p>In the case of a loan default, before it ever gets to the point where a defaulting debtor’s collateral is seized, there are a number of checks put in place. First, loans are given only after credit checks have been run and the account relationship manager can vouch for a potential borrower. When a borrower defaults, the account relationship manager first reaches out to the lender to find out the reason, and even visits to confirm. Guarantors and referees are also contacted, if need be.</p>
+<p>“As long as both parties are open and transparent, penalty charges don’t come in yet. Until when they’re past due obligations, which is typically over 90 days,” an employee of a Nigerian bank, who spoke under anonymity, told TechCabal.</p>
+<p>Oftentimes, while the account officer is following up with the defaulting customer, the monitoring team and even bank directors can also check up on the defaulting customer. The conversations typically revolve around ascertaining the repayment ability of the customer, restructuring the loan to extend the tenure and possibly waiving off penalty charges.</p>
+<p>If all efforts to reach a reasonable agreement or recover the debt fail, the bank reverts to possessing the item—usually a house or car—used as collateral. This is a last resort that the bank isn’t keen on exercising, another banker told TechCabal. “We detest having to possess people’s lands or houses, which serve as collateral; the bank is not into real estate,” he said.</p>
+<h2 class="has-medium-font-size"><strong>How did lending apps come into the picture?</strong></h2>
+<p>For a long time, Nigerian banks preferred to lend to businesses and not individuals. This led to the rise of new lenders like Carbon (formerly Paylater), Renmoney, and Branch that have filled the gap by offering quick loans through smartphone apps.  </p>
+<p>Temi Sodipo, a credit risk analyst recalls the early days when there were only a few prominent Nigerian digital lenders like Renmoney and Paylater. But, as the years went by, new digital lenders popped up at different corners. People were at first skeptical but, over time, consumer confidence grew. </p>
+<p>“I remember in late 2017 when we disbursed ₦1 billion ($1.8m) in loans at Renmoney, we had a party to celebrate. In early 2019, when we issued ₦4 billion ($7.3m) loans, it was just a normal month,” he said. </p>
+<p>With more digital lenders coming into the space, Sodipo believes that, despite the fact that many claim they’re getting more people financially included, most digital lenders serve the same set of people because the terms for accessing the loans are similar. The terms include a six-month-long bank statement, verifiable government ID, employment letter, or work email verification.</p>
+<p>He believes this has created an avenue for a few ambitious players who wanted a slice of the market to become lax with their rules. Some digital lenders even started giving out loans to people with bad ratings on credit bureau—an obvious red flag. </p>
+<p>“It’s no wonder why they turn to desperate debt collection measures as they contend with a high rate of default. It’s simply bad underwriting and not paying attention to basic credit risk principles,”  Sodipo said.</p>
+<h2 class="has-medium-font-size"><strong>Commercial banks also started dishing out instant loans</strong></h2>
+<p>In 2020, at least half of the <a href="https://ndic.gov.ng/supervision/list-of-commercial-banks/">22 existing Nigerian commercial banks</a> started offering instant loan products without collaterals, something that was unheard of years ago. What was the driver of this move? A new directive by the Central Bank of Nigeria (CBN).</p>
+<p>In July 2019, the CBN announced an increase in the required minimum Loan-Deposit Ratio (LDR) of commercial banks to 60% from <a href="https://www.thisdaylive.com/index.php/2019/09/17/banks-intensify-drive-to-meet-60-loan-to-deposit-target/">57.64%.</a> At the end of September, it further increased the LDR to 65%. LDR stipulates the volume of loans a bank must give out as a percentage of its total deposit. In the case of 65% LDR, it meant that if, for instance, a bank has ₦100 billion of customer deposits, it must have at least  ₦65 billion issued as loans. The increase was done to encourage commercial banks to issue more loans to individuals and businesses in order to stimulate the economy. </p>
+<p>To avoid <a href="https://nairametrics.com/2019/10/03/cbn-debits-n499-billion-from-accounts-of-12-banks-for-failing-to-meet-lending-targets/">the sanctions</a> that came with not meeting the LDR, <a href="https://www.loanspot.ng/instant-bank-loans-without-collateral/">these commercial banks</a> began offering instant loan products without collaterals at risk of high repayment default rate.  When debtors defaulted, the banks, however, unlike digital lenders, responded differently to the defaults.</p>
+<p>A source familiar with this incident told TechCabal that, unlike the digital lenders, these big commercial banks can afford to introduce these types of loans and make a loss on them, considering that they make tens and hundreds of billions of naira in profit. </p>
+<p>In addition to being able to absorb the loss, the CBN <a href="https://nairametrics.com/2020/07/14/cbn-gives-banks-approval-to-debit-bank-accounts-of-chronic-loan-defaulters-starting-august-1/">issued</a> a directive—the <a href="https://www.cbn.gov.ng/out/2020/ccd/cbn%20-%20operational%20guidelines%20on%20global%20standing%20instructions%20gsi%20-%20individuals.pdf">Global Standing Instructions (GSI) policy</a>—that gave banks the right to deduct the amount owed from the bank account of the loan defaulters in other banks, in order to reduce the amount of non-performing loans—a move that reduced the chances of defaulting customers owing while having money with other banks.</p>
+<h2 class="has-medium-font-size"><strong>Options available to digital lenders</strong></h2>
+<p>Currently, digital lenders don’t have the right to debit the accounts of loan defaulters in other banks via GSI, so they rely on automated card debits, repayment reminders, and reporting customers to the credit bureau as a last resort. But do these methods work?</p>
+<p>Julian Flosbach, CEO of <a href="https://techcabal.com/2021/09/14/bfree-improving-trust-in-digital-lending-space/">BFree</a>, an ethical debt recovery company, believes they do if they consider the reasons customers default as well as their current financial situation. According to flosbach a majority of borrowers default because they lose their jobs, their business fails, or due to health emergencies that change the financial affordability of customers. He believes that assessing the new financial abilities of a customer and offering new repayments plans via convenient communication channels can then increase the repayment rates from these customers significantly.</p>
+<p>An employee at a digital lending company explained that reporting to the credit bureau could be effective at times. She cited a case of a defaulting debtor whose application visa was denied because he failed to repay his loan for over a year. Credit checks are a prerequisite for issuing visas in some countries. </p>
+<p>She also affirms Sodipo’s point about an influx of lenders with lax rules by saying, “It’s typically companies not registered with the credit bureau that use unethical debt collection practices.”</p>
+<h2 class="has-medium-font-size"><strong>Slow and steady doesn’t win this race</strong></h2>
+<p>It’s clear that digital lenders involved in unethical debt collection practices do so because of their unchecked ambition and the convenience of operating outside the law. </p>
+<p>Fortunately, a number of governing bodies are beginning to do something about these digital lenders. In August 2021, the National Information Technology Development Agency (NITDA) <a href="https://techcabal.com/2021/08/24/nitda-fines-soko-loan/">imposed a ₦10 million naira ($18,000) fine</a> (a questionable small amount) on Soko Lending Company, one of the digital lenders which repeatedly contacted Anyaeji. </p>
+<p>A few months later, in October, Google <a href="https://quickloanarena.com/google-removed-lcredit-rapid-naira-play-store/">took down a number of predatory loan apps</a> from its Play Store for violating its policies. Despite these actions, the pace of the response from Nigerian regulators is slow when compared to Kenya, where <a href="https://techcrunch.com/2021/12/07/kenyas-president-signs-new-law-to-police-digital-lenders-apps-have-six-months-to-apply-for-licenses/">in December a new law was</a> put in place to curtail the excesses of digital lenders.</p>
+<p>If victims like Anyaeji and his friends would ever be free from the disturbance and intimidation from these predatory digital lenders, Nigeria’s regulators would have to increase the pace of their response.</p>
+<div class="social-widget social-share">
+<span>Share this article</span>
+<ul class="social-links">
+<a class="share-icon share-twitter" data-type="twitter" href="https://twitter.com/share?url=https%3A%2F%2Ftechcabal.com%2F2022%2F01%2F11%2Fpredatory-digital-lenders-in-nigeria%2F&amp;text=Unchecked%20ambition%2C%20lax%20regulations%3A%20The%20genesis%20of%20predatory%20digital%20lenders%20in%20Nigeria" target="_blank"><img src="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/twitter_red.png" alt="Twitter" /></a><a class="share-icon share-linkedin" data-type="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Ftechcabal.com%2F2022%2F01%2F11%2Fpredatory-digital-lenders-in-nigeria%2F&amp;title=Unchecked%20ambition%2C%20lax%20regulations%3A%20The%20genesis%20of%20predatory%20digital%20lenders%20in%20Nigeria&amp;summary=An%20employee%20at%20a%20digital%20lending%20company%20explained%20that%20reporting%20to%20the%20credit%20bureau%20could%20be%20effective%20at%20times.%20She%20cited%20a%20case%20of%20a%20defaulting%20debtor%20whose%20application%20visa%20was%20denied%20because%20he%20failed%20to%20repay%20his%20loan%20for%20over%20a%20year." target="_blank"><img src="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/linkedin_red.png" alt="Linkedin" /></a><a class="share-icon share-whatsapp" data-type="whatsapp" href="https://api.whatsapp.com/send?text=https%3A%2F%2Ftechcabal.com%2F2022%2F01%2F11%2Fpredatory-digital-lenders-in-nigeria%2F" target="_blank"><img src="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/whatsapp_red.png" alt="WhatsApp" /></a><a class="share-icon share-facebook" data-type="facebook" href="https://www.facebook.com/dialog/share?app_id=252296078952383&amp;display=popup&amp;href=https%3A%2F%2Ftechcabal.com%2F2022%2F01%2F11%2Fpredatory-digital-lenders-in-nigeria%2F" target="_blank"><p>#img# src="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/facebook_red.png" alt="Facebook" @img@</p></a><a class="share-icon share-email" data-type="email" href="mailto:?body=https%3A%2F%2Ftechcabal.com%2F2022%2F01%2F11%2Fpredatory-digital-lenders-in-nigeria%2F&amp;subject=Unchecked%20ambition%2C%20lax%20regulations%3A%20The%20genesis%20of%20predatory%20digital%20lenders%20in%20Nigeria" target="_blank"><p>#img# src="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/mail_red.png" alt="Email" @img@</p></a></ul>
+</div>
+<div class="author-widget">
+</div>
+<div class="list-newsletter-form shortcode" id="list-newsletter-form">
+<h2>Get the best African tech newsletters in your inbox</h2>
+<form class="newsletter-subscribe newsletter-signup-form columns">
+<input class="firstname theheader__form__firstname" name="fname" placeholder="First Name" required="" type="hidden"/>
+<input class="email theheader__form__email" name="email" placeholder="Your Email" required="" type="text"/>
+<div class="tc-newsletter-checkbox">
+<label class="checkbox">
+<span class="checkbox-input">
+<input checked="" class="checkbox-input-elem" name="list_tcdaily" type="checkbox" value="107863888"/>
+<span class="checkbox-control">
+<svg aria-hidden="true" focusable="false" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M1.73 12.91l6.37 6.37L22.79 4.59" fill="none" stroke="currentColor" stroke-width="3"></path>
+</svg>
+</span>
+</span>
+<span class="checkbox-radio-label">TC Daily</span>
+</label>
+<label class="checkbox">
+<span class="checkbox-input">
+<input checked="" class="checkbox-input-elem" name="list_nextwave" type="checkbox" value="107863897"/>
+<span class="checkbox-control">
+<svg aria-hidden="true" focusable="false" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M1.73 12.91l6.37 6.37L22.79 4.59" fill="none" stroke="currentColor" stroke-width="3"></path>
+</svg>
+</span>
+</span>
+<span class="checkbox-radio-label">Next Wave</span>
+</label>
+<label class="checkbox">
+<span class="checkbox-input">
+<input checked="" class="checkbox-input-elem" name="list_event" type="checkbox" value="107863894"/>
+<span class="checkbox-control">
+<svg aria-hidden="true" focusable="false" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M1.73 12.91l6.37 6.37L22.79 4.59" fill="none" stroke="currentColor" stroke-width="3"></path>
+</svg>
+</span>
+</span>
+<span class="checkbox-radio-label">Events</span>
+</label>
+</div>
+<button class="theheader__form__submit border-button" type="button">Subscribe</button>
+</form>
+</div> <div class="comment-section" style="margin-top: 40px;">
+</div>
+</div>
+<div class="list-sidebar" id="single-article-sidebar">
+<div class="list-sidebar-item">
+<div class="ad-box"><div class="ad" id="div-db-2"></div></div> </div>
+<div class="list-sidebar-item">
+<div class="list-trending list-small list-inverted">
+<h2>More from this author</h2>
+<div class="article-list-wrapper" data-columns="3">
+<article class="article-list-item">
+<div class="article-list-img">
+<a href="https://techcabal.com/2022/08/05/mtn-and-airtels-h1-2022-report-challenge-in-nigeria/">
+<p>#img# src="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/08/MTN-Airtel-Nigeria-scaled-e1659717033398-240x160.jpg" @img@</p></a>
+</div>
+<div class="article-list-desc">
+<div class="article-list-pretitle">
+<a class="article-list-category" href="https://techcabal.com/category/news/">News</a>
+</div>
+<a class="article-list-title" href="https://techcabal.com/2022/08/05/mtn-and-airtels-h1-2022-report-challenge-in-nigeria/">
+            MTN and Airtel’s H1 2022 reports reveal challenges of operating in Nigeria        </a>
+<div class="article-list-meta">
+<span class="article-list-author"><a href="https://techcabal.com/author/daniel/" rel="author" title="Posts by Daniel Adeyemi">Daniel Adeyemi</a></span>
+</div>
+</div>
+</article>
+<article class="article-list-item">
+<div class="article-list-img">
+<a href="https://techcabal.com/2022/07/29/techstars-ceo-maelle-gavet-accelerators-interest-in-africa/">
+<p>#img# src="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/07/Maëlle-Gavet-240x160.jpeg" alt="Maëlle Gavet giving a talk in Lagos" @img@</p></a>
+</div>
+<div class="article-list-desc">
+<div class="article-list-pretitle">
+<a class="article-list-category" href="https://techcabal.com/category/features/">Features</a>
+</div>
+<a class="article-list-title" href="https://techcabal.com/2022/07/29/techstars-ceo-maelle-gavet-accelerators-interest-in-africa/">
+            Techstars CEO Maëlle Gavet on the accelerator’s renewed interest in Africa        </a>
+<div class="article-list-meta">
+<span class="article-list-author"><a href="https://techcabal.com/author/daniel/" rel="author" title="Posts by Daniel Adeyemi">Daniel Adeyemi</a></span>
+</div>
+</div>
+</article>
+<article class="article-list-item">
+<div class="article-list-img">
+<a href="https://techcabal.com/2022/07/28/kenya-2022-election-facebook/">
+<p>#img# src="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/07/Kenya-2022-Election-Facebook-240x160.jpg" alt="Two small Kenyan flags" @img@</p></a>
+</div>
+<div class="article-list-desc">
+<div class="article-list-pretitle">
+<a class="article-list-category" href="https://techcabal.com/category/news/">News</a>
+</div>
+<a class="article-list-title" href="https://techcabal.com/2022/07/28/kenya-2022-election-facebook/">
+            Ahead of Kenya’s 2022 election, Facebook takes action on over 100,000 posts and ads that violate its guidelines        </a>
+<div class="article-list-meta">
+<span class="article-list-author"><a href="https://techcabal.com/author/daniel/" rel="author" title="Posts by Daniel Adeyemi">Daniel Adeyemi</a></span>
+</div>
+</div>
+</article>
+</div>
+</div>
+</div>
+<div class="list-sidebar-item desktop">
+<div class="ad-box"><div class="ad" id="div-db-3"></div></div> </div>
+<div class="list-sidebar-item">
+<div class="ad-box"><div class="ad" id="div-db-4"></div></div> </div>
+</div>
+</div>
+</article>
+</div>
+</section>

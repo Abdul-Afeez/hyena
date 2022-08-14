@@ -1,47 +1,50 @@
-from bs4 import BeautifulSoup
-
-from app.consts.const import TECH_POINT_URL
-from app.websites.blogger import Blogger
+from app.models.base import WebMaster
+from app.tools.blogger import Blogger
 
 config = [
     {
-        'url': 'https://techpoint.africa.com/',
-        'h1': (('h1', 'class', 'lg:text-4xl', 0), 'text'),
-        'date': (('h5', 'class', 'mt-5 text-sm', 0), 'text'),
-        'date_engine': ['_january_01_1970', 'last_finder'],
-        'description': (('meta', 'property', 'og:description', 0), 'content'),
-        'main_content': (('div', 'id', 'article-content', 0), 'tag'),
-        'terminator': '@#*%(%(%',
-        'unwanted_blocks': []
+        "url": "https://disrupt-africa.com/",
+        "h1": [["h1", "class", "post-title", "0"], "text"],
+        "date": [["time", "class", "value-title", "0"], "text"],
+        "date_engine": ["_january_01_1970"],
+        "description": [["meta", "property", "og:description", "0"], "content"],
+        "main_content": [["div", "class", "main-content", "1"], "contents"],
+        "terminator": "Share.",
+        "unwanted_blocks": []
     },
     {
-        'url': 'https://techpoint.africa/',
-        'h1': (('h1', 'class', 'lg:text-4xl', 0), 'text'),
-        'date': (('h5', 'class', 'mt-5 text-sm', 0), 'text'),
-        'date_engine': ['_january_01_1970', 'last_finder'],
-        'description': (('meta', 'property', 'og:description', 0), 'content'),
-        'main_content': (('div', 'id', 'article-content', 0), 'tag'),
-        'terminator': '@#*%(%(%',
-        'unwanted_blocks': []
+        "url": "https://techpoint.africa/",
+        "h1": [["h1", "class", "lg:text-4xl", "0"], "text"],
+        "date": [["h5", "class", "mt-5 text-sm", "0"], "text"],
+        "date_engine": ["_january_01_1970", "last_finder"],
+        "description": [["meta", "property", "og:description", "0"], "content"],
+        "main_content": [["div", "id", "article-content", "0"], "tag"],
+        "terminator": "@#*%[%[%",
+        "unwanted_blocks": []
     },
     {
-        'url': 'https://techcabal.com/',
-        'h1': (('h1', 'class', 'single-article-title', 0), 'text'),
-        'date': (('span', 'class', 'single-article-date', 0), 'text'),
-        'date_engine': ['_01st_january_1970'],
-        'description': (('meta', 'property', 'og:description', 0), 'content'),
-        'main_content': (('main', '', '', 2), 'contents'),
-        'terminator': 'Share this article',
-        'unwanted_blocks': [
-            (('div', 'class', 'single-article-info', 0), 'tag', True),
-            (('div', 'class', 'single-article-category', 0), 'tag', True),
-            (('div', 'class', 'list-newsletter-form shortcode', 0), 'tag', True),
+        "url": "https://techcabal.com/",
+        "h1": [["h1", "class", "single-article-title", "0"], "text"],
+        "date": [["span", "class", "single-article-date", "0"], "text"],
+        "date_engine": ["_01st_january_1970"],
+        "description": [["meta", "property", "og:description", "0"], "content"],
+        "main_content": [["main", "", "", 2], "contents"],
+        "terminator": "Share this article",
+        "unwanted_blocks": [
+            [["div", "class", "single-article-info", "0"], "tag", True],
+            [["div", "class", "single-article-category", "0"], "tag", True],
+            [["div", "class", "list-newsletter-form shortcode", "0"], "tag", True],
         ]
     }
 ]
 
 
-class TechPointParser(Blogger):
+class Parser(Blogger):
+
+    def __init__(self, config):
+        super().__init__()
+
+        self.config = config
 
     def find(self, node, find_all=False):
         '''
@@ -51,6 +54,7 @@ class TechPointParser(Blogger):
         '''
         print('node ========= ', node)
         finder = self.soup.find
+        node[0][3] = int(node[0][3])
         if find_all:
             finder = self.soup.find_all
         if node[0][1] == 'class':
@@ -69,16 +73,7 @@ class TechPointParser(Blogger):
             output = output.contents[node[0][3]]
         else:
             output = output.attrs[node[1]]
-        # print(output)
         return output
-
-    def __init__(self):
-        super().__init__()
-        self.config = config[0]
-        self.name = 'Techpoint'
-
-    def get_url(self):
-        return TECH_POINT_URL
 
     def get_h1(self):
         return self.find(self.config.get('h1'))
@@ -95,14 +90,9 @@ class TechPointParser(Blogger):
         print(self.config.get('description'))
         print('Before')
         return self.find(self.config.get('description'))
-        # description_text = soup.find('meta', property="og:description").attrs['content']
-        # print(f'Techpoint Description Text === {description_text}')
-        # return description_text
 
     def get_main_content(self, soup):
         return self.find(self.config.get('main_content'))
-        # main = soup.find('div', id='article-content')
-        # return main.contents[0]
 
     def remove_unwanted_blocks(self, soup):
         unwanted_blocks = self.config.get('unwanted_blocks', [])
@@ -118,7 +108,6 @@ class TechPointParser(Blogger):
 
     def get_main_content_terminator(self):
         return self.config.get('terminator')
-        # return '@#*%(%(%'
 
 
 class DateFinder:
@@ -183,7 +172,7 @@ class DateFinder:
         return {
             '_january_01_1970': self._january_01_1970,
             'last_finder': self.last_finder,
-            '_01st_january_1970': self._01st_january_1970
+            '_01st_january_1970': self._01st_january_1970,
         }
 
     def run(self):

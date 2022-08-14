@@ -1,8 +1,7 @@
-import re
 import time
 from selenium.webdriver.common.by import By
 
-from app.websites.validate_url import ValidateUrl
+from app.tools.validate_url import ValidateUrl
 
 server = "https://techvented.com"
 

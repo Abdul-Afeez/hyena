@@ -82,6 +82,7 @@ const JobFilter = ()=>{
                         <option value="RUNNING">RUNNING</option>
                         <option value="RAN">RAN</option>
                         <option value="TIMEOUT">TIMEOUT</option>
+                        <option value="KEYWORD_CANNIBALIZATION">KEYWORD_CANNIBALIZATION</option>
                         <option value="FAILED">FAILED</option>
                     </select>
                 </div>
@@ -90,16 +91,7 @@ const JobFilter = ()=>{
                     <br/>
                     <input type="text" name="id" value={state.id} size={8} onChange={handleChange}/>
                 </div>
-                <div>
-                    <label>Link</label>
-                    <br/>
-                    <select name="link" value={state.link} onChange={handleChange} id="link">
-                        <option />
-                        <option value="paraphrase">Paraphrase</option>
-                        <option value="tech_point">TechPoint</option>
-                    </select>
-                    {/*<input type="text" name="link" value={state.link} size={20} onChange={handleChange}/>*/}
-                </div>
+                
                 <div>
                     <label>Date From</label>
                     <br/>

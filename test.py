@@ -1449,7 +1449,7 @@ var Bunyad = {"ajaxurl":"https:\/\/disrupt-africa.com\/wp-admin\/admin-ajax.php"
 
 '''
 
-hrefs = re.findall('href="https://disrupt-africa.com/20(.+?)/">', test)
+hrefs = re.findall('href="https://techcabal.com/20(.+?)/">', test)
 print(len(hrefs))
 
 

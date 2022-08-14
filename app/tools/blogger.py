@@ -1,7 +1,4 @@
 import datetime
-import json
-import math
-import os
 import re
 import time
 
@@ -9,11 +6,8 @@ import requests
 from bs4 import BeautifulSoup
 from app.consts.const import SERVER
 from app.post.post import Post
-from app.tools.browser import Browser
 from app.tools.keyword_bot import get_fuzzy_similarity, extract_keywords, nlp
-from app.tools.quill_engine import Quill
-from app.websites.scanner import Scanner
-from app.websites.validate_url import ValidateUrl
+from app.tools.validate_url import ValidateUrl
 
 
 class Blogger(ValidateUrl):
@@ -34,9 +28,7 @@ class Blogger(ValidateUrl):
     }
 
     def __init__(self):
-        self.name = 'Blogger'
         self.html_to_text = None
-        self.url = self.get_url()
         self.posts = []
         self.soup = None
 
@@ -51,12 +43,6 @@ class Blogger(ValidateUrl):
         # self.quill.set_browser(self.browser)
         # self.spider = Spider()
         # self.spider.set_browser(self.browser)
-
-    def get_url(self):
-        pass
-
-    def set_latest_post(self):
-        raise Exception('Y')
 
     def get_article_date(self):
         raise Exception('Not Implemented')
@@ -262,15 +248,17 @@ class Blogger(ValidateUrl):
         self.save_local_content(main_content, 'main-content')
         main_content = BeautifulSoup(main_content, "html.parser")
         print('Escaping tags')
+        document = {}
         for each_tag in self.recognizable_tags:
             for tag in main_content.find_all(each_tag):
                 try:
                     if not tag.text:
                         tag.decompose()
                     else:
-                        # tag.string = f"#{each_tag}#{tag.text.splitlines()[0]}@{each_tag}@"
+                        document[each_tag] = f"{document.get(each_tag, '')} {tag.text}"
                         tag.string = f"#{each_tag}#{tag.text}@{each_tag}@"
                 except:
+                    document[each_tag] = f"{document.get(each_tag, '')} {tag.text}"
                     tag.string = f"#{each_tag}#{tag.text}@{each_tag}@"
 
         self.html_to_text = str(main_content.text)
@@ -289,6 +277,7 @@ class Blogger(ValidateUrl):
                 'description_text': self.post.description_text,  # needs rework
                 'template': f'''{self.html_to_text}''',  # needs rework
                 'created_at': self.post.created_at,
+                'document': document
             }
             # print(data)
             return data

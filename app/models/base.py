@@ -1,7 +1,10 @@
 import datetime
 import json
 
-from peewee import Model, TextField, CharField, DateTimeField, AutoField, MySQLDatabase
+from peewee import Model, TextField, CharField, DateTimeField, AutoField, MySQLDatabase, IntegerField, ForeignKeyField, \
+    PrimaryKeyField
+
+from app.indexed_search.indexed_search import Indexer, ComparativeScorer, JITIndexer
 
 try:
     database = MySQLDatabase('hyena', user='hyena_engine_user', password='*121*HYEna#',
@@ -19,6 +22,7 @@ class JSONField(TextField):
         super().__init__(kwargs)
 
     def db_value(self, value):
+        print(value)
         return json.dumps(value)
 
     def python_value(self, value):
@@ -26,24 +30,32 @@ class JSONField(TextField):
             return json.loads(value)
 
 
-class DBConnect:
-    handle = None
-
-    def __init__(self):
-        if not DBConnect.handle:
-            database.connect()
-            DBConnect.handle = True
-            database.create_tables([Job])
-
-
 class BaseModel(Model):
     class Meta:
         database = database
 
 
+class WebMaster(BaseModel):
+    id = PrimaryKeyField()
+    name = CharField(max_length=800)
+    url = CharField(max_length=800, default='Webmaster')
+    max_session = IntegerField(default=1)
+    delay = IntegerField(default=3)
+    status = CharField(null=True)
+    reconnaissance = JSONField(default={}, max_length=80000)
+    parser = JSONField(default={}, max_length=80000)
+    created_date = DateTimeField(default=datetime.datetime.now)
+    last_updated = DateTimeField(default=datetime.datetime.now)
+
+    def save(self, *args, **kwargs):
+        self.last_updated = datetime.datetime.now()
+        return super(WebMaster, self).save(*args, **kwargs)
+
+
 class Job(BaseModel):
-    id = AutoField()
-    link = CharField(max_length=800)
+    id = PrimaryKeyField()
+    web_master_id = ForeignKeyField(WebMaster, to_field="id")
+    # web_master_id = IntegerField(null=False)
     url = CharField(max_length=800)
     status = CharField(null=True)
     sub_status = CharField(null=True)
@@ -54,3 +66,29 @@ class Job(BaseModel):
     def save(self, *args, **kwargs):
         self.last_updated = datetime.datetime.now()
         return super(Job, self).save(*args, **kwargs)
+
+
+class Index(BaseModel):
+    id = PrimaryKeyField()
+    token = CharField(max_length=800)
+    shard = JSONField(max_length=80000000)
+    status = CharField(null=True)
+    total = IntegerField(null=True)
+    meta = JSONField(default={}, max_length=80000000)
+    created_date = DateTimeField(default=datetime.datetime.now)
+    last_updated = DateTimeField(default=datetime.datetime.now)
+
+    def save(self, *args, **kwargs):
+        self.last_updated = datetime.datetime.now()
+        return super(Index, self).save(*args, **kwargs)
+
+
+
+class DBConnect:
+    handle = None
+
+    def __init__(self):
+        if not DBConnect.handle:
+            DBConnect.handle = True
+            database.create_tables([Job, WebMaster, Index])
+DBConnect()

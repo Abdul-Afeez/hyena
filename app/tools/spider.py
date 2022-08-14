@@ -1,19 +1,19 @@
 import re
-from selenium.webdriver.common.by import By
 
 from app.consts.const import QUEUED
 from app.models.base import Job
-from app.websites.scanner import Scanner
+from app.tools.scanner import Scanner
 
 
 class Spider(Scanner):
 
-    def __init__(self, config):
+    def __init__(self, web_master):
         super().__init__()
         self.first_page = 0
         self.current_page = 0
         self.last_page = 0
-        self.config = config
+        self.web_master = web_master
+        self.config = web_master.reconnaissance
         self.links = []
         self.detect_pagination()
 
@@ -46,8 +46,9 @@ class Spider(Scanner):
             try:
                 job = Job()
                 job.url = reformed_link
+                job.web_master_id = self.web_master.id
                 job.meta = {'url': reformed_link, 'endpoint': self.config.get('endpoint')}
-                job.link = base_url
+                # job.link = base_url
                 print(f'Saving {reformed_link}')
                 job.status = QUEUED
                 job.save()

@@ -1,22 +1,20 @@
+import math
 import time
 
 from app.consts.const import RAN, PENDING, FAILED, QUEUED, RUNNING, QUILL_URL, TECH_POINT_URL, \
-    PARAPHRASING_MISMATCH_ERROR
-from app.models.base import Job
+    PARAPHRASING_MISMATCH_ERROR, KEYWORD_CANNIBALIZATION
+from app.indexed_search.indexed_search import JITIndexer, Indexer, ComparativeScorer
+from app.models.base import Job, WebMaster, Index
 from app.tools.browser import Browser
+from app.tools.parser import Parser
 from app.tools.quill_engine import Quill
-from app.websites.blogger import Blogger
-from app.websites.disrupt_africa.disrupt_africa import DisruptAfricaParser
-from app.websites.scanner import Scanner
-from app.websites.techpoint.techpoint_browser import Spider
-from app.websites.techpoint.techpointparser import TechPointParser
+from app.tools.blogger import Blogger
+from app.tools.scanner import Scanner
+from app.tools.spider import Spider
 
 
 class Scheduler:
-    rules = [
-        # {'link': QUILL_URL, 'max_session': 1, 'delay': 3},
-        {'link': TECH_POINT_URL, 'max_session': 4, 'delay': 3},
-    ]
+    rules = {}
 
     def __init__(self):
         # Delete Quill jobs
@@ -34,27 +32,31 @@ class Scheduler:
         self.pending_jobs = []
 
     def get_pending_jobs(self):
-        for index, rule in enumerate(Scheduler.rules):
-            link = rule.get("link")
-            max_session = rule.get("max_session")
+        for web_master in WebMaster.filter(WebMaster.status == 'ACTIVE'):
+            if not Scheduler.rules.get(web_master.id, None):
+                Scheduler.rules[web_master.id] = {'next_run': None}
+            # link = rule.get("link")
+            rule = Scheduler.rules[web_master.id]
+            max_session = web_master.max_session
             # print(f'Scheduler running for {link}.....................')
             next_run = rule.get('next_run', None)
-            delay = rule.get('delay', 1)
+
+            delay = web_master.delay
             now = round(time.time())
             pending_or_running_jobs = Job.filter(
-                (Job.link == link) & ((Job.status == PENDING) | (Job.status == RUNNING)))
+                (Job.web_master_id == web_master.id) & ((Job.status == PENDING) | (Job.status == RUNNING)))
             if not next_run:
                 new_next_run = now + delay * 60
                 # print(f'Setting next run time to {new_next_run}')
-                Scheduler.rules[index] = {**Scheduler.rules[index], 'next_run': new_next_run}
+                Scheduler.rules[web_master.id] = {**Scheduler.rules[web_master.id], 'next_run': new_next_run}
             elif now < next_run and len(pending_or_running_jobs):
-                # print(f'Delaying  because next_run {next_run} is < now {now} ')
+                print(f'Delaying  because next_run {next_run} is < now {now} ')
                 continue
             # print(f'pending_or_running_jobs == {len(pending_or_running_jobs)}')
             difference = max_session - len(pending_or_running_jobs)
             # print(f'max_session == {max_session}, difference == {difference}')
             if difference >= 1:
-                queued_jobs = Job.filter(status=QUEUED, link=link)
+                queued_jobs = Job.filter(status=QUEUED, web_master_id=web_master.id)
                 # print(f'Discovered {len(queued_jobs)} queued jobs on link {link}')
                 for que_index, queued_job in enumerate(queued_jobs):
                     if que_index == max_session:
@@ -143,6 +145,7 @@ class Thread:
         self.browser = Mediator.browser
         self.driver = Mediator.browser.driver
         self.job = job
+        self.web_master = WebMaster.get_or_none(WebMaster.id == job.web_master_id)
         self.payload = job.meta
         self.steps = []
         self.exit_on_complete = True
@@ -168,16 +171,6 @@ class Thread:
     def set_job(self, job):
         self.job = job
         self.payload = job.meta
-
-    @staticmethod
-    def queue_job(link, url, data):
-        job = Job()
-        job.url = url
-        job.meta = data
-        job.link = link
-        # print(f'Saving {url}')
-        job.status = QUEUED
-        job.save()
 
     def execute(self):
         # print('Executing......................')
@@ -258,7 +251,7 @@ class Thread:
                 self.release()
                 break
             else:
-                # print('Cant re run a completed thread that has been released would rather wait')
+                # print('Cant re-run a completed thread that has been released would rather wait')
                 continue
 
 
@@ -275,17 +268,15 @@ class ThreadFactory:
             existing_thread = Mediator.threads.get(url)
             existing_thread.set_job(job)
             return existing_thread
-
-        if url == TECH_POINT_URL:
-            new_thread = ReconnaissanceThread(job)
-        elif TECH_POINT_URL in url:
-            new_thread = ParserThread(job, TechPointParser)
-        elif 'https://disrupt-africa.com' in url:
-            new_thread = ParserThread(job, DisruptAfricaParser)
-        elif url == QUILL_URL:
+        if url == QUILL_URL:
             new_thread = QuillThread(job)
         else:
-            new_thread = Thread(job)
+            web_master = WebMaster.get(WebMaster.id == job.web_master_id)
+            if web_master.url == job.url:
+                new_thread = ReconnaissanceThread(job)
+            else:
+                new_thread = ParserThread(job)
+
         if new_thread:
             try:
                 if not len(Mediator.browser.history):
@@ -392,46 +383,49 @@ class QuillThread(Thread):
                 # print(e)
 
 
-config = [
-    {
-        'base_url': 'https://techpoint.africa/',
-        'target_links': 100,
-        'url': 'https://techpoint.africa/',
-        'read_more_text': "Read More",
-        'href_regex': 'href="/20(.+?)">',
-        'exclude_hrefs': ['digest', 'podcast'],
-        'url_pattern': '{base_url}20{link}',
-        'endpoint': 'https://techvented.com/api/save-article'
-    },
-    {
-        'base_url': 'https://techcabal.com/',
-        'target_links': 100,
-        'url': 'https://techcabal.com/category/features/',
-        'read_more_text': "See More Articles",
-        'href_regex': 'href="https://techcabal.com/20(.+?)/">',
-        'exclude_hrefs': [],
-        'url_pattern': '{base_url}20{link}/',
-        'endpoint': 'https://techvented.com/api/save-article',
-    },
-    {
-        'base_url': 'https://disrupt-africa.com/',
-        'target_links': 100,
-        'url': 'https://disrupt-africa.com/category/region/east-africa/page/{page}/',
-        'read_more_text': "1-300",
-        'href_regex': 'href="https://disrupt-africa.com/20(.+?)/">',
-        'exclude_hrefs': [],
-        'url_pattern': '{base_url}20{link}/',
-        'endpoint': 'https://techvented.com/api/save-article',
-    }
-]
+# config = [
+#     {
+#         'base_url': 'https://techpoint.africa/',
+#         'target_links': 100,
+#         'url': 'https://techpoint.africa/',
+#         'read_more_text': "Read More",
+#         'href_regex': 'href="/20(.+?)">',
+#         'exclude_hrefs': ['digest', 'podcast'],
+#         'url_pattern': '{base_url}20{link}',
+#         'endpoint': 'https://techvented.com/api/save-article'
+#     },
+#     {
+#         'base_url': 'https://techcabal.com/',
+#         'target_links': 100,
+#         'url': 'https://techcabal.com/category/features/',
+#         'read_more_text': "See More Articles",
+#         'href_regex': 'href="https://techcabal.com/20(.+?)/">',
+#         'exclude_hrefs': [],
+#         'url_pattern': '{base_url}20{link}/',
+#         'endpoint': 'https://techvented.com/api/save-article',
+#     },
+#     {
+#         'base_url': 'https://disrupt-africa.com/',
+#         'target_links': 100,
+#         'url': 'https://disrupt-africa.com/category/region/east-africa/page/{page}/',
+#         'read_more_text': "1-300",
+#         'href_regex': 'href="https://disrupt-africa.com/20(.+?)/">',
+#         'exclude_hrefs': [],
+#         'url_pattern': '{base_url}20{link}/',
+#         'endpoint': 'https://techvented.com/api/save-article',
+#     }
+# ]
 
 
 class ReconnaissanceThread(Thread):
     def __init__(self, job):
         super().__init__(job)
         self.exit_on_complete = False
-        self.config = config[2]
-        self.spider = Spider(self.config)
+        if self.web_master:
+            self.config = self.web_master.reconnaissance
+        else:
+            raise Exception('Can identify reconnaissance settings')
+        self.spider = Spider(self.web_master)
         self.steps = [
             {'method': self.step_1, 'retries': 4,
              'timeout': 600, 'max_health_check': 40, 'sleep': 0},
@@ -471,10 +465,15 @@ class ReconnaissanceThread(Thread):
 
 class ParserThread(Thread):
 
-    def __init__(self, job, parser):
+    def __init__(self, job):
         super().__init__(job)
         self.exit_on_complete = True
-        self.blogger = parser()
+        if self.web_master:
+            config = self.web_master.parser
+            self.blogger = Parser(config)
+        else:
+            raise Exception('Can identify parser settings')
+
         self.spider = Scanner()
         self.spider.set_browser(self.browser)
         self.html = None
@@ -491,8 +490,27 @@ class ParserThread(Thread):
             try:
                 self.html = self.spider.get_page_content()
                 data = self.blogger.extract(url, self.html)
+                document = data.get('document', {})
+                print('document ====== ', document)
+                keyword_cannibal_free = False
+                jit_score = JITIndexer(document).scorer()
+                max_score_value, output = ComparativeScorer(Index, document).scorer()
+                print('Back here')
+                score_difference = math.ceil((max_score_value/jit_score)*100)
+                if score_difference <= 35:
+                    keyword_cannibal_free = True
+                if keyword_cannibal_free:
+                    ind = Indexer(self.job.id, Index, document)
+                    ind.bulk_tokenize()
                 if data:
-                    Thread.queue_job(QUILL_URL, QUILL_URL, data)
+                    data['comparative_scorer'] = output
+                    quill_webmaster = WebMaster.get(WebMaster.url == QUILL_URL)
+                    job = Job()
+                    job.url = QUILL_URL
+                    job.meta = data
+                    job.web_master_id = quill_webmaster.id
+                    job.status = QUEUED if keyword_cannibal_free else KEYWORD_CANNIBALIZATION
+                    job.save()
             except Exception as e:
                 self.browser.driver.get(url)
                 raise Exception(e)
