@@ -91,7 +91,7 @@ const JobFilter = ()=>{
                     <br/>
                     <input type="text" name="id" value={state.id} size={8} onChange={handleChange}/>
                 </div>
-                
+
                 <div>
                     <label>Date From</label>
                     <br/>

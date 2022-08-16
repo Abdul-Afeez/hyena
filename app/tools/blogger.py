@@ -219,6 +219,21 @@ class Blogger(ValidateUrl):
         print(self.post.description_image)
 
     def extract(self, url, html):
+        '''
+        To extract the various HTML tags from the content parsed
+        :param url:
+        :param html:
+        :return: data = {
+                'url': self.post.url,
+                'title': self.post.title,
+                'keywords': self.post.keywords,  # needs rework
+                'description_image': self.post.description_image,
+                'description_text': self.post.description_text,  # needs rework
+                'template': f'{self.html_to_text}',  # needs rework
+                'created_at': self.post.created_at,
+                'document': document
+            }
+        '''
         print('crawling 123')
         # print(self.browser.history)
         self.soup = BeautifulSoup(html, "html.parser")
@@ -249,18 +264,19 @@ class Blogger(ValidateUrl):
         main_content = BeautifulSoup(main_content, "html.parser")
         print('Escaping tags')
         document = {}
-        for each_tag in self.recognizable_tags:
-            for tag in main_content.find_all(each_tag):
+        for each_tag in self.recognizable_tags:  # ['h1', 'h2', 'p' ......]
+            for tag in main_content.find_all(each_tag):  # ['h1': [<h1>Block buster</h1>]]
                 try:
-                    if not tag.text:
+                    if not tag.text:  # <h1></h1>
                         tag.decompose()
                     else:
-                        document[each_tag] = f"{document.get(each_tag, '')} {tag.text}"
                         tag.string = f"#{each_tag}#{tag.text}@{each_tag}@"
                 except:
-                    document[each_tag] = f"{document.get(each_tag, '')} {tag.text}"
-                    tag.string = f"#{each_tag}#{tag.text}@{each_tag}@"
-
+                    tag.string = f"#{each_tag}#{tag.text}@{each_tag}@"  # <h1>#h1#Blockbuster@h1@</h1>
+                document[each_tag] = f"{document.get(each_tag, '')} {tag.text}".replace(f"#{each_tag}#", '')\
+                    .replace(f"@{each_tag}@", '')  # Blockbuster
+                document[each_tag] = re.sub(r"(.*)#img#.*src=(.*)@img@(.*)", f"\g<1> \g<3>",
+                                            document[each_tag])
         self.html_to_text = str(main_content.text)
         print(f'Still going through {url}')
         self.html_to_text = re.sub(r"(.*)#p##img#.*src=(.*)@img@@p@(.*)", f"\g<1><img src=\g<2> />\g<3>",
@@ -349,7 +365,7 @@ class Blogger(ValidateUrl):
         folder_name = f'build/{self.get_post_folder_name(self.post.title)}'
         self.save_content(content, index, folder_name)
 
-    def send_post(self, status=None):
+    def send_post(self, endpoint, status=None):
         data = {
             'url': self.post.url,
             'title': self.post.title,
@@ -363,9 +379,11 @@ class Blogger(ValidateUrl):
         if status:
             data['status'] = status
             print(f"Sending data")
-            r = requests.post(f"{SERVER}/api/save-{status}", data)
+            # r = requests.post(f"{SERVER}/api/save-{status}", data)
+            endpoint = endpoint.split('article')[0]
+            r = requests.post(f"{endpoint}-{status}", data)
         else:
-            r = requests.post(f"{SERVER}/api/save-article", data)
+            r = requests.post(f"{endpoint}", data)
 
             print(f"Sending data")
 

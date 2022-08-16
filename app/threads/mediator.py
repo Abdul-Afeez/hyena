@@ -27,8 +27,14 @@ class Scheduler:
         pending_or_queued_quill_job = Job.filter(
             (Job.url == QUILL_URL) & ((Job.status == PENDING) | (Job.status == QUEUED)))
         if not pending_or_queued_quill_job:
-            pass
-            # Thread.queue_job(QUILL_URL, QUILL_URL, {'url': QUILL_URL, 'opener': True})
+            quill_webmaster = WebMaster.get(WebMaster.url == QUILL_URL)
+            if quill_webmaster.status == 'ACTIVE':
+                job = Job()
+                job.url = QUILL_URL
+                job.meta = {'url': QUILL_URL, 'opener': True}
+                job.web_master_id = quill_webmaster.id
+                job.status = QUEUED
+                job.save()
         self.pending_jobs = []
 
     def get_pending_jobs(self):
@@ -363,6 +369,7 @@ class QuillThread(Thread):
         if health_check:
             return True
         else:
+            endpoint = self.job.meta.get('endpoint', None)
             paraphrased_text = self.job.meta.get('paraphrased_text', None)
             if not paraphrased_text:
                 paraphrased_text = self.quill.copy()
@@ -372,7 +379,7 @@ class QuillThread(Thread):
                 self.blogger.remove_stamp_from_tag_map(paraphrased_text)
                 self.blogger.identify_keyword()
                 self.blogger.post.template = self.blogger.html_to_text
-                self.blogger.send_post()
+                self.blogger.send_post(endpoint)
                 self.job.meta = {}
                 self.job.sub_status = ''
                 self.job.save()
@@ -381,40 +388,6 @@ class QuillThread(Thread):
                 self.job.meta['paraphrased_text'] = paraphrased_text
                 self.job.save()
                 # print(e)
-
-
-# config = [
-#     {
-#         'base_url': 'https://techpoint.africa/',
-#         'target_links': 100,
-#         'url': 'https://techpoint.africa/',
-#         'read_more_text': "Read More",
-#         'href_regex': 'href="/20(.+?)">',
-#         'exclude_hrefs': ['digest', 'podcast'],
-#         'url_pattern': '{base_url}20{link}',
-#         'endpoint': 'https://techvented.com/api/save-article'
-#     },
-#     {
-#         'base_url': 'https://techcabal.com/',
-#         'target_links': 100,
-#         'url': 'https://techcabal.com/category/features/',
-#         'read_more_text': "See More Articles",
-#         'href_regex': 'href="https://techcabal.com/20(.+?)/">',
-#         'exclude_hrefs': [],
-#         'url_pattern': '{base_url}20{link}/',
-#         'endpoint': 'https://techvented.com/api/save-article',
-#     },
-#     {
-#         'base_url': 'https://disrupt-africa.com/',
-#         'target_links': 100,
-#         'url': 'https://disrupt-africa.com/category/region/east-africa/page/{page}/',
-#         'read_more_text': "1-300",
-#         'href_regex': 'href="https://disrupt-africa.com/20(.+?)/">',
-#         'exclude_hrefs': [],
-#         'url_pattern': '{base_url}20{link}/',
-#         'endpoint': 'https://techvented.com/api/save-article',
-#     }
-# ]
 
 
 class ReconnaissanceThread(Thread):
@@ -496,14 +469,16 @@ class ParserThread(Thread):
                 jit_score = JITIndexer(document).scorer()
                 max_score_value, output = ComparativeScorer(Index, document).scorer()
                 print('Back here')
-                score_difference = math.ceil((max_score_value/jit_score)*100)
+                score_difference = math.ceil((max_score_value / jit_score) * 100)
                 if score_difference <= 35:
                     keyword_cannibal_free = True
                 if keyword_cannibal_free:
                     ind = Indexer(self.job.id, Index, document)
                     ind.bulk_tokenize()
                 if data:
+                    data['endpoint'] = self.web_master.reconnaissance.get('endpoint')
                     data['comparative_scorer'] = output
+                    data['jit_scorer'] = jit_score
                     quill_webmaster = WebMaster.get(WebMaster.url == QUILL_URL)
                     job = Job()
                     job.url = QUILL_URL
