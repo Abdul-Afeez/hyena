@@ -1,8 +1,9 @@
 import math
 import time
 
-from app.consts.const import RAN, PENDING, FAILED, QUEUED, RUNNING, QUILL_URL, TECH_POINT_URL, \
-    PARAPHRASING_MISMATCH_ERROR, KEYWORD_CANNIBALIZATION
+from app.consts.const import RAN, PENDING, FAILED, QUEUED, RUNNING, QUILL_URL, \
+    PARAPHRASING_MISMATCH_ERROR, KEYWORD_CANNIBALIZATION, TIMED_OUT, NO_PARSER_CONFIGURATION, MARKED_FOR_INSPECTION, \
+    INSPECTION_COMPLETED
 from app.indexed_search.indexed_search import JITIndexer, Indexer, ComparativeScorer
 from app.models.base import Job, WebMaster, Index
 from app.tools.browser import Browser
@@ -14,15 +15,17 @@ from app.tools.spider import Spider
 
 
 class Scheduler:
-    rules = {}
+    rules = {}  # for fast and accessible storage like timeout, next_run (delays)
 
     def __init__(self):
-        # Delete Quill jobs
+        # Delete Old Quill jobs
         Job.delete().where((Job.url == QUILL_URL & Job.sub_status != PARAPHRASING_MISMATCH_ERROR) & (
                 (Job.status == RUNNING) | (Job.status == RAN))).execute()
 
-        # Delete old running jobs
-        Job.delete().where(Job.status == RUNNING).execute()
+        old_running_jobs = Job.filter((Job.url != QUILL_URL) & (Job.status == RUNNING))
+        for old_running_job in old_running_jobs:
+            old_running_job.status = TIMED_OUT
+            old_running_job.save()
 
         pending_or_queued_quill_job = Job.filter(
             (Job.url == QUILL_URL) & ((Job.status == PENDING) | (Job.status == QUEUED)))
@@ -65,7 +68,7 @@ class Scheduler:
                 queued_jobs = Job.filter(status=QUEUED, web_master_id=web_master.id)
                 # print(f'Discovered {len(queued_jobs)} queued jobs on link {link}')
                 for que_index, queued_job in enumerate(queued_jobs):
-                    if que_index == max_session:
+                    if que_index >= max_session:
                         break
                     queued_job.status = PENDING
                     queued_job.save()
@@ -280,6 +283,8 @@ class ThreadFactory:
             web_master = WebMaster.get(WebMaster.id == job.web_master_id)
             if web_master.url == job.url:
                 new_thread = ReconnaissanceThread(job)
+            elif '.xml' in job.url:
+                new_thread = SiteMapReconnaissanceThread(job)
             else:
                 new_thread = ParserThread(job)
 
@@ -463,20 +468,42 @@ class ParserThread(Thread):
             try:
                 self.html = self.spider.get_page_content()
                 data = self.blogger.extract(url, self.html)
+                if not data:
+                    self.job.sub_status = NO_PARSER_CONFIGURATION
+                    self.job.save()
+                    return
+                else:
+                    self.job.meta = data
+                    self.job.sub_status = MARKED_FOR_INSPECTION
+                    self.job.save()
+            except Exception as e:
+                self.browser.driver.get(url)
+                raise Exception(e)
+
+
+class Inspector:
+
+    def get_pending_jobs(self):
+        return Job.filter(Job.sub_status == MARKED_FOR_INSPECTION)
+
+    def run(self):
+        while True:
+            pending_jobs = self.get_pending_jobs()
+            for pending_job in pending_jobs:
+                data = pending_job.meta
                 document = data.get('document', {})
-                print('document ====== ', document)
                 keyword_cannibal_free = False
                 jit_score = JITIndexer(document).scorer()
                 max_score_value, output = ComparativeScorer(Index, document).scorer()
-                print('Back here')
                 score_difference = math.ceil((max_score_value / jit_score) * 100)
                 if score_difference <= 35:
                     keyword_cannibal_free = True
                 if keyword_cannibal_free:
-                    ind = Indexer(self.job.id, Index, document)
+                    ind = Indexer(pending_job.id, Index, document)
                     ind.bulk_tokenize()
                 if data:
-                    data['endpoint'] = self.web_master.reconnaissance.get('endpoint')
+                    job_web_master = WebMaster.get(WebMaster.id == pending_job.web_master_id)
+                    data['endpoint'] = job_web_master.reconnaissance.get('endpoint')
                     data['comparative_scorer'] = output
                     data['jit_scorer'] = jit_score
                     quill_webmaster = WebMaster.get(WebMaster.url == QUILL_URL)
@@ -486,6 +513,31 @@ class ParserThread(Thread):
                     job.web_master_id = quill_webmaster.id
                     job.status = QUEUED if keyword_cannibal_free else KEYWORD_CANNIBALIZATION
                     job.save()
+                pending_job.sub_status = INSPECTION_COMPLETED
+                pending_job.save()
+
+
+class SiteMapReconnaissanceThread(Thread):
+
+    def __init__(self, job):
+        super().__init__(job)
+        self.exit_on_complete = True
+        self.spider = Spider(self.web_master)
+        self.spider.set_browser(self.browser)
+        self.html = None
+        self.steps = [
+            {'method': self.step_1, 'retries': 4,
+             'timeout': 60, 'max_health_check': 40, 'sleep': 5}
+        ]
+
+    def step_1(self, health_check=False):
+        if health_check:
+            return True
+        else:
+            url = self.payload.get('url')
+            try:
+                self.spider.get_page_content()
+                self.spider.crawl()
             except Exception as e:
                 self.browser.driver.get(url)
                 raise Exception(e)

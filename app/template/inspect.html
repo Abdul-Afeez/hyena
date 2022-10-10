@@ -2,6 +2,7 @@
 
 {% block content %}
     <h1>{% block title %} Correction sheet for {{data['job'].meta.get('url') if data['job'].meta else ''}} {% endblock %}</h1>
+    <h5>SubStatus: {{data['job'].sub_status}}</h5>
     <form method="post">
         <div class="d-flex justify-content-between">
             <div>
@@ -46,5 +47,16 @@
         </div>
 
         <br>
+        <div>
+                <label for="paraphrased_text">Meta Content</label>
+                <br>
+                <textarea name="meta_content" id="meta_content" class="textarea"
+                  placeholder="Message content"
+                  rows="150"
+                  cols="55"
+                  wrap='off'
+                  >{{ data['job'].meta}}</textarea>
+            </div>
     </form>
+
 {% endblock %}

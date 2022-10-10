@@ -5,7 +5,7 @@ from playhouse.flask_utils import object_list
 
 from app.consts.const import RAN, TECH_POINT_URL, QUEUED, QUILL_URL
 from app.models.base import Job, WebMaster
-from app.threads.mediator import Mediator
+from app.threads.mediator import Mediator, Inspector
 from app.tools.parser import Parser
 
 app = Flask(__name__, template_folder='template')
@@ -19,6 +19,13 @@ def mediator():
     mediate.run()
     return 'dONE'
 
+@app.route('/inspector')
+def inspector():
+    print('Inspector Initiating')
+    inspector = Inspector()
+    print('Inspector Initiated')
+    inspector.run()
+    return 'dONE'
 
 @app.route('/seed')
 def seed():
@@ -48,12 +55,12 @@ def test():
         "unwanted_blocks": []
     })
     # print(out)
-    source =''
-    blogger = Parser()
-    data = blogger.extract(
-        'https://disrupt-africa.com/2022/07/27/seedstars-announces-first-close-of-30m-emerging-market-seed-stage-fund/',
-        source)
-    print(data)
+    # source =''
+    # blogger = Parser()
+    # data = blogger.extract(
+    #     'https://disrupt-africa.com/2022/07/27/seedstars-announces-first-close-of-30m-emerging-market-seed-stage-fund/',
+    #     source)
+    # print(data)
     return 'dONE'
 
 
@@ -98,16 +105,16 @@ def jobs():
     data = {
         'jobs': _jobs
     }
-    # print(len(_jobs))
+    print(len(_jobs))
 
     # return object_list('jobs.html', job)
-    # return render_template('jobs.html', jobs=_jobs)
+    return render_template('jobs.html', jobs=_jobs)
 
-    return object_list(
-        template_name='jobs.html',
-        query=_jobs,
-        context_variable='jobs',
-        paginate_by=500)
+    # return object_list(
+    #     template_name='jobs.html',
+    #     query=_jobs,
+    #     context_variable='jobs',
+    #     paginate_by=500)
 
 
 @app.route('/create', methods=('GET', 'POST'))

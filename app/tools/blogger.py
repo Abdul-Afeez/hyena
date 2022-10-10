@@ -37,12 +37,53 @@ class Blogger(ValidateUrl):
         self.reverse_word_map_lookup = {}
         self.alt = []
         self.preferred_first_image = False
-        # self.browser = Browser()
-        # self.browser.get_driver()
-        # self.quill = Quill()
-        # self.quill.set_browser(self.browser)
-        # self.spider = Spider()
-        # self.spider.set_browser(self.browser)
+        self.config = {}
+
+    def find(self, node, find_all=False):
+        '''
+        :param node:
+        :param find_all:
+        :return: text or tag or list of tags
+        [["h1", "class", "lg:text-4xl", "0"], "text"]]
+        '''
+        print('node ========= ', node)
+        finder = self.soup.find
+        node[0][3] = int(node[0][3])
+        if find_all:
+            finder = self.soup.find_all
+        if node[0][1] == 'class':
+            output = finder(node[0][0], class_=node[0][2])
+        elif node[0][1] == 'id':
+            output = finder(node[0][0], id=node[0][2])
+        elif node[0][1] == 'property':
+            output = finder(node[0][0], property=node[0][2])
+        else:
+            output = finder(node[0][0])
+        if node[1] == 'tag':
+            output = output
+        elif node[1] == 'text':
+            output = output.text
+        elif node[1] == 'contents' and node[0][3]:
+            output = output.contents[node[0][3]]
+        else:
+            output = output.attrs[node[1]]
+        return output
+
+    def should_not_be_parsed(self):
+        bad_signatures = self.config.get('bad_signatures', [])
+        print('bad_signatures', bad_signatures)
+        output = False
+        for bad_signature in bad_signatures:
+            try:
+                bs = self.find(bad_signature)
+                print('bs', bs, str(bs).strip().lower(), '===', bad_signature[2])
+                virus = str(bad_signature[2]).strip().lower() in str(bs).strip().lower()
+                if virus:
+                    output = True
+                    break
+            except Exception as e:
+                print(e)
+        return output
 
     def get_article_date(self):
         raise Exception('Not Implemented')
@@ -237,6 +278,9 @@ class Blogger(ValidateUrl):
         print('crawling 123')
         # print(self.browser.history)
         self.soup = BeautifulSoup(html, "html.parser")
+        if self.should_not_be_parsed():
+            print(f"Can't parse {url}, Ignored!!!")
+            return False
         self.post = Post()
         self.post.url = url
         self.post.description_text = self.get_description(self.soup)
@@ -252,7 +296,7 @@ class Blogger(ValidateUrl):
         except Exception as e:
 
             print('Error occured', e)
-            return
+            return False
         print('Setting description image')
         self.set_description_image(main_content)
         print('remove_unwanted_blocks')
@@ -273,7 +317,7 @@ class Blogger(ValidateUrl):
                         tag.string = f"#{each_tag}#{tag.text}@{each_tag}@"
                 except:
                     tag.string = f"#{each_tag}#{tag.text}@{each_tag}@"  # <h1>#h1#Blockbuster@h1@</h1>
-                document[each_tag] = f"{document.get(each_tag, '')} {tag.text}".replace(f"#{each_tag}#", '')\
+                document[each_tag] = f"{document.get(each_tag, '')} {tag.text}".replace(f"#{each_tag}#", '') \
                     .replace(f"@{each_tag}@", '')  # Blockbuster
                 document[each_tag] = re.sub(r"(.*)#img#.*src=(.*)@img@(.*)", f"\g<1> \g<3>",
                                             document[each_tag])

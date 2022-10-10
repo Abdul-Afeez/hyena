@@ -7,13 +7,15 @@
 {% block content %}
     <h3>{% block title %} Jobs Overview {% endblock %}</h3>
     <div id="job-filter"></div>
-    <table class="table table-hover">
+    <table class="table table-hover w-100">
         <thead>
             <tr>
                 <td>S/N</td>
                 <td>ID</td>
                 <td>Link</td>
+                <td>WebMaster</td>
                 <td>Status</td>
+                <td>Sub Status</td>
                 <td>Date created</td>
                 <td>Last updated</td>
             </tr>
@@ -23,8 +25,14 @@
                 <tr style="cursor: pointer">
                     <td>{{loop.index}}</td>
                     <td><a class="next" href="inspect/{{job.id}}">{{job.id}}</a></td>
+                    <td style="min-width: 250px;max-width: 250px;  overflow: hidden">
+                        <div style="height: 40px; white-space: no-wrap; width: 1000px;">
+                            {{job.url}}
+                        </div>
+                    </td>
                     <td>{{job.web_master_id.name}}</td>
                     <td>{{job.status}}</td>
+                    <td style="max-width: 40px;overflow: hidden">{{job.sub_status}}</td>
                     <td>{{job.created_date}}</td>
                     <td>{{job.last_updated}}</td>
                 </tr>

@@ -3,38 +3,80 @@ from app.tools.blogger import Blogger
 
 config = [
     {
-        "url": "https://disrupt-africa.com/",
-        "h1": [["h1", "class", "post-title", "0"], "text"],
-        "date": [["time", "class", "value-title", "0"], "text"],
-        "date_engine": ["_january_01_1970"],
-        "description": [["meta", "property", "og:description", "0"], "content"],
-        "main_content": [["div", "class", "main-content", "1"], "contents"],
-        "terminator": "Share.",
-        "unwanted_blocks": []
-    },
-    {
-        "url": "https://techpoint.africa/",
-        "h1": [["h1", "class", "lg:text-4xl", "0"], "text"],
-        "date": [["h5", "class", "mt-5 text-sm", "0"], "text"],
-        "date_engine": ["_january_01_1970", "last_finder"],
-        "description": [["meta", "property", "og:description", "0"], "content"],
-        "main_content": [["div", "id", "article-content", "0"], "tag"],
-        "terminator": "@#*%[%[%",
-        "unwanted_blocks": []
-    },
-    {
         "url": "https://techcabal.com/",
-        "h1": [["h1", "class", "single-article-title", "0"], "text"],
-        "date": [["span", "class", "single-article-date", "0"], "text"],
-        "date_engine": ["_01st_january_1970"],
-        "description": [["meta", "property", "og:description", "0"], "content"],
-        "main_content": [["main", "", "", 2], "contents"],
+        "h1": [
+            [
+                "h1",
+                "class",
+                "single-article-title",
+                "0"
+            ],
+            "text"
+        ],
+        "date": [
+            [
+                "span",
+                "class",
+                "single-article-date",
+                "0"
+            ],
+            "text"
+        ],
+        "date_engine": [
+            "_01st_january_1970"
+        ],
+        "description": [
+            [
+                "meta",
+                "property",
+                "og:description",
+                "0"
+            ],
+            "content"
+        ],
+        "main_content": [
+            [
+                "main",
+                "",
+                "",
+                2
+            ],
+            "contents"
+        ],
         "terminator": "Share this article",
         "unwanted_blocks": [
-            [["div", "class", "single-article-info", "0"], "tag", True],
-            [["div", "class", "single-article-category", "0"], "tag", True],
-            [["div", "class", "list-newsletter-form shortcode", "0"], "tag", True],
-        ]
+            [
+                [
+                    "div",
+                    "class",
+                    "single-article-info",
+                    "0"
+                ],
+                "tag",
+                True
+            ],
+            [
+                [
+                    "div",
+                    "class",
+                    "single-article-category",
+                    "0"
+                ],
+                "tag",
+                True
+            ],
+            [
+                [
+                    "div",
+                    "class",
+                    "list-newsletter-form shortcode",
+                    "0"
+                ],
+                "tag",
+                True
+            ]
+        ],
+        "bad_signature": [[["div", "class", "single-article-category", "0"], "text", "newsletter"]]
     }
 ]
 
@@ -45,35 +87,6 @@ class Parser(Blogger):
         super().__init__()
 
         self.config = config
-
-    def find(self, node, find_all=False):
-        '''
-        :param node:
-        :param find_all:
-        :return: text or tag or list of tags
-        '''
-        print('node ========= ', node)
-        finder = self.soup.find
-        node[0][3] = int(node[0][3])
-        if find_all:
-            finder = self.soup.find_all
-        if node[0][1] == 'class':
-            output = finder(node[0][0], class_=node[0][2])
-        elif node[0][1] == 'id':
-            output = finder(node[0][0], id=node[0][2])
-        elif node[0][1] == 'property':
-            output = finder(node[0][0], property=node[0][2])
-        else:
-            output = finder(node[0][0])
-        if node[1] == 'tag':
-            output = output
-        elif node[1] == 'text':
-            output = output.text
-        elif node[1] == 'contents' and node[0][3]:
-            output = output.contents[node[0][3]]
-        else:
-            output = output.attrs[node[1]]
-        return output
 
     def get_h1(self):
         return self.find(self.config.get('h1'))

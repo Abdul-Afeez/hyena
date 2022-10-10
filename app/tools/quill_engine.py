@@ -141,10 +141,12 @@ class Quill:
         script = "document.getElementById('inputText').innerHTML = `" + to_be_paraphrased + "`;"
         Quill.driver.execute_script(script)
         print('Setting input text to successful')
+        inputText.send_keys(Keys.ENTER)
         time.sleep(2)
         inputText.send_keys(Keys.ENTER)
         print('Pressing enter key')
         time.sleep(5)
+        inputText.send_keys(Keys.ENTER)
         print('Finding quillArticleBtn')
         inputText.send_keys(Keys.ENTER)
 

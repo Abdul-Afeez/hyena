@@ -34,6 +34,7 @@ class Tokenizer:
         # filter out stop words
         from nltk.corpus import stopwords
         sw_nltk = stopwords.words('english')
+        print(sw_nltk)
         tokens = [word for word in words if word not in sw_nltk]
         return tokens
 
