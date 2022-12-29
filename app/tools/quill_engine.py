@@ -117,15 +117,14 @@ class Quill:
                     print(f'Recovering from death channel {Quill.death_recovery}')
                 premium_green_modal = "//button[contains(@class, 'MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-30h9jf')]"
                 close_go_premium_modes_yellow_modal_btn = "//svg[contains(@class, 'MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-10dohqv')]"
-                close_svg = Quill.driver.find_element(By.CSS_SELECTOR, "h2 button")
 
                 print('About to make the latest close modal engine')
 
-                Quill.click_close_location(close_svg, 'close_svg', False)
                 Quill.click_close_location(premium_green_modal, 'premium_green_modal')
                 Quill.click_close_location(close_go_premium_modes_yellow_modal_btn,
                                           'close_go_premium_modes_yellow_modal_btn')
-
+                close_svg = Quill.driver.find_element(By.CSS_SELECTOR, "h2 button")
+                Quill.click_close_location(close_svg, 'close_svg', False)
             except Exception as e:
                 print(e)
 

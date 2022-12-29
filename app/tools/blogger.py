@@ -323,7 +323,7 @@ class Blogger(ValidateUrl):
                                             document[each_tag])
         self.html_to_text = str(main_content.text)
         print(f'Still going through {url}')
-        self.html_to_text = re.sub(r"(.*)#p##img#.*src=(.*)@img@@p@(.*)", f"\g<1><img src=\g<2> />\g<3>",
+        self.html_to_text = re.sub(r"(.*)#p##img#.*src=(.*)@img@@p@(.*)", f"\g<1><img src=\g<2> />\g<3><div class='text-small d-inline image-source'><i>{self.config.get('image_source', '')}</i></div>",
                                    self.html_to_text)
         print('Paraphrasing')
         try:
@@ -409,17 +409,19 @@ class Blogger(ValidateUrl):
         folder_name = f'build/{self.get_post_folder_name(self.post.title)}'
         self.save_content(content, index, folder_name)
 
-    def send_post(self, endpoint, status=None):
-        data = {
+    def post_to_string(self):
+        return {
             'url': self.post.url,
             'title': self.post.title,
             'keywords': self.post.keywords,
             'description_image': self.post.description_image,
-            'description': self.post.description_text,
+            'description_text': self.post.description_text,
             'template': self.post.template,
             'created_at': self.post.created_at
         }
 
+    def send_post(self, endpoint, status=None):
+        data = self.post_to_string()
         if status:
             data['status'] = status
             print(f"Sending data")

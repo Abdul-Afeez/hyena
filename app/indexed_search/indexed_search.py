@@ -5,20 +5,20 @@ from nltk.corpus import stopwords
 import nltk
 
 
-# nltk.download('stopwords')
-# nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('punkt')
 
 class Tokenizer:
     points = {
-        'h1': 20,
-        'h2': 16,
-        'h3': 13,
-        'h4': 10,
-        'h5': 7,
-        'h6': 6,
-        'p': 5,
-        'li': 4,
-        'div': 3
+        'h1': 4,
+        'h2': 3,
+        'h3': 2,
+        'h4': 1,
+        'h5': 1,
+        'h6': 1,
+        'p': 1,
+        'li': 1,
+        'div': 1
     }
 
     def tokenize(self, block):
@@ -60,7 +60,7 @@ class ComparativeScorer(Tokenizer):
         elif 'dict' in str(type(document)):
             merged_document = ''
             for tag, block in document.items():
-                merged_document = f'{merged_document} {block}'
+                merged_document += f'{merged_document} {block}'
         else:
             merged_document = ''
         self.index = index
@@ -70,21 +70,25 @@ class ComparativeScorer(Tokenizer):
     def scorer(self):
         print('Comparing')
         shards = []
+        shards_log = []
         missing = 0
         Index = self.index
         for token in self.tokenized_document:
             existing_token = Index.get_or_none(Index.token == token)
             if existing_token:
+                shards_log.append({token: existing_token.shard})
                 shards.append(existing_token.shard)
             else:
                 missing += 1
         scores = {}
+        print(shards_log)
         for shard in shards:
             for article_id, indices in shard.items():
                 if not scores.get(article_id, None):
                     scores[article_id] = 0
                 for tag, frequency in indices.items():
                     scores[article_id] += self.points.get(tag, 0) * frequency
+        print(scores)
         scores_values = scores.values()
         max_score_value = max(scores_values) if len(scores_values) else 0
         output = {}

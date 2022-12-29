@@ -14,6 +14,46 @@ from app.tools.scanner import Scanner
 from app.tools.spider import Spider
 
 
+class Inspector:
+
+    def get_pending_jobs(self):
+        return Job.filter(Job.sub_status == MARKED_FOR_INSPECTION)
+
+    def run(self):
+        while True:
+            pending_jobs = self.get_pending_jobs()
+            for pending_job in pending_jobs:
+                data = pending_job.meta
+                document = data.get('document', {})
+                keyword_cannibal_free = False
+                jit_score = JITIndexer(document).scorer()
+                max_score_value, output = ComparativeScorer(Index, document).scorer()
+                score_difference = math.ceil((max_score_value / jit_score) * 100)
+                if score_difference <= 46:
+                    keyword_cannibal_free = True
+                if keyword_cannibal_free:
+                    ind = Indexer(pending_job.id, Index, document)
+                    ind.bulk_tokenize()
+                if data:
+                    job_web_master = WebMaster.get(WebMaster.id == pending_job.web_master_id)
+                    data['endpoint'] = job_web_master.reconnaissance.get('endpoint')
+                    data['comparative_scorer'] = output
+                    data['jit_scorer'] = jit_score
+                    quill_webmaster = WebMaster.get(WebMaster.url == QUILL_URL)
+                    job = Job()
+                    job.url = QUILL_URL
+                    job.meta = data
+                    job.web_master_id = quill_webmaster.id
+                    job.status = QUEUED if keyword_cannibal_free else KEYWORD_CANNIBALIZATION
+                    job.save()
+                pending_job.sub_status = INSPECTION_COMPLETED
+                pending_job.save()
+                print('Waiting for 10 seconds')
+                time.sleep(10)
+            print('Waiting for 20 seconds')
+            time.sleep(20)
+
+
 class Scheduler:
     rules = {}  # for fast and accessible storage like timeout, next_run (delays)
 
@@ -73,7 +113,7 @@ class Scheduler:
                     queued_job.status = PENDING
                     queued_job.save()
             else:
-                # print('More jobs are sufficiently running for now')
+                print(f'More jobs are sufficiently running for now on WebMaster {web_master.name}')
                 pass
 
         # print('Sleeping till jobs arrive')
@@ -273,12 +313,14 @@ class ThreadFactory:
         url = job.url
         print(f'url === {url}  and Mediator.threads === {Mediator.threads}')
         if url in Mediator.threads.keys():
-            # print(f'Using Existing Thread Runner for new f{job.id}')
+            print(f'Using Existing Thread Runner for new f{job.id}')
             existing_thread = Mediator.threads.get(url)
             existing_thread.set_job(job)
             return existing_thread
         if url == QUILL_URL:
             new_thread = QuillThread(job)
+            print('Starting new Quill thread and waiting for 3  sec')
+            time.sleep(3)
         else:
             web_master = WebMaster.get(WebMaster.id == job.web_master_id)
             if web_master.url == job.url:
@@ -291,10 +333,10 @@ class ThreadFactory:
         if new_thread:
             try:
                 if not len(Mediator.browser.history):
-                    # print('Mediator.browser.driver.get(url)')
+                    print('Mediator.browser.driver.get(url)')
                     Mediator.browser.get(url)
                 else:
-                    # print('Mediator.browser.open_link_in_new_tab(url)')
+                    print('Mediator.browser.open_link_in_new_tab(url)')
                     Mediator.browser.open_link_in_new_tab(url)
                 Mediator.threads[url] = new_thread
             except Exception as e:
@@ -385,7 +427,8 @@ class QuillThread(Thread):
                 self.blogger.identify_keyword()
                 self.blogger.post.template = self.blogger.html_to_text
                 self.blogger.send_post(endpoint)
-                self.job.meta = {}
+                self.job.meta['post_data'] = self.blogger.post_to_string()
+                # self.job.meta = {}
                 self.job.sub_status = ''
                 self.job.save()
             except Exception as e:
@@ -479,42 +522,6 @@ class ParserThread(Thread):
             except Exception as e:
                 self.browser.driver.get(url)
                 raise Exception(e)
-
-
-class Inspector:
-
-    def get_pending_jobs(self):
-        return Job.filter(Job.sub_status == MARKED_FOR_INSPECTION)
-
-    def run(self):
-        while True:
-            pending_jobs = self.get_pending_jobs()
-            for pending_job in pending_jobs:
-                data = pending_job.meta
-                document = data.get('document', {})
-                keyword_cannibal_free = False
-                jit_score = JITIndexer(document).scorer()
-                max_score_value, output = ComparativeScorer(Index, document).scorer()
-                score_difference = math.ceil((max_score_value / jit_score) * 100)
-                if score_difference <= 35:
-                    keyword_cannibal_free = True
-                if keyword_cannibal_free:
-                    ind = Indexer(pending_job.id, Index, document)
-                    ind.bulk_tokenize()
-                if data:
-                    job_web_master = WebMaster.get(WebMaster.id == pending_job.web_master_id)
-                    data['endpoint'] = job_web_master.reconnaissance.get('endpoint')
-                    data['comparative_scorer'] = output
-                    data['jit_scorer'] = jit_score
-                    quill_webmaster = WebMaster.get(WebMaster.url == QUILL_URL)
-                    job = Job()
-                    job.url = QUILL_URL
-                    job.meta = data
-                    job.web_master_id = quill_webmaster.id
-                    job.status = QUEUED if keyword_cannibal_free else KEYWORD_CANNIBALIZATION
-                    job.save()
-                pending_job.sub_status = INSPECTION_COMPLETED
-                pending_job.save()
 
 
 class SiteMapReconnaissanceThread(Thread):

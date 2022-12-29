@@ -90,14 +90,5 @@ class DBConnect:
     def __init__(self):
         if not DBConnect.handle:
             DBConnect.handle = True
-            # ind = Indexer(13, Index, {'li': ''''''})
-            # ind.bulk_tokenize()
-            # block = ''''''
-            # doc = {'li': block}
-            #
-            # ComparativeScorer(Index, block)
-            # print('Creating tables')
-            # jit = JITIndexer(doc)
-            # jit.scorer()
-            database.create_tables([Job, WebMaster, Index])
-DBConnect()
+            # database.create_tables([Job, WebMaster, Index])
+# DBConnect()

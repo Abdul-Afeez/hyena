@@ -22,12 +22,15 @@ class ValidateUrl:
                 os.mkdir(folder_name)
         except Exception as e:
             print(e)
-        if index:
-            file1 = open(f'{folder_name}/main_content{index}.txt', 'w')
-        else:
-            file1 = open(f'{folder_name}/main_content{index}.txt', 'w')
-        file1.writelines(str(content))
-        file1.close()
+        try:
+            if index:
+                file1 = open(f'{folder_name}/main_content{index}.txt', 'w')
+            else:
+                file1 = open(f'{folder_name}/main_content{index}.txt', 'w')
+            file1.writelines(str(content))
+            file1.close()
+        except Exception as e:
+            print(e)
         # print('Saving Post')
 
     def confirm_page_crawled(self, url):
