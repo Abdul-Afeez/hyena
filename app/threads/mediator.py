@@ -2,7 +2,7 @@ import math
 import time
 
 from app.consts.const import RAN, PENDING, FAILED, QUEUED, RUNNING, QUILL_URL, \
-    PARAPHRASING_MISMATCH_ERROR, KEYWORD_CANNIBALIZATION, TIMED_OUT, NO_PARSER_CONFIGURATION, MARKED_FOR_INSPECTION, \
+    PARAPHRASING_MISMATCH_ERROR, KEYWORD_CANNIBALIZATION, TIMEOUT, NO_PARSER_CONFIGURATION, MARKED_FOR_INSPECTION, \
     INSPECTION_COMPLETED
 from app.indexed_search.indexed_search import JITIndexer, Indexer, ComparativeScorer
 from app.models.base import Job, WebMaster, Index
@@ -15,7 +15,14 @@ from app.tools.spider import Spider
 
 
 class Inspector:
+    '''
+    A separate tool that check jobs with status MARKED_FOR_INSPECTION and decide
+    to queue a new quillbot job with status QUEUED if the content has not been
+    previously published or KEYWORD_CANNIBALIZATION if it has,
+    then mark the parent job INSPECTION_COMPLETED
 
+    To run: curl localhost/inpector
+    '''
     def get_pending_jobs(self):
         return Job.filter(Job.sub_status == MARKED_FOR_INSPECTION)
 
@@ -27,13 +34,15 @@ class Inspector:
                 document = data.get('document', {})
                 keyword_cannibal_free = False
                 jit_score = JITIndexer(document).scorer()
-                max_score_value, output = ComparativeScorer(Index, document).scorer()
+                max_score_value, output, shards_log = ComparativeScorer(Index, document).scorer()
                 score_difference = math.ceil((max_score_value / jit_score) * 100)
                 if score_difference <= 46:
                     keyword_cannibal_free = True
                 if keyword_cannibal_free:
                     ind = Indexer(pending_job.id, Index, document)
                     ind.bulk_tokenize()
+                else:
+                    data['shards_log'] = shards_log
                 if data:
                     job_web_master = WebMaster.get(WebMaster.id == pending_job.web_master_id)
                     data['endpoint'] = job_web_master.reconnaissance.get('endpoint')
@@ -55,16 +64,21 @@ class Inspector:
 
 
 class Scheduler:
+    '''
+        This is a tool that schedules job to run
+        It first clear out running Quill bot jobs and if the Quill Webmaster is active,
+        it instantiates a new long Lasting Quill thread
+    '''
     rules = {}  # for fast and accessible storage like timeout, next_run (delays)
 
     def __init__(self):
         # Delete Old Quill jobs
-        Job.delete().where((Job.url == QUILL_URL & Job.sub_status != PARAPHRASING_MISMATCH_ERROR) & (
-                (Job.status == RUNNING) | (Job.status == RAN))).execute()
+        Job.delete().where((Job.url == QUILL_URL & Job.sub_status != PARAPHRASING_MISMATCH_ERROR) &
+                           ((Job.status == RUNNING) | (Job.status == RAN))).execute()
 
-        old_running_jobs = Job.filter((Job.url != QUILL_URL) & (Job.status == RUNNING))
+        old_running_jobs = Job.filter(Job.status == RUNNING)
         for old_running_job in old_running_jobs:
-            old_running_job.status = TIMED_OUT
+            old_running_job.status = TIMEOUT
             old_running_job.save()
 
         pending_or_queued_quill_job = Job.filter(
@@ -79,7 +93,8 @@ class Scheduler:
                 job.status = QUEUED
                 job.save()
         self.pending_jobs = []
-
+    def resume(self):
+        pass
     def get_pending_jobs(self):
         for web_master in WebMaster.filter(WebMaster.status == 'ACTIVE'):
             if not Scheduler.rules.get(web_master.id, None):
@@ -240,7 +255,7 @@ class Thread:
             timed_out = execution_time >= timeout
             if not retries or (self.job.status == RUNNING and timed_out):
                 print('Timed out')
-                self.job.status = FAILED if retries else 'TIMEOUT'
+                self.job.status = FAILED if retries else TIMEOUT
                 self.job.meta = {**self.job.meta, 'retries': retries, 'execution_time': execution_time,
                                  'timed_out': timed_out}
                 self.job.save()

@@ -1,3 +1,5 @@
+from bs4 import Tag, NavigableString, BeautifulSoup
+
 from app.models.base import WebMaster
 from app.tools.blogger import Blogger
 
@@ -113,8 +115,10 @@ class Parser(Blogger):
             try:
                 cow_dungs = self.find(unwanted_block)
                 for cow_dung in cow_dungs:
-                    cow_dung.decompose()
-                return soup
+                    if isinstance(cow_dung, NavigableString):
+                        continue
+                    else:
+                        cow_dung.decompose()
             except Exception as e:
                 print(e)
         return soup

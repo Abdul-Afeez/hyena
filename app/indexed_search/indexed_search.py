@@ -81,7 +81,7 @@ class ComparativeScorer(Tokenizer):
             else:
                 missing += 1
         scores = {}
-        print(shards_log)
+        # print(shards_log)
         for shard in shards:
             for article_id, indices in shard.items():
                 if not scores.get(article_id, None):
@@ -99,7 +99,7 @@ class ComparativeScorer(Tokenizer):
             output[article_id] = score
             x += 1
         print(f'System closest article score: {max_score_value}')
-        return max_score_value, output
+        return max_score_value, output, shards_log
 
 
 class Indexer(Tokenizer):
