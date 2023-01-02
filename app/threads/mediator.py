@@ -43,6 +43,7 @@ class Inspector:
                     ind.bulk_tokenize()
                 else:
                     data['shards_log'] = shards_log
+                job = None
                 if data:
                     job_web_master = WebMaster.get(WebMaster.id == pending_job.web_master_id)
                     data['endpoint'] = job_web_master.reconnaissance.get('endpoint')
@@ -51,12 +52,15 @@ class Inspector:
                     quill_webmaster = WebMaster.get(WebMaster.url == QUILL_URL)
                     job = Job()
                     job.url = QUILL_URL
+                    job.reference_url = pending_job.url
                     job.meta = data
                     job.web_master_id = quill_webmaster.id
                     job.status = QUEUED if keyword_cannibal_free else KEYWORD_CANNIBALIZATION
                     job.save()
                 pending_job.sub_status = INSPECTION_COMPLETED
                 pending_job.save()
+                if job and job.status == QUEUED:
+                    Job.delete().where(id == pending_job.id).execute()
                 print('Waiting for 10 seconds')
                 time.sleep(10)
             print('Waiting for 20 seconds')
@@ -74,7 +78,7 @@ class Scheduler:
     def __init__(self):
         # Delete Old Quill jobs
         Job.delete().where((Job.url == QUILL_URL & Job.sub_status != PARAPHRASING_MISMATCH_ERROR) &
-                           ((Job.status == RUNNING) | (Job.status == RAN))).execute()
+                           ((Job.status == RUNNING) | (Job.status == RAN) & Job.reference_url is None)).execute()
 
         old_running_jobs = Job.filter(Job.status == RUNNING)
         for old_running_job in old_running_jobs:
@@ -117,7 +121,12 @@ class Scheduler:
                 print(f'Delaying  because next_run {next_run} is < now {now} ')
                 continue
             # print(f'pending_or_running_jobs == {len(pending_or_running_jobs)}')
-            difference = max_session - len(pending_or_running_jobs)
+            difference = 0
+            try:
+                difference = max_session - len(pending_or_running_jobs)
+            except Exception as e:
+                # json.decoder.JSONDecodeError: Unterminated string starting at: line 1 column 52373 (char 52372)
+                print(e)
             # print(f'max_session == {max_session}, difference == {difference}')
             if difference >= 1:
                 queued_jobs = Job.filter(status=QUEUED, web_master_id=web_master.id)
@@ -450,7 +459,7 @@ class QuillThread(Thread):
                 self.job.sub_status = PARAPHRASING_MISMATCH_ERROR
                 self.job.meta['paraphrased_text'] = paraphrased_text
                 self.job.save()
-                # print(e)
+                print(e)
 
 
 class ReconnaissanceThread(Thread):

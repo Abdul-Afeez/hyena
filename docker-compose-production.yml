@@ -8,7 +8,7 @@ version: '3.7'
 services:
   chrome:
     image: selenium/node-chrome:4.3.0-20220624
-    shm_size: 2gb
+    shm_size: 4gb
     environment:
       - SE_EVENT_BUS_HOST=selenium-hub
       - SE_EVENT_BUS_PUBLISH_PORT=4442

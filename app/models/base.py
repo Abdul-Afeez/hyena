@@ -26,8 +26,25 @@ class JSONField(TextField):
         return json.dumps(value)
 
     def python_value(self, value):
-        if value is not None:
-            return json.loads(value)
+        try:
+            if value is not None:
+                return json.loads(value)
+        except Exception as err:
+            print('##################################Possible culprit###############################')
+            print('#################################################################################')
+            print('#################################################################################')
+            print('#################################################################################')
+            print(value)
+            print('**********************************************************************************')
+            print('**********************************************************************************')
+            print('**********************************************************************************')
+            print('**********************************************************************************')
+            print(err)
+            print('**********************************************************************************')
+            print('**********************************************************************************')
+            print('**********************************************************************************')
+            print('**********************************************************************************')
+            return {}
 
 
 class BaseModel(Model):
@@ -55,8 +72,8 @@ class WebMaster(BaseModel):
 class Job(BaseModel):
     id = PrimaryKeyField()
     web_master_id = ForeignKeyField(WebMaster, to_field="id")
-    # web_master_id = IntegerField(null=False)
     url = CharField(max_length=800)
+    reference_url = CharField(max_length=800)
     status = CharField(null=True)
     sub_status = CharField(null=True)
     meta = JSONField(default={}, max_length=8000000)

@@ -61,14 +61,12 @@ class Blogger(ValidateUrl):
             output = finder(node[0][0])
         if node[1] == 'tag':
             output = output
-            # print(output.__dict__)
         elif node[1] == 'text':
             output = output.text
         elif node[1] == 'contents' and node[0][3]:
             output = output.contents[node[0][3]]
         else:
             output = output.attrs[node[1]]
-        print(output)
         return output
 
     def should_not_be_parsed(self):
@@ -129,9 +127,9 @@ class Blogger(ValidateUrl):
 
     def encapsulate_word_with_tag(self, word, tag, tag_type='hash'):
         if tag_type == 'hash':
-            return f'#{tag}#{word}@{tag}@'
+            return f"#{tag}#{word}@{tag}@"
         elif tag_type == 'html':
-            return f'<{tag}>{word}</{tag}>'
+            return f"<{tag}>{word}</{tag}>"
         else:
             pass
 
@@ -303,8 +301,6 @@ class Blogger(ValidateUrl):
         self.set_description_image(main_content)
         print('remove_unwanted_blocks')
         main_content = self.remove_unwanted_blocks(main_content)
-        # print(main_content)
-        return main_content
         main_content = self.secure_image(main_content)
         main_content = main_content.replace('<br>', ' ')
         main_content = main_content.replace('<br/>', ' ')

@@ -8,4 +8,4 @@ echo "<<<<<<<<<<<<<<<<<<<< START API >>>>>>>>>>>>>>>>>>>>>>>>"
 sleep 3
 
 # Start the API
-gunicorn --workers 3 -t 800000000 app.app:app -b 0.0.0.0:8000 --access-logfile '-'
+gunicorn --reload --workers 3 -t 800000000 app.app:app -b 0.0.0.0:8000 --access-logfile '-'

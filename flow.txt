@@ -1,0 +1,30 @@
+ReconnaissanceThread (Landing page url or category url) or SiteMapReconnaissanceThread(.xml)
+        |
+        |
+        | produces many ParserThread (webmaster url == Job url) because we dont know the urls yet and wants to crawl to get them
+        |
+        |
+        |
+        V
+ParserThread (sub_status (MARKED_FOR_INSPECTION, NO_PARSER_CONFIGURATION))
+        |
+        |
+        | produces many ParserThread (webmaster url != Job url) because we now have a unique url per article to parse
+        |
+        |
+        |
+        V
+##########################################################################################################################################################################################################
+##########################################################################################################################################################################################################
+#################################################**INSPECTOR**#########################################################################################################################################################
+##########################################################################################################################################################################################################
+##########################################################################################################################################################################################################
+        |
+        |Filters jobs MARKED_FOR_INSPECTION
+        |Gets unique words frequency in the new article and compare with existing to check it pass the check mark
+        |Creates a new QUILL job
+        |KEYWORD_CANNIBALIZATION status is used to flag jobs with high comparative score
+        |QUEUED status is used if the article has a low comparative score below threshold
+        |
+        |
+        V

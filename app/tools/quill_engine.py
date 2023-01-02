@@ -166,8 +166,8 @@ class Quill:
             inner_text = output_text.get_attribute('innerText')
             self.output = inner_text
             return self.output
-        except:
-            pass
+        except Exception as e:
+            print(e)
 
     @staticmethod
     def wait():
@@ -175,8 +175,8 @@ class Quill:
             paraphrase_btn = Quill.driver.find_element(By.XPATH, "//button[contains(@class, 'quillArticleBtn')]")
             if paraphrase_btn and paraphrase_btn.get_attribute('innerText') == 'Rephrase':
                 return True
-        except:
-            pass
+        except Exception as e:
+            print(e)
         return False
 
 
