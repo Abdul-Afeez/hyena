@@ -442,17 +442,19 @@ class QuillThread(Thread):
         else:
             endpoint = self.job.meta.get('endpoint', None)
             paraphrased_text = self.job.meta.get('paraphrased_text', None)
+            exceptional_tag_map = self.job.meta.get('exceptional_tag_map', {})
             if not paraphrased_text:
                 paraphrased_text = self.quill.copy()
             self.blogger.save_local_content(paraphrased_text, '-output-1-raw')
             self.blogger.save_local_content(paraphrased_text.replace('\n\n\n', '\n'), '-output-1')
             try:
+                self.blogger.exceptional_tag_map = exceptional_tag_map
                 self.blogger.remove_stamp_from_tag_map(paraphrased_text)
+                self.blogger.release_exceptional_tags()
                 self.blogger.identify_keyword()
                 self.blogger.post.template = self.blogger.html_to_text
-                self.blogger.send_post(endpoint)
+                self.blogger.send_post(endpoint, {'job_id': self.job.id})
                 self.job.meta['post_data'] = self.blogger.post_to_string()
-                # self.job.meta = {}
                 self.job.sub_status = ''
                 self.job.save()
             except Exception as e:

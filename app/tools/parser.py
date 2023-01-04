@@ -93,6 +93,9 @@ class Parser(Blogger):
     def get_h1(self):
         return self.find(self.config.get('h1'))
 
+    def get_endpoint_base_url(self):
+        return self.config.get('endpoint_base_url')
+
     def get_article_date(self):
         raw_date = self.find(self.config.get('date'))
         engines = self.config.get('date_engine')

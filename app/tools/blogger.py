@@ -4,7 +4,9 @@ import time
 
 import requests
 from bs4 import BeautifulSoup
-from app.consts.const import SERVER
+
+from app.consts.const import QUEUED, TIMEOUT
+from app.models.base import WebMaster, Job
 from app.post.post import Post
 from app.tools.keyword_bot import get_fuzzy_similarity, extract_keywords, nlp
 from app.tools.validate_url import ValidateUrl
@@ -12,6 +14,7 @@ from app.tools.validate_url import ValidateUrl
 
 class Blogger(ValidateUrl):
     recognizable_tags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li', 'p']
+    exceptional_tags = ['table']
     month_dict = {
         'jan': '01',
         'feb': '02',
@@ -36,6 +39,8 @@ class Blogger(ValidateUrl):
         self.word_map = []
         self.reverse_word_map_lookup = {}
         self.alt = []
+        self.exceptional_tag_map = {}
+        self.internal_links = ''
         self.preferred_first_image = False
         self.config = {}
 
@@ -88,6 +93,9 @@ class Blogger(ValidateUrl):
     def get_article_date(self):
         raise Exception('Not Implemented')
 
+    def get_endpoint_base_url(self):
+        raise Exception('Not Implemented')
+
     def get_main_content(self, soup):
         raise Exception('You must implement this function')
 
@@ -98,7 +106,7 @@ class Blogger(ValidateUrl):
         if not terminator:
             terminator = self.get_main_content_terminator()
         self.html_to_text = self.html_to_text.replace(terminator, f'&&&&{terminator}')
-        self.html_to_text = self.html_to_text.split(f'&&&&{terminator}')[0]
+        self.html_to_text = self.html_to_text.split(f'&&&&{terminator}')[0] + str(self.internal_links)
 
     def remove_unwanted_blocks(self, soup):
         raise Exception('You must implement this function')
@@ -137,6 +145,16 @@ class Blogger(ValidateUrl):
         return f'alt="{word}"'
 
     def stamp_tag_map(self, word_array, tag):  # e.g ['Why are you Running'], h1
+        '''
+        :param word_array:
+        :param tag:
+        :return:
+        :description:
+            Word map and Reverse word map must contain thesame text at thesame index
+            E.g
+            word_map = ['Two previous investments\n', '‘Different from LinkedIn’\n']
+            reverse_word_map_lookup = {0: {'tag': 'h3', 'lookup': '#h3#Two previous investments@h3@'}, 1: {'tag': 'h3', 'lookup': '#h3#‘Different from LinkedIn’@h3@'}}
+        '''
         for raw_word in word_array:
             word = raw_word.replace(f'\\n', ' ')
             word = word.replace(f' ', ' ')
@@ -212,6 +230,76 @@ class Blogger(ValidateUrl):
     def get_description(self, soup):
         print('Default Blogger get_description')
         return soup.find('meta', property="og:description").attrs['content']
+    def secure_internal_links(self, main_content):
+        a_hrefs = main_content.find_all('a')
+        output = ''
+        web_masters = WebMaster.filter(WebMaster.id >= 1)
+        unique_hrefs = {}
+        for a_href in a_hrefs:
+            ref = str(a_href.attrs['href'])
+            if unique_hrefs.get(ref, False):
+                break
+            unique_hrefs[ref]= ref
+            wm_count = len(web_masters)
+            for wm in web_masters:
+                wm_count -= 1
+                if wm.reconnaissance.get('base_url', '') in ref:
+                    splitted_ref = ref.split(wm.url)
+                    if len(splitted_ref) <= 1:
+                        continue
+                    # Log for crawling
+                    ref = ref.split('#')[0]
+                    if not self.confirm_page_crawled(ref):
+                        job = Job()
+                        job.url = ref
+                        job.web_master_id = wm.id
+                        meta = {'url': job.url}
+                        job.meta = meta
+                        job.status = QUEUED
+                        job.save()
+                    output += f'<div><a class="read-more" href="{self.get_endpoint_base_url()}{splitted_ref[1]}">{a_href.text}</a></div>'
+                    break
+                if wm_count <= 0:
+                    output += f'<div><a class="external-read-more" target="_blank" href="{ref}">{a_href.text}</a></div>'
+                    break
+        if not output:
+            self.internal_links = ''
+        else:
+            self.internal_links = f'''
+                    <section>
+                        <strong>Read More</strong>
+                        {output}
+                    </section>
+            '''
+        # print(self.internal_links)
+        return main_content
+    def release_exceptional_tags(self):
+        if not self.exceptional_tag_map:
+            return None
+        self.html_to_text = self.html_to_text.replace('\n', '')
+        for key, value in self.exceptional_tag_map.items():
+            self.html_to_text = self.html_to_text.replace(key, f"{value} <div class='text-small d-inline image-source'><i>{self.config.get('image_source', '')}</i></div>")
+
+    def secure_exceptional_tags(self, main_content):
+        main_content_copy = str(main_content).replace('\n', '')
+        counter = 0
+        for exceptional_tag in self.exceptional_tags:
+            tags = main_content.find_all(exceptional_tag)
+            # print(tables)
+            self.exceptional_tag_map = {}
+            for tag in tags:
+                counter += 1
+                tag_string = str(tag).replace('\n', '')
+                if tag.previous_sibling:
+                    tag_identifier = f'<p>TP{counter}:</p>'
+                    main_content_copy = main_content_copy.replace(tag_string, f'<p>TP{counter}:</p>')
+                elif tag.next_sibling:
+                    tag_identifier = f'<p>TN{counter}:</p>'
+                    main_content_copy = main_content_copy.replace(tag_string, f'<p>TN{counter}:</p>')
+                else:
+                    continue
+                self.exceptional_tag_map[tag_identifier] = tag_string
+        return BeautifulSoup(main_content_copy, "html.parser")
 
     def secure_image(self, main_content):
         images = main_content.find_all('img')
@@ -220,7 +308,7 @@ class Blogger(ValidateUrl):
         self.alt = []
         for image in images:
             try:
-                if counter > 10:
+                if counter > 20:
                     break
                 attrs = image.attrs
                 attr_keys = attrs.keys()
@@ -230,21 +318,23 @@ class Blogger(ValidateUrl):
                 if alt_text:
                     self.alt.append(alt_text.replace('"', '').replace(';', ''))
                 alt_ppt = f" alt=\"{alt_text}\"" if alt_text else None
+                # Rewriting images to remove nuances
                 main_content = main_content.replace(str(image),
                                                     f"<img src=\"{attrs['src']}\"{alt_ppt if alt_ppt else ''} />")
                 counter += 1
             except:
                 image.decompose()
-        main_content = re.sub(r"(.*)<img(.*)src(.*)/>(.*)", "\g<1><p>#img#\g<2>src\g<3>@img@</p>\g<4>",
+        # Packaging the <img /> into #img# @img@ because I will eventually call .text which will get rid of images or any other unstamped text
+        main_content = re.sub(r"(.*?)<img(.*?)src(.*?)/>(.*?)", "\g<1><p>#img#\g<2>src\g<3>@img@</p>\g<4>",
                               str(main_content))
         main_content = re.sub(r"(.*)>\n</img>(.*)", "\g<1>/>\g<2>", main_content)
-        main_content = re.sub(r"(.*)<img(.*)/>(.*)", "\g<1><p>#img#\g<2>@img@</p>\g<3>", main_content)
+        main_content = re.sub(r"(.*?)<img(.*?)/>(.*?)", "\g<1><p>#img#\g<2>@img@</p>\g<3>", main_content)
         main_content = main_content.replace('<li><a', '<a')  # to fix issue with li a img
         main_content = main_content.replace('</a></li>', '</a>')
         main_content = main_content.replace('<li class="blocks-gallery-item"><figure>',
                                             '<figure>')  # to fix issue with li a img
         main_content = main_content.replace('</figure>', '</figure>')
-        return main_content
+        return BeautifulSoup(main_content, "html.parser")
 
     def set_description_image(self, main_content):
         all_images = main_content.find_all('img')
@@ -257,7 +347,7 @@ class Blogger(ValidateUrl):
                     self.post.description_image = 'https://cdn.pixabay.com/photo/2018/05/02/20/49/technology-3369659_960_720.jpg'
         else:
             self.post.description_image = 'https://cdn.pixabay.com/photo/2018/05/02/20/49/technology-3369659_960_720.jpg'
-        print(self.post.description_image)
+        # print(self.post.description_image)
 
     def extract(self, url, html):
         '''
@@ -293,8 +383,8 @@ class Blogger(ValidateUrl):
         print('Getting main content')
         try:
             main_content = self.get_main_content(self.soup)
+            # return main_content
         except Exception as e:
-
             print('Error occured', e)
             return False
         print('Setting description image')
@@ -302,10 +392,14 @@ class Blogger(ValidateUrl):
         print('remove_unwanted_blocks')
         main_content = self.remove_unwanted_blocks(main_content)
         main_content = self.secure_image(main_content)
-        main_content = main_content.replace('<br>', ' ')
-        main_content = main_content.replace('<br/>', ' ')
-        self.save_local_content(main_content, 'main-content')
-        main_content = BeautifulSoup(main_content, "html.parser")
+
+        main_content = self.secure_exceptional_tags(main_content)
+        main_content = self.secure_internal_links(main_content)
+        # return
+        main_content_str = str(main_content).replace('<br>', ' ')
+        main_content_str = main_content_str.replace('<br/>', ' ')
+        self.save_local_content(main_content_str, 'main-content')
+        main_content = BeautifulSoup(main_content_str, "html.parser")
         print('Escaping tags')
         document = {}
         for each_tag in self.recognizable_tags:  # ['h1', 'h2', 'p' ......]
@@ -319,12 +413,13 @@ class Blogger(ValidateUrl):
                     tag.string = f"#{each_tag}#{tag.text}@{each_tag}@"  # <h1>#h1#Blockbuster@h1@</h1>
                 document[each_tag] = f"{document.get(each_tag, '')} {tag.text}".replace(f"#{each_tag}#", '') \
                     .replace(f"@{each_tag}@", '')  # Blockbuster
-                document[each_tag] = re.sub(r"(.*)#img#.*src=(.*)@img@(.*)", f"\g<1> \g<3>",
+                document[each_tag] = re.sub(r"(.*?)#img#.*src=(.*?)@img@(.*?)", f"\g<1> \g<3>",
                                             document[each_tag])
         self.html_to_text = str(main_content.text)
         print(f'Still going through {url}')
-        self.html_to_text = re.sub(r"(.*)#p##img#.*src=(.*)@img@@p@(.*)", f"\g<1><img src=\g<2> />\g<3><div class='text-small d-inline image-source'><i>{self.config.get('image_source', '')}</i></div>",
+        self.html_to_text = re.sub(r"(.*?)#p##img#.*?src=(.*?)@img@@p@(.*?)", f"\g<1><img src=\g<2> /><div class='text-small d-inline image-source'><i>TechCabal</i></div>\g<3>",
                                    self.html_to_text)
+        print(self.html_to_text)
         print('Paraphrasing')
         try:
             self.clean_empty_tags()
@@ -337,8 +432,11 @@ class Blogger(ValidateUrl):
                 'description_text': self.post.description_text,  # needs rework
                 'template': f'''{self.html_to_text}''',  # needs rework
                 'created_at': self.post.created_at,
-                'document': document
+                'document': document,
+                'exceptional_tag_map': self.exceptional_tag_map,
+                'internal_links': self.internal_links
             }
+            self.exceptional_tag_map = {}
             # print(data)
             return data
             # Update parse to ran
@@ -420,8 +518,9 @@ class Blogger(ValidateUrl):
             'created_at': self.post.created_at
         }
 
-    def send_post(self, endpoint, status=None):
+    def send_post(self, endpoint, meta={}, status=None):
         data = self.post_to_string()
+        data = {**data, **meta}
         if status:
             data['status'] = status
             print(f"Sending data")
