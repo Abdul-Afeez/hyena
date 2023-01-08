@@ -32,12 +32,10 @@ class Inspector:
             for pending_job in pending_jobs:
                 data = pending_job.meta
                 document = data.get('document', {})
-                keyword_cannibal_free = False
-                jit_score = JITIndexer(document).scorer()
-                max_score_value, output, shards_log = ComparativeScorer(Index, document).scorer()
-                score_difference = math.ceil((max_score_value / jit_score) * 100)
-                if score_difference <= 46:
-                    keyword_cannibal_free = True
+                keyword_cannibal_free = True
+                cannibalism, jit_score, shards_log = ComparativeScorer(Index, document).scorer()
+                if len(cannibalism) > 0:
+                    keyword_cannibal_free = False
                 if keyword_cannibal_free:
                     ind = Indexer(pending_job.id, Index, document)
                     ind.bulk_tokenize()
@@ -46,14 +44,15 @@ class Inspector:
                 job = None
                 if data:
                     job_web_master = WebMaster.get(WebMaster.id == pending_job.web_master_id)
+                    print(f'Setting endpoint by job_web_master = {job_web_master.name}')
                     data['endpoint'] = job_web_master.reconnaissance.get('endpoint')
-                    data['comparative_scorer'] = output
-                    data['jit_scorer'] = jit_score
+                    data['cannibalism'] = cannibalism
                     quill_webmaster = WebMaster.get(WebMaster.url == QUILL_URL)
                     job = Job()
                     job.url = QUILL_URL
                     job.reference_url = pending_job.url
                     job.meta = data
+                    job.jit_score = jit_score
                     job.web_master_id = quill_webmaster.id
                     job.status = QUEUED if keyword_cannibal_free else KEYWORD_CANNIBALIZATION
                     job.save()
@@ -441,6 +440,7 @@ class QuillThread(Thread):
             return True
         else:
             endpoint = self.job.meta.get('endpoint', None)
+            print(f'Endpoint is = {endpoint}')
             paraphrased_text = self.job.meta.get('paraphrased_text', None)
             exceptional_tag_map = self.job.meta.get('exceptional_tag_map', {})
             if not paraphrased_text:

@@ -29,6 +29,7 @@ class Spider(Scanner):
             base_url = self.config.get('base_url')
             url_pattern = self.config.get('url_pattern')
             exclude_hrefs = self.config.get('exclude_hrefs')
+            href_regex_tester = self.config.get('href_regex_tester', '')
             reformed_link = url_pattern.replace('{base_url}', base_url).replace('{link}', link)
             to_be_continued = False
             for href in exclude_hrefs:
@@ -39,7 +40,7 @@ class Spider(Scanner):
                                                                                               False) or link in self.urls:
                 self.invalid_cache[link] = True
                 continue
-            elif self.confirm_page_crawled(reformed_link):
+            elif self.confirm_page_crawled(reformed_link) and (not re.search(href_regex_tester, reformed_link)):
                 self.invalid_cache[link] = True
                 continue
             self.urls.append(reformed_link)

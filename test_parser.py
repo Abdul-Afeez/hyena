@@ -8,6 +8,8 @@ from app.tools.parser import Parser
 #                                    inp)
 # print(html_to_text)
 
+
+
 parser = Parser(
    {
       "url": "https://techcabal.com/",
@@ -88,6 +90,7 @@ parser = Parser(
    }
 )
 data = parser.extract('', '''
+
 <!doctype html>
 <html lang="en-US" class="no-js">
 
@@ -95,41 +98,37 @@ data = parser.extract('', '''
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <link rel="pingback" href="https://techcabal.com/xmlrpc.php">
-
+    
     <meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
 
 	<!-- This site is optimized with the Yoast SEO plugin v19.6.1 - https://yoast.com/wordpress/plugins/seo/ -->
-	<title>Why Future Africa and TLG Capital just created a $25 million debt financing programme | TechCabal</title>
-	<meta name="description" content="The venture debt financing programme, which is earmarked from TLG’s existing funds, will be invested in Future Africa portfolio companies" />
-	<link rel="canonical" href="https://techcabal.com/2022/12/06/future-africa-tlg-capital-25-million-venture-debt-fund/" />
+	<title>Understanding the concept of startups | TechCabal</title>
+	<link rel="canonical" href="http://techcabal.com/2022/12/23/understanding-the-concept-of-startups/" />
 	<meta property="og:locale" content="en_US" />
 	<meta property="og:type" content="article" />
-	<meta property="og:title" content="Why Future Africa and TLG Capital just created a $25 million debt financing programme | TechCabal" />
-	<meta property="og:description" content="The venture debt financing programme, which is earmarked from TLG’s existing funds, will be invested in Future Africa portfolio companies" />
-	<meta property="og:url" content="https://techcabal.com/2022/12/06/future-africa-tlg-capital-25-million-venture-debt-fund/" />
+	<meta property="og:title" content="Understanding the concept of startups | TechCabal" />
+	<meta property="og:description" content="Startups are fledgling businesses that aim to develop and provide a novel product or service to the market in order to attract and retain customers. Read more to understand the concept of startups." />
+	<meta property="og:url" content="http://techcabal.com/2022/12/23/understanding-the-concept-of-startups/" />
 	<meta property="og:site_name" content="TechCabal" />
 	<meta property="article:publisher" content="https://www.facebook.com/TechCabal" />
-	<meta property="article:published_time" content="2022-12-06T15:26:29+00:00" />
-	<meta property="article:modified_time" content="2022-12-09T13:49:33+00:00" />
-	<meta property="og:image" content="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Future-Africa.webp" />
-	<meta property="og:image:width" content="751" />
-	<meta property="og:image:height" content="656" />
-	<meta property="og:image:type" content="image/webp" />
-	<meta name="author" content="Daniel Adeyemi" />
+	<meta property="article:published_time" content="2022-12-23T07:00:00+00:00" />
+	<meta property="article:modified_time" content="2022-12-22T14:54:07+00:00" />
+	<meta property="og:image" content="https://lh6.googleusercontent.com/aIN3WLbZA_kSjZg8acmQcfZjIn_OfNqvHqiWJCU4PkMqHd65jI5IBvGZQmKzAJABpv4uj3YKMOiPphAcq_dK17Z6w5EyOhOP19Vu5F9RO73oaxwNBqVHXebP0wyI4c_boBTTBxufDvPt25ejfuBJFwt8RJOh-egj2nCFgtfMX-6ntpZxf4U_pW1VPSCU1Q" />
+	<meta name="author" content="Damilola Makinde" />
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:creator" content="@Danieltadeyemi" />
+	<meta name="twitter:creator" content="@techcabal" />
 	<meta name="twitter:site" content="@techcabal" />
 	<meta name="twitter:label1" content="Written by" />
-	<meta name="twitter:data1" content="Daniel Adeyemi" />
+	<meta name="twitter:data1" content="Damilola Makinde" />
 	<meta name="twitter:label2" content="Est. reading time" />
-	<meta name="twitter:data2" content="2 minutes" />
+	<meta name="twitter:data2" content="4 minutes" />
 	<!-- / Yoast SEO plugin. -->
 
 
 <link rel='dns-prefetch' href='//s.w.org' />
 <link rel="alternate" type="application/rss+xml" title="TechCabal &raquo; Feed" href="https://techcabal.com/feed/" />
 <link rel="alternate" type="application/rss+xml" title="TechCabal &raquo; Comments Feed" href="https://techcabal.com/comments/feed/" />
-<link rel="alternate" type="application/rss+xml" title="TechCabal &raquo; Why Future Africa and TLG Capital just created a $25 million debt financing programme Comments Feed" href="https://techcabal.com/2022/12/06/future-africa-tlg-capital-25-million-venture-debt-fund/feed/" />
+<link rel="alternate" type="application/rss+xml" title="TechCabal &raquo; Understanding the concept of startups Comments Feed" href="https://techcabal.com/2022/12/23/understanding-the-concept-of-startups/feed/" />
 <script type="text/javascript">
 window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/x7d4c5z5.stackpathcdn.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.0.2"}};
 /*! This file is auto-generated */
@@ -157,15 +156,15 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 <link rel='stylesheet' id='parent-style-css'  href='//x7d4c5z5.stackpathcdn.com/wp-content/themes/bcm/style.css?ver=7.0.1' type='text/css' media='all' />
 <link rel='stylesheet' id='child-style-css'  href='//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/style.css?ver=7.0.1' type='text/css' media='all' />
 <script type='application/json' id='wpp-json'>
-{"sampling_active":0,"sampling_rate":100,"ajax_url":"https:\/\/techcabal.com\/wp-json\/wordpress-popular-posts\/v1\/popular-posts","api_url":"https:\/\/techcabal.com\/wp-json\/wordpress-popular-posts","ID":104408,"token":"72ac2ddb28","lang":0,"debug":0}
+{"sampling_active":0,"sampling_rate":100,"ajax_url":"https:\/\/techcabal.com\/wp-json\/wordpress-popular-posts\/v1\/popular-posts","api_url":"https:\/\/techcabal.com\/wp-json\/wordpress-popular-posts","ID":105001,"token":"1526abd7cd","lang":0,"debug":0}
 </script>
 <script type='text/javascript' src='//x7d4c5z5.stackpathcdn.com/wp-content/plugins/wordpress-popular-posts/assets/js/wpp.min.js?ver=6.0.5' id='wpp-js-js'></script>
-<link rel="https://api.w.org/" href="https://techcabal.com/wp-json/" /><link rel="alternate" type="application/json" href="https://techcabal.com/wp-json/wp/v2/posts/104408" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://techcabal.com/xmlrpc.php?rsd" />
-<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://techcabal.com/wp-includes/wlwmanifest.xml" />
+<link rel="https://api.w.org/" href="https://techcabal.com/wp-json/" /><link rel="alternate" type="application/json" href="https://techcabal.com/wp-json/wp/v2/posts/105001" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://techcabal.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://techcabal.com/wp-includes/wlwmanifest.xml" /> 
 <meta name="generator" content="WordPress 6.0.2" />
-<link rel='shortlink' href='https://techcabal.com/?p=104408' />
-<link rel="alternate" type="application/json+oembed" href="https://techcabal.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Ftechcabal.com%2F2022%2F12%2F06%2Ffuture-africa-tlg-capital-25-million-venture-debt-fund%2F" />
-<link rel="alternate" type="text/xml+oembed" href="https://techcabal.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Ftechcabal.com%2F2022%2F12%2F06%2Ffuture-africa-tlg-capital-25-million-venture-debt-fund%2F&#038;format=xml" />
+<link rel='shortlink' href='https://techcabal.com/?p=105001' />
+<link rel="alternate" type="application/json+oembed" href="https://techcabal.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Ftechcabal.com%2F2022%2F12%2F23%2Funderstanding-the-concept-of-startups%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://techcabal.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Ftechcabal.com%2F2022%2F12%2F23%2Funderstanding-the-concept-of-startups%2F&#038;format=xml" />
             <style id="wpp-loading-animation-styles">@-webkit-keyframes bgslide{from{background-position-x:0}to{background-position-x:-200%}}@keyframes bgslide{from{background-position-x:0}to{background-position-x:-200%}}.wpp-widget-placeholder,.wpp-widget-block-placeholder{margin:0 auto;width:60px;height:3px;background:#dd3737;background:linear-gradient(90deg,#dd3737 0%,#571313 10%,#dd3737 100%);background-size:200% auto;border-radius:3px;-webkit-animation:bgslide 1s infinite linear;animation:bgslide 1s infinite linear}</style>
             <link rel="manifest" href="/wp-content/themes/tc2.0/manifest.webmanifest"><meta name="theme-color" content="#F23204">      <meta name="onesignal" content="wordpress-plugin"/>
             <script>
@@ -242,9 +241,9 @@ oneSignal_options['notifyButton']['text'] = {};
         }
         gtag('js', new Date());
                     gtag('set', {
-                'author' : "Daniel Adeyemi",
-                'pagetitle' : "Why Future Africa and TLG Capital just created a $25 million debt financing programme",
-                'publishdate' : "2022-12-06"
+                'author' : "Damilola Makinde",
+                'pagetitle' : "Understanding the concept of startups",
+                'publishdate' : "2022-12-23"
             });
                 gtag('config', 'UA-39740518-1', {
             custom_map: {
@@ -284,7 +283,7 @@ oneSignal_options['notifyButton']['text'] = {};
 </script>
 <!-- End MailerLite Universal --><script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script><meta name="facebook-domain-verification" content="ilurlom1mtlm8x0xxa05pllyoyypln" /></head>
 
-<body class="post-template-default single single-post postid-104408 single-format-standard  section-single"><div id="fb-root"></div>
+<body class="post-template-default single single-post postid-105001 single-format-standard  section-single"><div id="fb-root"></div>
 <script>
     (function(d, s, id) {
 		var js, fjs = d.getElementsByTagName(s)[0];
@@ -323,7 +322,7 @@ oneSignal_options['notifyButton']['text'] = {};
             <!-- Move to base function and adapt to wp query -->
 <div id="quick-links">
     <span>Quick Links</span>
-    <div class="menu-wrapper"><ul class="menu"><li><a href="https://techcabal.com/tag/african-startups/">African startups</a></li><li><a href="https://techcabal.com/tag/debt/">debt</a></li><li><a href="https://techcabal.com/tag/future-africa/">Future Africa</a></li><li><a href="https://techcabal.com/tag/tlg-capital/">TLG Capital</a></li><li><a href="https://techcabal.com/tag/venture-debt-funding/">venture debt funding</a></li><li><a href="https://techcabal.com/tag/venture-funding/">venture funding</a></li></ul></div></div>
+    <div class="menu-wrapper"><ul class="menu"><li><a href="https://techcabal.com/tag/africa/">Africa</a></li><li><a href="https://techcabal.com/tag/startup/">Startup</a></li></ul></div></div>
             <ul class="icon-menu">
                 <li class="icon-menu-item">
                     <span id="switch-mode-trigger" class="switch-mode-trigger">
@@ -443,94 +442,178 @@ oneSignal_options['notifyButton']['text'] = {};
     </div>
     <div class="main-content">
         <main>
-<script type='application/ld+json'>{"@context":"https:\/\/schema.org\/","@type":"NewsArticle","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/techcabal.com\/2022\/12\/06\/future-africa-tlg-capital-25-million-venture-debt-fund\/"},"headline":"Why Future Africa and TLG Capital just created a $25 million debt financing programme","image":["https:\/\/x7d4c5z5.stackpathcdn.com\/wp-content\/uploads\/tc\/2022\/12\/Future-Africa.webp"],"datePublished":"2022-12-06T16:26:29+01:00","dateModified":"2022-12-09T14:49:33+01:00","author":{"@type":"Person","name":"Daniel Adeyemi"},"publisher":{"@type":"Organization","url":"https:\/\/techcabal.com","name":"TechCabal","logo":"https:\/\/x7d4c5z5.stackpathcdn.com\/wp-content\/themes\/tc1.5\/images\/tclogo-desktop.png"}}</script><section class="single-article">
+<script type='application/ld+json'>{"@context":"https:\/\/schema.org\/","@type":"NewsArticle","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/techcabal.com\/2022\/12\/23\/understanding-the-concept-of-startups\/"},"headline":"Understanding the concept of startups","image":[false],"datePublished":"2022-12-23T08:00:00+01:00","dateModified":"2022-12-22T15:54:07+01:00","author":{"@type":"Person","name":"Damilola Makinde"},"publisher":{"@type":"Organization","url":"https:\/\/techcabal.com","name":"TechCabal","logo":"https:\/\/x7d4c5z5.stackpathcdn.com\/wp-content\/themes\/tc1.5\/images\/tclogo-desktop.png"}}</script><section class="single-article">
     <div class="content">
         <article>
             <div class="single-article-meta">
                 <div class="single-article-category">
-                    <a href="https://techcabal.com/category/funding/">Funding</a>
+                    <a href="https://techcabal.com/category/startups/">startups</a>
                 </div>
-                <h1 class="single-article-title">Why Future Africa and TLG Capital just created a $25 million debt financing programme</h1>
+                <h1 class="single-article-title">Understanding the concept of startups</h1>
                 <div class="single-article-info">
                     <span class="single-article-author">By
-                                                        <a href="https://techcabal.com/author/daniel/" title="Posts by Daniel Adeyemi" rel="author">Daniel Adeyemi</a>                                                </span>
-                    <span class="single-article-date">Dec 06, 2022</span>
+                                                        <a href="https://techcabal.com/author/damilola-makinde/" title="Posts by Damilola Makinde" rel="author">Damilola Makinde</a>                                                </span>
+                    <span class="single-article-date">Dec 23, 2022</span>
                 </div>
-                                        <div class="single-article-img poster-image">
-                            <div class="image-holder"><img width="751" height="656" src="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Future-Africa.webp" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" srcset="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Future-Africa.webp 751w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Future-Africa-300x262.webp 300w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Future-Africa-690x603.webp 690w" sizes="(max-width: 751px) 100vw, 751px" /></div>
-                                                                <p class="wp-caption-text">
-                                        Image source: Techcabal
-                                    </p>
-                                                        </div>
-                                </div>
+                            </div>
             <div class="single-article-main">
                 <div class="single-article-content" id="single-article">
-
-<p>In 2021, 37 African tech startups raised a total of $767 million in 43 debt rounds, indicating the rise of the debt funding class and increasing global lender confidence in African tech, per Partech’s <a href="https://partechpartners.com/2021-africa-tech-venture-capital-report/" target="_blank" rel="noreferrer noopener">report</a> on venture capital funding in Africa.</p>
-
-
-
-<p>This trend appears to be ongoing with Future Africa, a pan-African-focused fund, announcing that it has created a $25 million venture debt fund in partnership with London-based TLG Capital.&nbsp;</p>
+                   <div class="wp-block-image">
+<figure class="aligncenter"><img 
+     	loading="lazy" src="https://lh6.googleusercontent.com/aIN3WLbZA_kSjZg8acmQcfZjIn_OfNqvHqiWJCU4PkMqHd65jI5IBvGZQmKzAJABpv4uj3YKMOiPphAcq_dK17Z6w5EyOhOP19Vu5F9RO73oaxwNBqVHXebP0wyI4c_boBTTBxufDvPt25ejfuBJFwt8RJOh-egj2nCFgtfMX-6ntpZxf4U_pW1VPSCU1Q" alt="startups "/></figure></div>
 
 
-
-<p>The venture debt fund, which is earmarked from TLG’s existing funds, will be invested in Future Africa portfolio companies that meet specified criteria such as cash management, CFO reporting, and governance.&nbsp;</p>
+<p>Startups are organisations with the grand ambition to alter existing markets and create a better society. Startup initiators usually look to solve a problem in the world by creating a product or service that people want but doesn&#8217;t currently exist, ultimately leading to a successful initial public offering (IPO) and stratospheric returns for investors.</p>
 
 
 
-<p>“Many startups are focused on VC equity investor milestones such as customer acquisition strategy and cost, customer lifetime value.” Aum Thacker, an investment professional who joined TLG last year to build its focus on growth equity space, told TechCabal.&nbsp; “These metrics aren’t the most important when extending debt financing because financiers care obviously about them but they also care about how bankable the business is.”</p>
+<p>Startups are fledgling businesses that aim to develop and provide a novel product or service to the market in order to attract and retain customers. You can also refer to a startup as a disruptor or up-and-coming company that uses cutting-edge ideas to improve upon established products and services or to introduce totally new product categories that shake up established markets.&nbsp;</p>
 
 
 
-<p>Thacker shared that after startups go through this evaluation process and receive debt funding from TLG, banks and other traditional lenders can also choose to invest in the companies.&nbsp;</p>
+<p>Popular examples of <a href="https://techcabal.com/2022/12/13/founding-startups-in-africa/">startups in Africa</a> include Paystack, Piggyvest, Boomplay, Risevest, and Pocket App. International ones include <a href="https://www.google.com/aclk?sa=l&amp;ai=DChcSEwj6mY-xuY38AhXW7XcKHbLwCYUYABAAGgJlZg&amp;ase=2&amp;sig=AOD64_2IGKjJjvfU1P5lWaLdgq9YTjIkFA&amp;q&amp;nis=4&amp;adurl&amp;ved=2ahUKEwiDxYSxuY38AhUvg_0HHXkVCVYQ0Qx6BAgJEAE">Amazon</a>, Netflix, and so on. </p>
 
 
 
-<p>“These criteria are natural things that startups need to do to scale before Series C and D, so I think we’re helping them to do that earlier anyway,” Thacker said.</p>
+<h2><strong>What&#8217;s the procedure for launching a startup?</strong></h2>
 
 
 
-<p>The venture funding program will see Future Africa and TLG Capital work together to build a best-in-class service suite for portfolio companies beyond capital, helping portfolio companies with investor introductions, talent acquisition, financial planning and analysis, and industry benchmarking.</p>
+<p>There are several things you need to know before kick-starting a startup. First, a startup is not an abstract body. It operates similarly to any other established company, only maybe in a smaller company. Just like in other companies, startup employees collaborate to design a product they&#8217;re confident will sell.&nbsp;</p>
 
 
 
-<p>This announcement comes a month after TechCabal <a href="https://techcabal.com/2022/11/17/employees-are-resigning-from-future-africa/" target="_blank" rel="noreferrer noopener">reported</a> that Future Africa transitioned to a leaner operation model.</p>
+<p>However, most regular new businesses simply repeat what has already been done. This means that they follow a predetermined model for how a company should operate.</p>
 
 
 
-<p>Founded in 2016, Future Africa has invested in 97 portfolio companies across Africa such as Nexford, Eden Life, Stears, and Evolve Credit with an aggregate value of $6 billion. TLG is a private equity fund that invests in small and medium enterprises (SMEs) in sub-Saharan Africa. It has invested in over 30 deals, including African-focused Neobanks, Branch and Fairmoney, and exited over 20 of such deals.&nbsp;&nbsp;</p>
+<p>The goal of a startup is to establish a new standard. This entails offering a scale that existing providers of their product of service can&#8217;t immediately provide.</p>
 
 
 
-<h2 class="has-medium-font-size"><strong>Why debt funding?</strong></h2>
+<h2><strong>Rapid expansion: The goal of startups</strong></h2>
 
 
 
-<p>As venture investors increasingly focus on profitability and cash flow over growth and expansion, debt funding offers startups aligned with this new metric an alternative funding source.&nbsp;</p>
+<p>Rapid expansion is another hallmark of successful startups that sets them apart from more established businesses. The goal of a startup is to rapidly implement ingenious ideas.&nbsp;</p>
 
 
 
-<p>The new debt financing programme offers mature startups the opportunity to finance essential purchases and expansion plans without sacrificing the dilution of equity. Debt funding has often been attractive to startups in the renewable energy and lending sector, which offer credit facilities to their customers. </p>
+<p>Startups engage several techniques such as iteration to collect user opinions and use that information to tweak and refine their products over time. You&#8217;ll find startups using the bare framework of a product to test and iterate on until it&#8217;s ready to release to the public.</p>
 
 
 
-<p>“Generally debt funding preserves founders&#8217; ownership. Right now equity is harder to find plus the terms are most likely not going to be friendly because of the market environment,” Aboyeji told TechCabal.&nbsp;</p>
+<p>In tandem with developing better products, startup companies want to quickly increase their consumer density too. They operate with the principle of establishing higher market shares to pursue further funding. This disposition helps the company expand its offerings and its customer base. Taking a company public is the end goal of all this fast expansion and innovation.&nbsp;</p>
 
 
 
-<p>“Debt is a more straightforward way to grow if you truly understand your unit economics and have derisked your business.”<br></p>
+<h2><strong>Funding startups</strong></h2>
 
 
 
-<p><em>*Future Africa is an investor in Big Cabal Media, the parent company of TechCabal.</em></p>
+<p><a href="https://techcabal.com/2022/12/12/why-your-startup-may-not-get-funding/">Funding</a> for new businesses typically occurs in stages. When the company&#8217;s founders and their close associates put up initial capital, this is called the &#8220;bootstrapping&#8221; round. The next step is to secure seed capital from external investors, or wealthy individuals who make such inception business investments.</p>
+
+
+
+<p>The subsequent fundraising rounds range from tens of millions to hundreds of millions of dollars and are headed by venture capital firms. In the end, a startup may opt to go public and raise capital through an initial public offering (IPO), an acquisition by a special intention company, or stock exchange direct listing.&nbsp;</p>
+
+
+
+<p>When a firm goes public, anyone can buy shares, and the startup&#8217;s original investors and backers can cash out for a huge profit.</p>
+
+
+
+<p>But startups can fail. In other words, it&#8217;s entirely possible that inception investors will receive absolutely no return on their money.</p>
+
+
+
+<h2><strong>Successfully launching a Startup: What makes a difference?</strong></h2>
+
+
+
+<p>Many factors need to be in place, and important questions must be answered, for a business to be successful. However, a large percentage of startups don&#8217;t fly. Therefore the following positions need clear definition if a startup will thrive.&nbsp;&nbsp;</p>
+
+
+
+<p>The following are general questions to query the startup idea:</p>
+
+
+
+<h4><strong>What&#8217;s the size of the market?</strong></h4>
+
+
+
+<p>Opportunity for a startup is proportional to the size of its potential market.&nbsp;</p>
+
+
+
+<h4><strong>What&#8217;s the intention of the tech edge your startup may have?</strong></h4>
+
+
+
+<p>While specialised technology may give one company a competitive edge over another, the question remains: for what purpose? To what end?</p>
+
+
+
+<p>The following are questions for the founders:</p>
+
+
+
+<h4><strong>Where is the founder&#8217;s experience in the field?</strong>&nbsp;</h4>
+
+
+
+<p>It is imperative that the founders are well-versed in their startup&#8217;s industry. Founding a startup requires knowledge of certain things. Founders must be able to break down the aims of the company.&nbsp;&nbsp;</p>
+
+
+
+<p>The need for the big idea must be explicit. What makes it worth the time of workers and the attention of employees? What sets apart the startup&#8217;s competition? Founders need to get a hang of all these variables.</p>
+
+
+
+<h4><strong>Are team members completely invested in the project?</strong>&nbsp;</h4>
+
+
+
+<p>Without a committed team behind it, even a fantastic idea risks falling flat with its intended audience. Successful completion is crucial.</p>
+
+
+
+<h4><strong>Does it look like they&#8217;re willing to put in the effort?</strong>&nbsp;</h4>
+
+
+
+<p>A team can be committed, but can they invest long hours to get the idea flying and keep it soaring? It can be difficult for a concept to succeed if the team working on it isn&#8217;t prepared to spend the majority of their time on it.</p>
+
+
+
+<p>It&#8217;s possible that any startup type can join the few early stage ones that succeed, if it can provide satisfactory responses to these questions.</p>
+
+
+
+<h2><strong>What to know about funding startups</strong></h2>
+
+
+
+<p>Honestly, access to startup funding is limited. Therefore, you may need to start with your own money. However, later, you can work towards getting a private investor, VC or grant organisations to fund your business. But for a start, bootstrapping may be the way.</p>
                     <div class="social-widget social-share">
                         <span>Share this article</span>
                         <ul class="social-links">
-    <li><a target="_blank" href="https://twitter.com/share?url=https%3A%2F%2Ftechcabal.com%2F2022%2F12%2F06%2Ffuture-africa-tlg-capital-25-million-venture-debt-fund%2F&amp;text=Why%20Future%20Africa%20and%20TLG%20Capital%20just%20created%20a%20%2425%20million%20debt%20financing%20programme" class="share-icon share-twitter" data-type="twitter"><img src="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/twitter_red.png" alt="Twitter" srcset="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/twitter_red.png 1x, //x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/twitter_red@2x.png 2x"></a></li><li><a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Ftechcabal.com%2F2022%2F12%2F06%2Ffuture-africa-tlg-capital-25-million-venture-debt-fund%2F&amp;title=Why%20Future%20Africa%20and%20TLG%20Capital%20just%20created%20a%20%2425%20million%20debt%20financing%20programme&amp;summary=%E2%80%9CGenerally%20debt%20funding%20preserves%20founders%27%20ownership.%20Right%20now%20equity%20is%20harder%20to%20find%20plus%20the%20terms%20are%20most%20likely%20not%20going%20to%20be%20friendly%20because%20of%20the%20market%20environment%2C%E2%80%9D%20Aboyeji%20told%20TechCabal.%C2%A0" class="share-icon share-linkedin" data-type="linkedin"><img src="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/linkedin_red.png" alt="Linkedin" srcset="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/linkedin_red.png 1x, //x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/linkedin_red@2x.png 2x"></a></li><li><a target="_blank" href="https://api.whatsapp.com/send?text=https%3A%2F%2Ftechcabal.com%2F2022%2F12%2F06%2Ffuture-africa-tlg-capital-25-million-venture-debt-fund%2F" class="share-icon share-whatsapp" data-type="whatsapp"><img src="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/whatsapp_red.png" alt="WhatsApp" srcset="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/whatsapp_red.png 1x, //x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/whatsapp_red@2x.png 2x"></a></li><li><a target="_blank" href="https://www.facebook.com/dialog/share?app_id=252296078952383&amp;display=popup&amp;href=https%3A%2F%2Ftechcabal.com%2F2022%2F12%2F06%2Ffuture-africa-tlg-capital-25-million-venture-debt-fund%2F" class="share-icon share-facebook" data-type="facebook"><img src="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/facebook_red.png" alt="Facebook" srcset="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/facebook_red.png 1x, //x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/facebook_red@2x.png 2x"></a></li><li><a target="_blank" href="mailto:?body=https%3A%2F%2Ftechcabal.com%2F2022%2F12%2F06%2Ffuture-africa-tlg-capital-25-million-venture-debt-fund%2F&amp;subject=Why%20Future%20Africa%20and%20TLG%20Capital%20just%20created%20a%20%2425%20million%20debt%20financing%20programme" class="share-icon share-email" data-type="email"><img src="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/mail_red.png" alt="Email" srcset="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/mail_red.png 1x, //x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/mail_red@2x.png 2x"></a></li></ul>
+    <li><a target="_blank" href="https://twitter.com/share?url=https%3A%2F%2Ftechcabal.com%2F2022%2F12%2F23%2Funderstanding-the-concept-of-startups%2F&amp;text=Understanding%20the%20concept%20of%20startups" class="share-icon share-twitter" data-type="twitter"><img src="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/twitter_red.png" alt="Twitter" srcset="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/twitter_red.png 1x, //x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/twitter_red@2x.png 2x"></a></li><li><a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Ftechcabal.com%2F2022%2F12%2F23%2Funderstanding-the-concept-of-startups%2F&amp;title=Understanding%20the%20concept%20of%20startups&amp;summary=Startups%20are%20fledgling%20businesses%20that%20aim%20to%20develop%20and%20provide%20a%20novel%20product%20or%20service%20to%20the%20market%20in%20order%20to%20attract%20and%20retain%20customers.%20Read%20more%20to%20understand%20the%20concept%20of%20startups." class="share-icon share-linkedin" data-type="linkedin"><img src="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/linkedin_red.png" alt="Linkedin" srcset="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/linkedin_red.png 1x, //x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/linkedin_red@2x.png 2x"></a></li><li><a target="_blank" href="https://api.whatsapp.com/send?text=https%3A%2F%2Ftechcabal.com%2F2022%2F12%2F23%2Funderstanding-the-concept-of-startups%2F" class="share-icon share-whatsapp" data-type="whatsapp"><img src="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/whatsapp_red.png" alt="WhatsApp" srcset="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/whatsapp_red.png 1x, //x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/whatsapp_red@2x.png 2x"></a></li><li><a target="_blank" href="https://www.facebook.com/dialog/share?app_id=252296078952383&amp;display=popup&amp;href=https%3A%2F%2Ftechcabal.com%2F2022%2F12%2F23%2Funderstanding-the-concept-of-startups%2F" class="share-icon share-facebook" data-type="facebook"><img src="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/facebook_red.png" alt="Facebook" srcset="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/facebook_red.png 1x, //x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/facebook_red@2x.png 2x"></a></li><li><a target="_blank" href="mailto:?body=https%3A%2F%2Ftechcabal.com%2F2022%2F12%2F23%2Funderstanding-the-concept-of-startups%2F&amp;subject=Understanding%20the%20concept%20of%20startups" class="share-icon share-email" data-type="email"><img src="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/mail_red.png" alt="Email" srcset="//x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/mail_red.png 1x, //x7d4c5z5.stackpathcdn.com/wp-content/themes/tc2.0/images/mail_red@2x.png 2x"></a></li></ul>
                     </div>
                     <div class="author-widget">
-                                            </div>
-
+                        
+        <div class="author-box">
+            <div class="author-box-img">
+                <a href="https://techcabal.com/author/damilola-makinde/">
+                    <img alt='' src='https://secure.gravatar.com/avatar/33ef4d7a34ec110e8f82c6ed9dd2dee4?s=96&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/33ef4d7a34ec110e8f82c6ed9dd2dee4?s=192&#038;d=mm&#038;r=g 2x' class='avatar avatar-96 photo' height='96' width='96' loading='lazy'/>                </a>
+            </div>
+            <div class="author-box-info">
+                <div class="author-box-fullname"><strong>Damilola Makinde</strong> <span>Author</span></div>
+                            </div>
+        </div>
+                        </div>
+                    
 <div id="list-newsletter-form" class="list-newsletter-form shortcode">
     <h2>Get the best African tech newsletters in your inbox</h2>
     <form class="newsletter-subscribe newsletter-signup-form columns" data-location="single-post">
@@ -585,7 +668,7 @@ oneSignal_options['notifyButton']['text'] = {};
         <button type="button" class="theheader__form__submit border-button">Subscribe</button>
     </form>
 </div>                    <div class="comment-section" style="margin-top: 40px;">
-                        <div class="fb-comments-container"><div class="fb-comments" data-colorscheme="dark" data-href="https://techcabal.com/2022/12/06/future-africa-tlg-capital-25-million-venture-debt-fund/" data-width="800" data-numposts="10" style="max-width: 100%;" data-mobile="true"></div></div>                    </div>
+                        <div class="fb-comments-container"><div class="fb-comments" data-colorscheme="dark" data-href="https://techcabal.com/2022/12/23/understanding-the-concept-of-startups/" data-width="800" data-numposts="10" style="max-width: 100%;" data-mobile="true"></div></div>                    </div>
                 </div>
                 <div class="list-sidebar" id="single-article-sidebar">
                     <div class="list-sidebar-item">
@@ -594,59 +677,59 @@ oneSignal_options['notifyButton']['text'] = {};
                         <div class="list-trending list-small list-inverted">
                             <h2>More from this author</h2>
                                 <div class="article-list-wrapper" data-columns="3">
-
+        
 <article class="article-list-item">
     <div class="article-list-img">
-        <a href="https://techcabal.com/2022/12/30/22-things-first-time-in-2022-in-the-african-tech-scene/">
-            <img width="83" height="55" src="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Africa-tech--240x160.jpg" class="attachment-90x55 size-90x55 wp-post-image" alt="" loading="lazy" srcset="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Africa-tech--240x160.jpg 240w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Africa-tech--480x320.jpg 480w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Africa-tech--760x506.jpg 760w" loading="lazy" sizes="(max-width: 83px) 100vw, 83px" />        </a>
+        <a href="https://techcabal.com/2022/12/24/5-major-reasons-your-phone-wont-charge-fast/">
+            <img width="240" height="160" src="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/android-phone-charging-240x160.jpg" class="attachment-thumbnail size-thumbnail" alt="" loading="lazy" srcset="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/android-phone-charging-240x160.jpg 240w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/android-phone-charging-480x320.jpg 480w" loading="lazy" sizes="(max-width: 240px) 100vw, 240px" />        </a>
     </div>
     <div class="article-list-desc">
                             <div class="article-list-pretitle">
-                        <a href="https://techcabal.com/category/african-tech-roundup/" class="article-list-category">African Tech Roundup</a>
+                        <a href="https://techcabal.com/category/consumer-tech/" class="article-list-category">Consumer Tech</a>
                                             </div>
-                        <a href="https://techcabal.com/2022/12/30/22-things-first-time-in-2022-in-the-african-tech-scene/" class="article-list-title">
-            22 things that happened for the first time in 2022 in the African tech scene        </a>
+                        <a href="https://techcabal.com/2022/12/24/5-major-reasons-your-phone-wont-charge-fast/" class="article-list-title">
+            5 major reasons your phone won&#8217;t charge fast        </a>
                                 <div class="article-list-meta">
-                                                <span class="article-list-author"><a href="https://techcabal.com/author/daniel/" title="Posts by Daniel Adeyemi" rel="author">Daniel Adeyemi</a></span>
+                                                <span class="article-list-author"><a href="https://techcabal.com/author/damilola-makinde/" title="Posts by Damilola Makinde" rel="author">Damilola Makinde</a></span>
                                                             </div>
                 </div>
-
+    
 </article>
 
 <article class="article-list-item">
     <div class="article-list-img">
-        <a href="https://techcabal.com/2022/12/23/insights-from-africa-investors-in-2022/">
-            <img width="83" height="55" src="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2021/12/Ask-an-Investor-the-year-in-review-240x160.jpg" class="attachment-90x55 size-90x55 wp-post-image" alt="" loading="lazy" srcset="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2021/12/Ask-an-Investor-the-year-in-review-240x160.jpg 240w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2021/12/Ask-an-Investor-the-year-in-review-480x320.jpg 480w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2021/12/Ask-an-Investor-the-year-in-review-760x506.jpg 760w" loading="lazy" sizes="(max-width: 83px) 100vw, 83px" />        </a>
+        <a href="https://techcabal.com/2022/12/24/breaking-your-phone-addiction-in-four-ways/">
+            <img width="240" height="160" src="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/dfghjkl-1-240x160.jpg" class="attachment-thumbnail size-thumbnail" alt="" loading="lazy" srcset="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/dfghjkl-1-240x160.jpg 240w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/dfghjkl-1-480x320.jpg 480w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/dfghjkl-1-760x506.jpg 760w" loading="lazy" sizes="(max-width: 240px) 100vw, 240px" />        </a>
     </div>
     <div class="article-list-desc">
                             <div class="article-list-pretitle">
-                        <a href="https://techcabal.com/category/ask-an-investor/" class="article-list-category">Ask An Investor</a>
+                        <a href="https://techcabal.com/category/consumer-tech/" class="article-list-category">Consumer Tech</a>
                                             </div>
-                        <a href="https://techcabal.com/2022/12/23/insights-from-africa-investors-in-2022/" class="article-list-title">
-            Ask an Investor: Twelve insights from Africa’s top investors in 2022        </a>
+                        <a href="https://techcabal.com/2022/12/24/breaking-your-phone-addiction-in-four-ways/" class="article-list-title">
+            Breaking your phone addiction in four ways        </a>
                                 <div class="article-list-meta">
-                                                <span class="article-list-author"><a href="https://techcabal.com/author/daniel/" title="Posts by Daniel Adeyemi" rel="author">Daniel Adeyemi</a></span>
+                                                <span class="article-list-author"><a href="https://techcabal.com/author/damilola-makinde/" title="Posts by Damilola Makinde" rel="author">Damilola Makinde</a></span>
                                                             </div>
                 </div>
-
+    
 </article>
 
 <article class="article-list-item">
     <div class="article-list-img">
-        <a href="https://techcabal.com/2022/12/22/fadilah-tchoumba-african-smes-startups-build-companies/">
-            <img width="83" height="55" src="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Fadilah-Ask-an-Investor-240x160.jpg" class="attachment-90x55 size-90x55 wp-post-image" alt="Fadilah Tchoumba" loading="lazy" srcset="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Fadilah-Ask-an-Investor-240x160.jpg 240w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Fadilah-Ask-an-Investor-480x320.jpg 480w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Fadilah-Ask-an-Investor-760x506.jpg 760w" loading="lazy" sizes="(max-width: 83px) 100vw, 83px" />        </a>
+        <a href="https://techcabal.com/2022/12/23/buying-a-used-iphone-look-out-for-these-things/">
+            <img width="240" height="160" src="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/lkjhgf-240x160.jpg" class="attachment-thumbnail size-thumbnail" alt="" loading="lazy" />        </a>
     </div>
     <div class="article-list-desc">
                             <div class="article-list-pretitle">
-                        <a href="https://techcabal.com/category/ask-an-investor/" class="article-list-category">Ask An Investor</a>
+                        <a href="https://techcabal.com/category/consumer-tech/" class="article-list-category">Consumer Tech</a>
                                             </div>
-                        <a href="https://techcabal.com/2022/12/22/fadilah-tchoumba-african-smes-startups-build-companies/" class="article-list-title">
-            How Fadilah Tchoumba is helping African SMEs and startups build investable companies        </a>
+                        <a href="https://techcabal.com/2022/12/23/buying-a-used-iphone-look-out-for-these-things/" class="article-list-title">
+            Buying a used iPhone? Look out for these things        </a>
                                 <div class="article-list-meta">
-                                                <span class="article-list-author"><a href="https://techcabal.com/author/daniel/" title="Posts by Daniel Adeyemi" rel="author">Daniel Adeyemi</a></span>
+                                                <span class="article-list-author"><a href="https://techcabal.com/author/damilola-makinde/" title="Posts by Damilola Makinde" rel="author">Damilola Makinde</a></span>
                                                             </div>
                 </div>
-
+    
 </article>
     </div>
                             </div>
@@ -666,23 +749,23 @@ oneSignal_options['notifyButton']['text'] = {};
             <div class="mobile">
                 <h2>Read Next</h2>
             </div>
-
+            
 <article class="article-list-item">
     <div class="article-list-img">
-        <a href="https://techcabal.com/2022/12/09/acumen-invest-charity-africa-poverty/">
-            <img width="2560" height="1707" src="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Acumen-President-Carlyle-Singer-scaled.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="Acumen President Carlyle Singer" loading="lazy" srcset="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Acumen-President-Carlyle-Singer-scaled.jpg 2560w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Acumen-President-Carlyle-Singer-300x200.jpg 300w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Acumen-President-Carlyle-Singer-1024x683.jpg 1024w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Acumen-President-Carlyle-Singer-240x160.jpg 240w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Acumen-President-Carlyle-Singer-768x512.jpg 768w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Acumen-President-Carlyle-Singer-1536x1024.jpg 1536w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Acumen-President-Carlyle-Singer-2048x1365.jpg 2048w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Acumen-President-Carlyle-Singer-690x460.jpg 690w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Acumen-President-Carlyle-Singer-1050x700.jpg 1050w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Acumen-President-Carlyle-Singer-480x320.jpg 480w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/Acumen-President-Carlyle-Singer-760x506.jpg 760w" loading="lazy" sizes="(max-width: 2560px) 100vw, 2560px" />        </a>
+        <a href="https://techcabal.com/2022/12/22/marketing-strategies-that-worked-in-2022/">
+            <img width="2560" height="1707" src="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/campaign-creators-yktK2qaiVHI-unsplash-scaled.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" loading="lazy" srcset="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/campaign-creators-yktK2qaiVHI-unsplash-scaled.jpg 2560w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/campaign-creators-yktK2qaiVHI-unsplash-300x200.jpg 300w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/campaign-creators-yktK2qaiVHI-unsplash-1024x683.jpg 1024w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/campaign-creators-yktK2qaiVHI-unsplash-240x160.jpg 240w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/campaign-creators-yktK2qaiVHI-unsplash-768x512.jpg 768w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/campaign-creators-yktK2qaiVHI-unsplash-1536x1024.jpg 1536w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/campaign-creators-yktK2qaiVHI-unsplash-2048x1365.jpg 2048w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/campaign-creators-yktK2qaiVHI-unsplash-690x460.jpg 690w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/campaign-creators-yktK2qaiVHI-unsplash-1050x700.jpg 1050w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/campaign-creators-yktK2qaiVHI-unsplash-480x320.jpg 480w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/campaign-creators-yktK2qaiVHI-unsplash-760x506.jpg 760w" loading="lazy" sizes="(max-width: 2560px) 100vw, 2560px" />        </a>
     </div>
     <div class="article-list-desc">
                             <div class="article-list-pretitle">
-                        <a href="https://techcabal.com/category/ask-an-investor/" class="article-list-category">Ask An Investor</a>
+                        <a href="https://techcabal.com/category/consumer-tech/" class="article-list-category">Consumer Tech</a>
                                             </div>
-                        <a href="https://techcabal.com/2022/12/09/acumen-invest-charity-africa-poverty/" class="article-list-title">
-            Acumen: Over two decades of changing the way Africa and the world tackle poverty        </a>
+                        <a href="https://techcabal.com/2022/12/22/marketing-strategies-that-worked-in-2022/" class="article-list-title">
+            Marketing strategies that worked in 2022        </a>
                                 <div class="article-list-meta">
-                                                <span class="article-list-author"><a href="https://techcabal.com/author/daniel/" title="Posts by Daniel Adeyemi" rel="author">Daniel Adeyemi</a></span>
+                                                <span class="article-list-author"><a href="https://techcabal.com/author/anon/" title="Posts by Guest Author" rel="author">Guest Author</a></span>
                                                             </div>
                 </div>
-
+    
 </article>
         </div>
     </div>
@@ -692,6 +775,42 @@ oneSignal_options['notifyButton']['text'] = {};
                 <div class="list-readmore-wrapper">
                     <h2>Read more</h2>
                         <div class="article-list-wrapper" data-columns="6">
+        
+<article class="article-list-item">
+    <div class="article-list-img">
+        <a href="https://techcabal.com/2022/12/25/venture-capital-in-africa-2022/">
+            <img width="195" height="130" src="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/looking_back_african_venture_capital_2022_rhamely_unsplash-1-240x160.jpg" class="attachment-235x130 size-235x130 wp-post-image" alt="Am upside-down glass with a tiny Christmas tree in it." loading="lazy" srcset="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/looking_back_african_venture_capital_2022_rhamely_unsplash-1-240x160.jpg 240w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/looking_back_african_venture_capital_2022_rhamely_unsplash-1-480x320.jpg 480w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/looking_back_african_venture_capital_2022_rhamely_unsplash-1-760x506.jpg 760w" loading="lazy" sizes="(max-width: 195px) 100vw, 195px" />        </a>
+    </div>
+    <div class="article-list-desc">
+                            <div class="article-list-pretitle">
+                        <a href="https://techcabal.com/category/startups/" class="article-list-category">startups</a>
+                                            </div>
+                        <a href="https://techcabal.com/2022/12/25/venture-capital-in-africa-2022/" class="article-list-title">
+            2022: Venture capital in Africa        </a>
+                                <div class="article-list-meta">
+                                                <span class="article-list-author"><a href="https://techcabal.com/author/abraham/" title="Posts by Abraham Augustine" rel="author">Abraham Augustine</a></span>
+                                                            </div>
+                </div>
+    
+</article>
+
+<article class="article-list-item">
+    <div class="article-list-img">
+        <a href="https://techcabal.com/2022/12/21/foundational-investing-techstars-latest-cohort-show-the-accelerators-strategic-approach-to-investment-in-africa/">
+            <img width="195" height="130" src="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/OBA_9144-240x160.jpg" class="attachment-235x130 size-235x130 wp-post-image" alt="" loading="lazy" srcset="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/OBA_9144-240x160.jpg 240w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/OBA_9144-300x200.jpg 300w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/OBA_9144-768x513.jpg 768w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/OBA_9144-690x461.jpg 690w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/OBA_9144-480x320.jpg 480w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/OBA_9144-760x506.jpg 760w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/OBA_9144.jpg 1000w" loading="lazy" sizes="(max-width: 195px) 100vw, 195px" />        </a>
+    </div>
+    <div class="article-list-desc">
+                            <div class="article-list-pretitle">
+                        <a href="https://techcabal.com/category/ecosystem/" class="article-list-category">ecosystem</a>
+                                            </div>
+                        <a href="https://techcabal.com/2022/12/21/foundational-investing-techstars-latest-cohort-show-the-accelerators-strategic-approach-to-investment-in-africa/" class="article-list-title">
+            Techstars&#8217; latest cohort show the accelerator’s approach to investment in Africa        </a>
+                                <div class="article-list-meta">
+                                                <span class="article-list-author"><a href="https://techcabal.com/author/caleb/" title="Posts by Caleb Nnamani" rel="author">Caleb Nnamani</a></span>
+                                                            </div>
+                </div>
+    
+</article>
 
 <article class="article-list-item">
     <div class="article-list-img">
@@ -708,7 +827,7 @@ oneSignal_options['notifyButton']['text'] = {};
                                                 <span class="article-list-author"><a href="https://techcabal.com/author/muktar/" title="Posts by Muktar Oladunmade" rel="author">Muktar Oladunmade</a></span>
                                                             </div>
                 </div>
-
+    
 </article>
 
 <article class="article-list-item">
@@ -726,79 +845,43 @@ oneSignal_options['notifyButton']['text'] = {};
                                                 <span class="article-list-author"><a href="https://techcabal.com/author/muktar/" title="Posts by Muktar Oladunmade" rel="author">Muktar Oladunmade</a></span>
                                                             </div>
                 </div>
-
+    
 </article>
 
 <article class="article-list-item">
     <div class="article-list-img">
-        <a href="https://techcabal.com/2022/12/07/mobility-for-africa-infraco-africa-investment/">
-            <img width="195" height="130" src="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/MFA-driving-240x160.jpeg" class="attachment-235x130 size-235x130 wp-post-image" alt="infraco africa mobility for africa" loading="lazy" srcset="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/MFA-driving-240x160.jpeg 240w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/MFA-driving-300x200.jpeg 300w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/MFA-driving-1024x683.jpeg 1024w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/MFA-driving-768x512.jpeg 768w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/MFA-driving-690x460.jpeg 690w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/MFA-driving-1050x700.jpeg 1050w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/MFA-driving-480x320.jpeg 480w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/MFA-driving-760x506.jpeg 760w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/MFA-driving.jpeg 1200w" loading="lazy" sizes="(max-width: 195px) 100vw, 195px" />        </a>
+        <a href="https://techcabal.com/2022/12/13/nala-expands-into-europe-to-enable-cross-border-payments/">
+            <img width="195" height="130" src="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/NALA-team-photo-e1671005081868-240x160.jpg" class="attachment-235x130 size-235x130 wp-post-image" alt="" loading="lazy" srcset="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/NALA-team-photo-e1671005081868-240x160.jpg 240w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/NALA-team-photo-e1671005081868-480x320.jpg 480w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/NALA-team-photo-e1671005081868-760x506.jpg 760w" loading="lazy" sizes="(max-width: 195px) 100vw, 195px" />        </a>
     </div>
     <div class="article-list-desc">
                             <div class="article-list-pretitle">
-                        <a href="https://techcabal.com/category/funding/" class="article-list-category">Funding</a>
+                        <a href="https://techcabal.com/category/startups/" class="article-list-category">startups</a>
                                             </div>
-                        <a href="https://techcabal.com/2022/12/07/mobility-for-africa-infraco-africa-investment/" class="article-list-title">
-            Mobility for Africa secures $2 million to deploy electric vehicles in rural Zimbabwe        </a>
-                                <div class="article-list-meta">
-                                                <span class="article-list-author"><a href="https://techcabal.com/author/ephraim/" title="Posts by Ephraim Modise" rel="author">Ephraim Modise</a></span>
-                                                            </div>
-                </div>
-
-</article>
-
-<article class="article-list-item">
-    <div class="article-list-img">
-        <a href="https://techcabal.com/2022/12/05/venco-raises-a-pre-seed-round-to-help-manage-african-properties/">
-            <img width="195" height="130" src="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/WhatsApp-Image-2022-11-11-at-2.53.15-PM-240x160.jpeg" class="attachment-235x130 size-235x130 wp-post-image" alt="" loading="lazy" srcset="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/WhatsApp-Image-2022-11-11-at-2.53.15-PM-240x160.jpeg 240w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/WhatsApp-Image-2022-11-11-at-2.53.15-PM-480x320.jpeg 480w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/WhatsApp-Image-2022-11-11-at-2.53.15-PM-760x506.jpeg 760w" loading="lazy" sizes="(max-width: 195px) 100vw, 195px" />        </a>
-    </div>
-    <div class="article-list-desc">
-                            <div class="article-list-pretitle">
-                        <a href="https://techcabal.com/category/funding/" class="article-list-category">Funding</a>
-                                            </div>
-                        <a href="https://techcabal.com/2022/12/05/venco-raises-a-pre-seed-round-to-help-manage-african-properties/" class="article-list-title">
-            VENCO raises a pre-seed round to help manage African properties        </a>
+                        <a href="https://techcabal.com/2022/12/13/nala-expands-into-europe-to-enable-cross-border-payments/" class="article-list-title">
+            NALA expands into Europe to enable cross border payments        </a>
                                 <div class="article-list-meta">
                                                 <span class="article-list-author"><a href="https://techcabal.com/author/muktar/" title="Posts by Muktar Oladunmade" rel="author">Muktar Oladunmade</a></span>
                                                             </div>
                 </div>
-
+    
 </article>
 
 <article class="article-list-item">
     <div class="article-list-img">
-        <a href="https://techcabal.com/2022/11/30/will-global-uncertainty-affect-investment-in-biotech/">
-            <img width="195" height="130" src="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/11/tech-daily-V06dt37iQFY-unsplash-240x160.jpg" class="attachment-235x130 size-235x130 wp-post-image" alt="" loading="lazy" srcset="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/11/tech-daily-V06dt37iQFY-unsplash-240x160.jpg 240w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/11/tech-daily-V06dt37iQFY-unsplash-300x200.jpg 300w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/11/tech-daily-V06dt37iQFY-unsplash-1024x683.jpg 1024w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/11/tech-daily-V06dt37iQFY-unsplash-768x512.jpg 768w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/11/tech-daily-V06dt37iQFY-unsplash-1536x1024.jpg 1536w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/11/tech-daily-V06dt37iQFY-unsplash-2048x1365.jpg 2048w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/11/tech-daily-V06dt37iQFY-unsplash-690x460.jpg 690w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/11/tech-daily-V06dt37iQFY-unsplash-1050x700.jpg 1050w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/11/tech-daily-V06dt37iQFY-unsplash-480x320.jpg 480w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/11/tech-daily-V06dt37iQFY-unsplash-760x506.jpg 760w" loading="lazy" sizes="(max-width: 195px) 100vw, 195px" />        </a>
+        <a href="https://techcabal.com/2022/12/13/founding-startups-in-africa/">
+            <img width="240" height="160" src="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/dfghjkl-240x160.jpg" class="attachment-thumbnail size-thumbnail" alt="" loading="lazy" srcset="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/dfghjkl-240x160.jpg 240w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/dfghjkl-480x320.jpg 480w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/12/dfghjkl-760x506.jpg 760w" loading="lazy" sizes="(max-width: 240px) 100vw, 240px" />        </a>
     </div>
     <div class="article-list-desc">
                             <div class="article-list-pretitle">
-                        <a href="https://techcabal.com/category/funding/" class="article-list-category">Funding</a>
+                        <a href="https://techcabal.com/category/startups/" class="article-list-category">startups</a>
                                             </div>
-                        <a href="https://techcabal.com/2022/11/30/will-global-uncertainty-affect-investment-in-biotech/" class="article-list-title">
-            Will the economic downturn affect investment in African health-tech startups?        </a>
+                        <a href="https://techcabal.com/2022/12/13/founding-startups-in-africa/" class="article-list-title">
+            Founding startups in Africa        </a>
                                 <div class="article-list-meta">
-                                                <span class="article-list-author"><a href="https://techcabal.com/author/anon/" title="Posts by Guest Author" rel="author">Guest Author</a></span>
+                                                <span class="article-list-author"><a href="https://techcabal.com/author/damilola-makinde/" title="Posts by Damilola Makinde" rel="author">Damilola Makinde</a></span>
                                                             </div>
                 </div>
-
-</article>
-
-<article class="article-list-item">
-    <div class="article-list-img">
-        <a href="https://techcabal.com/2022/11/29/orda-raises-3-4-million-to-digitise-african-restaurants/">
-            <img width="195" height="130" src="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/11/Orda-240x160.jpg" class="attachment-235x130 size-235x130 wp-post-image" alt="" loading="lazy" srcset="https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/11/Orda-240x160.jpg 240w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/11/Orda-300x200.jpg 300w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/11/Orda-1024x682.jpg 1024w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/11/Orda-768x511.jpg 768w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/11/Orda-690x459.jpg 690w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/11/Orda-1050x699.jpg 1050w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/11/Orda-480x320.jpg 480w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/11/Orda-760x506.jpg 760w, https://x7d4c5z5.stackpathcdn.com/wp-content/uploads/tc/2022/11/Orda.jpg 1080w" loading="lazy" sizes="(max-width: 195px) 100vw, 195px" />        </a>
-    </div>
-    <div class="article-list-desc">
-                            <div class="article-list-pretitle">
-                        <a href="https://techcabal.com/category/funding/" class="article-list-category">Funding</a>
-                                            </div>
-                        <a href="https://techcabal.com/2022/11/29/orda-raises-3-4-million-to-digitise-african-restaurants/" class="article-list-title">
-             Orda raises $3.4 million to digitise African restaurants        </a>
-                                <div class="article-list-meta">
-                                                <span class="article-list-author"><a href="https://techcabal.com/author/muktar/" title="Posts by Muktar Oladunmade" rel="author">Muktar Oladunmade</a></span>
-                                                            </div>
-                </div>
-
+    
 </article>
     </div>
                     </div>
@@ -977,7 +1060,6 @@ oneSignal_options['notifyButton']['text'] = {};
 <script type='text/javascript' src='https://cdn.onesignal.com/sdks/OneSignalSDK.js?ver=6.0.2' async='async' id='remote_sdk-js'></script>
 </body>
 </html>
-
 
 ''')
 print('Output === ')

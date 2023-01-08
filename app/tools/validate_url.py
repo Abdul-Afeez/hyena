@@ -34,7 +34,7 @@ class ValidateUrl:
         # print('Saving Post')
 
     def confirm_page_crawled(self, url):
-        job_exist = Job.select().where(Job.reference_url == url)
+        job_exist = Job.select().where((Job.reference_url == url) | (Job.url == url))
         if job_exist:
             return True
         return False

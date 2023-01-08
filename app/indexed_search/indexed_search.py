@@ -64,6 +64,7 @@ class ComparativeScorer(Tokenizer):
         else:
             merged_document = ''
         self.index = index
+        self.jit_score = JITIndexer(document).scorer()
         self.tokenized_document = list(set(self.tokenize(merged_document)))
         print('About to compare')
 
@@ -80,26 +81,30 @@ class ComparativeScorer(Tokenizer):
                 shards.append(existing_token.shard)
             else:
                 missing += 1
-        scores = {}
+        comparative_scores = {}
         # print(shards_log)
         for shard in shards:
-            for article_id, indices in shard.items():
-                if not scores.get(article_id, None):
-                    scores[article_id] = 0
+            for job_id, indices in shard.items():
+                if not comparative_scores.get(job_id, None):
+                    comparative_scores[job_id] = 0
                 for tag, frequency in indices.items():
-                    scores[article_id] += self.points.get(tag, 0) * frequency
-        print(scores)
-        scores_values = scores.values()
-        max_score_value = max(scores_values) if len(scores_values) else 0
-        output = {}
-        x = 0
-        for article_id, score in scores.items():
-            if x >= 5:
+                    comparative_scores[job_id] += self.points.get(tag, 0) * frequency
+        print(comparative_scores)
+        # past_scores = {}
+        cannibalism = []
+        from app.models.base import Job
+        for job_id, comparative_score in comparative_scores.items():
+            job = Job.get(Job.id == job_id)
+            if ((comparative_score/(int(job.jit_score) or 1))*100) >= 45 and ((comparative_score/(int(self.jit_score) or 1))*100) >= 45:
+                cannibalism.append({'job_id': job_id, 'url': job.reference_url, 'jit_score': job.jit_score, 'comparative_score': comparative_score, 'new_article_jit_score': self.jit_score })
+            if len(cannibalism) > 5:
                 break
-            output[article_id] = score
-            x += 1
-        print(f'System closest article score: {max_score_value}')
-        return max_score_value, output, shards_log
+
+        print(f'''
+        System Output: 
+        cannibalism: {cannibalism}
+''')
+        return cannibalism, self.jit_score, shards_log
 
 
 class Indexer(Tokenizer):

@@ -81,7 +81,7 @@ def inspect(job_id):
         'job': job,
         'status': job.status
     }
-    print(data)
+    # print(data)
 
     return render_template('inspect.html', data=data)
 

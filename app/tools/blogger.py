@@ -41,6 +41,7 @@ class Blogger(ValidateUrl):
         self.alt = []
         self.exceptional_tag_map = {}
         self.internal_links = ''
+        self.link_map = []
         self.preferred_first_image = False
         self.config = {}
 
@@ -81,7 +82,7 @@ class Blogger(ValidateUrl):
         for bad_signature in bad_signatures:
             try:
                 bs = self.find(bad_signature)
-                print('bs', bs, str(bs).strip().lower(), '===', bad_signature[2])
+                # print('bs', bs, str(bs).strip().lower(), '===', bad_signature[2])
                 virus = str(bad_signature[2]).strip().lower() in str(bs).strip().lower()
                 if virus:
                     output = True
@@ -188,13 +189,40 @@ class Blogger(ValidateUrl):
             raise Exception('Integrity lost during paraphrasing')
         self.save_local_content(rephrased, '-blocks')
         for index, block in enumerate(rephrased):
+            # print('Entering conditioning 1')
             block = block.replace('\\n', ' ').strip()
             block = block.replace('\n', ' ').strip()
             # print(index, block)
             reverse_word_map = self.reverse_word_map_lookup[index]
             # print(reverse_word_map)
+            self.save_local_content(self.link_map, '-link_map')
             tag = reverse_word_map.get('tag')
             if tag in self.recognizable_tags:
+                # print('Entering conditioning 2', self.link_map)
+                for link_index, link in enumerate(self.link_map):
+                    # print('Entering conditioning 3', link_index, link)
+                    if not link:
+                        continue
+                    key = list(link.keys())[0]
+                    a_tag = list(link.values())[0]
+                    # print('key, a_tag')
+                    # print(key, a_tag)
+                    if not a_tag:
+                        continue
+                    # print('Entering conditioning')
+                    if (key in reverse_word_map.get('lookup')) and (key in block):
+                        # print("if (key in reverse_word_map.get('lookup')) and (key in block):")
+                        # print(f"if ({key} in {reverse_word_map.get('lookup')}) and ({key} in {block}):")
+                        block = block.replace(key, a_tag, 1)
+                        # print('##################REPLACING###########################')
+                        # print(block)
+                        # print('##################REPLACED###########################')
+                        self.link_map[link_index] = None
+                    elif key in reverse_word_map.get('lookup'):
+                        # print("elif key in reverse_word_map.get('lookup'):")
+                        # print(f"elif {key} in {reverse_word_map.get('lookup')}:")
+                        block = f'{block} {a_tag}'
+                        self.link_map[link_index] = None
                 self.html_to_text = self.html_to_text.replace(reverse_word_map.get('lookup'),
                                                               self.encapsulate_word_with_tag(block, tag, 'html'))
             elif tag.strip() == 'alt':
@@ -204,6 +232,9 @@ class Blogger(ValidateUrl):
                 self.post.description_text = block
 
         self.html_to_text = self.html_to_text.replace('\n', '')
+        # print('#################HTML TEXT##########################')
+        # print(self.html_to_text)
+        # print('#################END HTML TEXT##########################')
 
     def find_all(self, tag):
         return re.findall(f'#{tag}#(.+?)@{tag}@', self.html_to_text)
@@ -231,11 +262,16 @@ class Blogger(ValidateUrl):
         print('Default Blogger get_description')
         return soup.find('meta', property="og:description").attrs['content']
     def secure_internal_links(self, main_content):
+        self.link_map = []
         a_hrefs = main_content.find_all('a')
         output = ''
+        # print(a_hrefs)
         web_masters = WebMaster.filter(WebMaster.id >= 1)
         unique_hrefs = {}
         for a_href in a_hrefs:
+            a_href_text = str(a_href.text).strip()
+            if 'img' in a_href_text:
+                continue
             ref = str(a_href.attrs['href'])
             if unique_hrefs.get(ref, False):
                 break
@@ -243,13 +279,24 @@ class Blogger(ValidateUrl):
             wm_count = len(web_masters)
             for wm in web_masters:
                 wm_count -= 1
-                if wm.reconnaissance.get('base_url', '') in ref:
-                    splitted_ref = ref.split(wm.url)
-                    if len(splitted_ref) <= 1:
+                # print("wm.reconnaissance.get('base_url', '*(@(@(') in ref")
+                # print(f"{wm.reconnaissance.get('base_url', '*(@(@(')} in {ref}")
+                wm_base_url = wm.reconnaissance.get('base_url', '*(@(@(')
+                endpoint_base_url = wm.reconnaissance.get('endpoint_base_url')
+                splash_ref = ref.split('/')
+                actual_url_slug = splash_ref[-2] if ref.endswith('/') else splash_ref[-1]
+
+                if wm_base_url in ref:
+                    print(True)
+                    splitted_ref = ref.split(wm_base_url)
+                    if (len(splitted_ref) <= 1) or (not len(a_href_text)):
                         continue
+                    # print('Go down', endpoint_base_url)
                     # Log for crawling
                     ref = ref.split('#')[0]
-                    if not self.confirm_page_crawled(ref):
+                    href_regex_tester = wm.reconnaissance.get('href_regex_tester')
+
+                    if re.search(href_regex_tester, ref) and (not self.confirm_page_crawled(ref)):
                         job = Job()
                         job.url = ref
                         job.web_master_id = wm.id
@@ -257,20 +304,27 @@ class Blogger(ValidateUrl):
                         job.meta = meta
                         job.status = QUEUED
                         job.save()
-                    output += f'<div><a class="read-more" href="{self.get_endpoint_base_url()}{splitted_ref[1]}">{a_href.text}</a></div>'
+                        self.link_map.append({a_href_text: f'<a class="read-more" href="{endpoint_base_url}{actual_url_slug}">{a_href_text}</a>'})
+                        output += f'<div><a class="read-more" href="{endpoint_base_url}{actual_url_slug}">{a_href_text}</a></div>'
+                    elif re.search(href_regex_tester, ref) and self.confirm_page_crawled(ref):
+                        self.link_map.append({ a_href_text: f'<a class="read-more" href="{endpoint_base_url}{actual_url_slug}">{a_href_text}</a>'})
+                        output += f'<div><a class="read-more" href="{endpoint_base_url}{actual_url_slug}">{a_href_text}</a></div>'
                     break
                 if wm_count <= 0:
-                    output += f'<div><a class="external-read-more" target="_blank" href="{ref}">{a_href.text}</a></div>'
+                    self.link_map.append({ a_href_text: f'<a class="read-more" href="{ref}">{a_href_text}</a>'})
+                    output += f'<div><a class="external-read-more" target="_blank" href="{ref}">{a_href_text}</a></div>'
                     break
         if not output:
             self.internal_links = ''
         else:
-            self.internal_links = f'''
-                    <section>
-                        <strong>Read More</strong>
-                        {output}
-                    </section>
-            '''
+            pass
+            # self.internal_links = f'''
+            #         <section>
+            #             <strong>Read More</strong>
+            #             {output}
+            #         </section>
+            # '''
+        # print(self.internal_links)
         # print(self.internal_links)
         return main_content
     def release_exceptional_tags(self):
@@ -395,7 +449,6 @@ class Blogger(ValidateUrl):
 
         main_content = self.secure_exceptional_tags(main_content)
         main_content = self.secure_internal_links(main_content)
-        # return
         main_content_str = str(main_content).replace('<br>', ' ')
         main_content_str = main_content_str.replace('<br/>', ' ')
         self.save_local_content(main_content_str, 'main-content')
@@ -419,7 +472,7 @@ class Blogger(ValidateUrl):
         print(f'Still going through {url}')
         self.html_to_text = re.sub(r"(.*?)#p##img#.*?src=(.*?)@img@@p@(.*?)", f"\g<1><img src=\g<2> /><div class='text-small d-inline image-source'><i>TechCabal</i></div>\g<3>",
                                    self.html_to_text)
-        print(self.html_to_text)
+        # print(self.html_to_text)
         print('Paraphrasing')
         try:
             self.clean_empty_tags()
@@ -434,7 +487,8 @@ class Blogger(ValidateUrl):
                 'created_at': self.post.created_at,
                 'document': document,
                 'exceptional_tag_map': self.exceptional_tag_map,
-                'internal_links': self.internal_links
+                'internal_links': self.internal_links,
+                'link_map': self.link_map
             }
             self.exceptional_tag_map = {}
             # print(data)
@@ -457,14 +511,15 @@ class Blogger(ValidateUrl):
         self.post.description_image = data.get('description_image', '')
         self.post.template = data.get('template', '')
         self.post.created_at = data.get('created_at', '')
+        self.link_map = data.get('link_map', [])
         self.html_to_text = self.post.template
 
-    def rephrase(self):
-        # return
-        self.identify_keyword()
-        self.save_local_content(self.html_to_text, '-template')
-        self.post.template = self.html_to_text
-        self.send_post()
+    # def rephrase(self):
+    #     # return
+    #     self.identify_keyword()
+    #     self.save_local_content(self.html_to_text, '-template')
+    #     self.post.template = self.html_to_text
+    #     self.send_post()
 
     def identify_keyword(self):
         last_soup = BeautifulSoup(self.html_to_text, "html.parser")
@@ -497,9 +552,9 @@ class Blogger(ValidateUrl):
             self.post.keywords += f', {keyword}' if index > 0 else f'{keyword}'
             keyword_length = len(keyword.split(' '))
             if keyword_length <= 2:
-                self.html_to_text = self.html_to_text.replace(f" {keyword} ", f" <strong>{keyword}</strong> ")
+                self.html_to_text = self.html_to_text.replace(f" {keyword} ", f" <strong>{keyword}</strong> ", 2)
             else:
-                self.html_to_text = self.html_to_text.replace(f" {keyword} ", f" <strong>{keyword}</strong> ")
+                self.html_to_text = self.html_to_text.replace(f" {keyword} ", f" <strong>{keyword}</strong> ", 2)
             if index > 20:
                 break
 
@@ -518,7 +573,9 @@ class Blogger(ValidateUrl):
             'created_at': self.post.created_at
         }
 
-    def send_post(self, endpoint, meta={}, status=None):
+    def send_post(self, endpoint, meta=None, status=None):
+        if meta is None:
+            meta = {}
         data = self.post_to_string()
         data = {**data, **meta}
         if status:
