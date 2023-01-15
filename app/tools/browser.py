@@ -5,6 +5,8 @@ from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
 from fake_useragent import UserAgent
 
+from app.tools.printer import Printer
+
 
 class Browser:
     driver = None
