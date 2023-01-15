@@ -5,6 +5,7 @@ from nltk.corpus import stopwords
 import nltk
 
 
+
 # nltk.download('stopwords')
 # nltk.download('punkt')
 
@@ -20,7 +21,9 @@ class Tokenizer:
         'li': 1,
         'div': 1
     }
-
+    def __init__(self):
+        from app.threads.mediator import Printer
+        self.printer = Printer
     def tokenize(self, block):
         # tokens = word_tokenize(block)
         tokens = block.split(' ')
@@ -34,7 +37,7 @@ class Tokenizer:
         words = [word for word in stripped if word.isalpha()]
         # filter out stop words
         sw_nltk = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', "you're", "you've", "you'll", "you'd", 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', "she's", 'her', 'hers', 'herself', 'it', "it's", 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', "that'll", 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', "don't", 'should', "should've", 'now', 'd', 'll', 'm', 'o', 're', 've', 'y', 'ain', 'aren', "aren't", 'couldn', "couldn't", 'didn', "didn't", 'doesn', "doesn't", 'hadn', "hadn't", 'hasn', "hasn't", 'haven', "haven't", 'isn', "isn't", 'ma', 'mightn', "mightn't", 'mustn', "mustn't", 'needn', "needn't", 'shan', "shan't", 'shouldn', "shouldn't", 'wasn', "wasn't", 'weren', "weren't", 'won', "won't", 'wouldn', "wouldn't"]
-        # print(sw_nltk)
+        # self.printer.basic_print(sw_nltk)
         tokens = [word for word in words if word not in sw_nltk]
         return tokens
 
@@ -42,19 +45,21 @@ class Tokenizer:
 class JITIndexer(Tokenizer):
 
     def __init__(self, article):
+        super().__init__()
         self.score = 0
         self.article = article
 
     def scorer(self):
         for tag, block in self.article.items():
             self.score += len(self.tokenize(block)) * self.points.get(tag, 0)
-        print('Current / New article score: ', self.score)
+        self.printer.basic_print(f'Current / New article score:  {self.score}')
         return self.score
 
 
 class ComparativeScorer(Tokenizer):
 
     def __init__(self, index, document):
+        super().__init__()
         if 'str' in str(type(document)):
             merged_document = document
         elif 'dict' in str(type(document)):
@@ -66,10 +71,10 @@ class ComparativeScorer(Tokenizer):
         self.index = index
         self.jit_score = JITIndexer(document).scorer()
         self.tokenized_document = list(set(self.tokenize(merged_document)))
-        print('About to compare')
+        self.printer.basic_print('About to compare')
 
     def scorer(self):
-        print('Comparing')
+        self.printer.basic_print('Comparing')
         shards = []
         shards_log = []
         missing = 0
@@ -82,14 +87,14 @@ class ComparativeScorer(Tokenizer):
             else:
                 missing += 1
         comparative_scores = {}
-        # print(shards_log)
+        # self.printer.basic_print(shards_log)
         for shard in shards:
             for job_id, indices in shard.items():
                 if not comparative_scores.get(job_id, None):
                     comparative_scores[job_id] = 0
                 for tag, frequency in indices.items():
                     comparative_scores[job_id] += self.points.get(tag, 0) * frequency
-        print(comparative_scores)
+        self.printer.basic_print(comparative_scores)
         # past_scores = {}
         cannibalism = []
         from app.models.base import Job
@@ -100,7 +105,7 @@ class ComparativeScorer(Tokenizer):
             if len(cannibalism) > 5:
                 break
 
-        print(f'''
+        self.printer.print(f'''
         System Output: 
         cannibalism: {cannibalism}
 ''')
@@ -110,6 +115,7 @@ class ComparativeScorer(Tokenizer):
 class Indexer(Tokenizer):
 
     def __init__(self, article_id, index, article):
+        super().__init__()
         self.index = index
         self.article_id = str(article_id)
         self.article = article
@@ -133,7 +139,7 @@ class Indexer(Tokenizer):
                                                                                                      None):
                 del existing_token.shard[self.article_id]
                 processed_tokens[token] = True
-                print(existing_token.shard)
+                self.printer.basic_print(existing_token.shard)
                 existing_token.shard = existing_token.shard
                 existing_token.total = len(existing_token.shard.keys())
                 if existing_token.total:
@@ -147,12 +153,12 @@ class Indexer(Tokenizer):
         for token in tokens:
             Index = self.index
             existing_token = Index.get_or_none(Index.token == token)
-            # print('existing_token == ', existing_token)
+            # self.printer.basic_print('existing_token == ', existing_token)
             if not processed_tokens.get(token, None) and existing_token and existing_token.shard.get(self.article_id,
                                                                                                      {}).get(tag, None):
                 del existing_token.shard[self.article_id][tag]
                 processed_tokens[token] = True
-                # print(existing_token.shard)
+                # self.printer.basic_print(existing_token.shard)
             elif not processed_tokens.get(token, None) and existing_token:
                 processed_tokens[token] = True
             if existing_token:

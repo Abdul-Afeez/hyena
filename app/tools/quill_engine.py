@@ -2,6 +2,8 @@ import time
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 
+from app.threads.mediator import Printer
+
 
 def handle_failure(func):
     def inner(*args, **kwargs):
@@ -72,7 +74,7 @@ class Quill:
 
     @staticmethod
     def refresh_browser():
-        print('refresh_browser called')
+        Printer.basic_print('refresh_browser called')
 
         Quill.driver.get(f'{Quill.landing_page}')
         time.sleep(8)
@@ -88,9 +90,9 @@ class Quill:
             else:
                 close_location = location
             if close_location:
-                print(f'Trying to close {message} modal')
+                Printer.basic_print(f'Trying to close {message} modal')
                 close_location.click()
-                print('modal closed successfully')
+                Printer.basic_print('modal closed successfully')
                 time.sleep(3)
                 Quill.modal_on = False
                 Quill.death_recovery = 0
@@ -104,8 +106,8 @@ class Quill:
 
             try:
                 time.sleep(3)
-                print('Trying to close_any_modal')
-                print(f"counter={counter} of max_attempt={max_attempt}")
+                Printer.basic_print('Trying to close_any_modal')
+                Printer.basic_print(f"counter={counter} of max_attempt={max_attempt}")
                 counter += 1
                 if Quill.death_recovery >= 6:
                     Quill.browser.close()
@@ -114,11 +116,11 @@ class Quill:
                 if counter >= max_attempt:
                     Quill.modal_on = False
                     Quill.death_recovery += 1
-                    print(f'Recovering from death channel {Quill.death_recovery}')
+                    Printer.basic_print(f'Recovering from death channel {Quill.death_recovery}')
                 premium_green_modal = "//button[contains(@class, 'MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-30h9jf')]"
                 close_go_premium_modes_yellow_modal_btn = "//svg[contains(@class, 'MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-10dohqv')]"
 
-                print('About to make the latest close modal engine')
+                Printer.basic_print('About to make the latest close modal engine')
 
                 Quill.click_close_location(premium_green_modal, 'premium_green_modal')
                 Quill.click_close_location(close_go_premium_modes_yellow_modal_btn,
@@ -132,36 +134,36 @@ class Quill:
     def set_text(self, to_be_paraphrased):
         to_be_paraphrased = to_be_paraphrased.replace('\n', ' ')
         # print(to_be_paraphrased)
-        print('inside set_text')
+        Printer.basic_print('inside set_text')
         time.sleep(4)
-        print('Getting input text to location')
+        Printer.basic_print('Getting input text to location')
         inputText = Quill.driver.find_element(By.ID, 'inputText')
         # print('Setting input text to ' + to_be_paraphrased)
         script = "document.getElementById('inputText').innerHTML = `" + to_be_paraphrased + "`;"
         Quill.driver.execute_script(script)
-        print('Setting input text to successful')
+        Printer.basic_print('Setting input text to successful')
         inputText.send_keys(Keys.ENTER)
         time.sleep(2)
         inputText.send_keys(Keys.ENTER)
-        print('Pressing enter key')
+        Printer.basic_print('Pressing enter key')
         time.sleep(5)
         inputText.send_keys(Keys.ENTER)
-        print('Finding quillArticleBtn')
+        Printer.basic_print('Finding quillArticleBtn')
         inputText.send_keys(Keys.ENTER)
 
     @staticmethod
     def click_paraphrase_button():
         time.sleep(1)
         btn = Quill.driver.find_element(By.XPATH, "//button[contains(@class, 'quillArticleBtn')]")
-        print('Clicking quillArticleBtn')
+        Printer.basic_print('Clicking quillArticleBtn')
         btn.click()
 
     def copy(self):
         self.output = None
         try:
-            print('Locating output text for copy')
+            Printer.basic_print('Locating output text for copy')
             output_text = Quill.driver.find_element(By.ID, 'editable-content-within-article')
-            print('Saving output text into outputs')
+            Printer.basic_print('Saving output text into outputs')
             self.counter += 1
             inner_text = output_text.get_attribute('innerText')
             self.output = inner_text

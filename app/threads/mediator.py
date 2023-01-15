@@ -44,7 +44,7 @@ class Inspector:
                 job = None
                 if data:
                     job_web_master = WebMaster.get(WebMaster.id == pending_job.web_master_id)
-                    print(f'Setting endpoint by job_web_master = {job_web_master.name}')
+                    Printer.basic_print(f'Setting endpoint by job_web_master = {job_web_master.name}')
                     data['endpoint'] = job_web_master.reconnaissance.get('endpoint')
                     data['cannibalism'] = cannibalism
                     quill_webmaster = WebMaster.get(WebMaster.url == QUILL_URL)
@@ -117,7 +117,7 @@ class Scheduler:
                 # print(f'Setting next run time to {new_next_run}')
                 Scheduler.rules[web_master.id] = {**Scheduler.rules[web_master.id], 'next_run': new_next_run}
             elif now < next_run and len(pending_or_running_jobs):
-                print(f'Delaying  because next_run {next_run} is < now {now} ')
+                Printer.basic_print(f'Delaying  because next_run {next_run} is < now {now} ')
                 continue
             # print(f'pending_or_running_jobs == {len(pending_or_running_jobs)}')
             difference = 0
@@ -136,7 +136,7 @@ class Scheduler:
                     queued_job.status = PENDING
                     queued_job.save()
             else:
-                print(f'More jobs are sufficiently running for now on WebMaster {web_master.name}')
+                Printer.basic_print(f'More jobs are sufficiently running for now on WebMaster {web_master.name}')
                 pass
 
         # print('Sleeping till jobs arrive')
@@ -160,7 +160,7 @@ class Mediator:
             pending_jobs = scheduler.get_pending_jobs()
             for job in pending_jobs:
                 # print(job.meta)
-                print(f'Enqueuing job with url === {job.url}')
+                Printer.basic_print(f'Enqueuing job with url === {job.url}')
                 self.enqueue_thread(job)
                 # print(f'Enqueued job with url === {job.url} successfully')
             # print(f'Browser History = {Browser.history}')
@@ -182,11 +182,11 @@ class Mediator:
         pass
 
     def enqueue_thread(self, job):
-        # try:
-        print(f'Registering {job.id} on {job.url}')
-        self.thread_factory.register_thread(job)
-        # except Exception as e:
-        #     # print(e)
+        try:
+            Printer.basic_print(f'Registering {job.id} on {job.url}')
+            self.thread_factory.register_thread(job)
+        except Exception as e:
+            print(e)
 
     @staticmethod
     def terminate(url):
@@ -197,11 +197,11 @@ class Mediator:
                 Browser.session_id = None
             else:
                 previous_tab_index = Mediator.browser.history.index(url) - 1
-            print(f'Removing {url} from {Mediator.threads}')
+            Printer.basic_print(f'Removing {url} from {Mediator.threads}')
 
             del Mediator.threads[url]
             Mediator.browser.close_tab(url)
-            print('Switching browser to previous tab')
+            Printer.basic_print('Switching browser to previous tab')
             Mediator.browser.switch_to_tab(Mediator.browser.history[previous_tab_index])
         except Exception as e:
             print(e)
@@ -228,7 +228,7 @@ class Thread:
     def release(self):
         # self.job.status = PENDING
         # self.job.save()
-        print(f'Releasing after self.job.id == {self.job.id}, self.job.status == {self.job.status}')
+        Printer.basic_print(f'Releasing after self.job.id == {self.job.id}, self.job.status == {self.job.status}')
         steps = self.steps
         for index, step in enumerate(steps):
             if index == 0:
@@ -238,19 +238,31 @@ class Thread:
                 steps[index] = {**step, 'max_health_check': 40, 'started_at': None, 'status': Thread.PENDING,
                                 'retries': 4}
                 self.steps = steps
-        print(self.steps)
+        # print(self.steps)
 
     def set_job(self, job):
         self.job = job
         self.payload = job.meta
 
+    def correct_start_synchronization(self):
+        detected_pending = False
+        steps = self.steps
+        # print(steps)
+        for index, step in enumerate(steps):
+            # if index > current_index:
+            #     break
+            status = step.get('status', Thread.PENDING)
+            if status == Thread.PENDING:
+                detected_pending = True
+            if detected_pending:
+                steps[index] = {**steps[index], 'status': Thread.PENDING}
+        self.steps = steps
     def execute(self):
         # print('Executing......................')
         steps = self.steps
+        self.correct_start_synchronization()
         for index, step in enumerate(steps):
-            print(self.job.id, self.job.url, self.job.status)
-            print(step)
-            # print(f'Can I Execute...................... {index} self.job.status == {self.job.status}')
+            # print(step)
             status = step.get('status', Thread.PENDING)
             timeout = step.get('timeout', 0) * 60
             retries = step.get('retries', 3)
@@ -262,7 +274,7 @@ class Thread:
             execution_time = (now - started_at)
             timed_out = execution_time >= timeout
             if not retries or (self.job.status == RUNNING and timed_out):
-                print('Timed out')
+                Printer.basic_print('Timed out')
                 self.job.status = FAILED if retries else TIMEOUT
                 self.job.meta = {**self.job.meta, 'retries': retries, 'execution_time': execution_time,
                                  'timed_out': timed_out}
@@ -292,32 +304,33 @@ class Thread:
                 # print(f'Ended running step {index + 1} of {len(self.steps)} steps under url === {url}')
                 break
             elif status == Thread.RUNNING and self.job.status in [RUNNING]:
-                print(f'Checking if step is healthy')
+                # print(f'Checking if step is healthy')
                 self.steps = steps
                 max_health_check = step.get('max_health_check', 0)
                 sleep = step.get('sleep', 0)
                 # sleep for specified amount of time so that max time per step == timeout * max_health_check
                 time.sleep(sleep)
                 health_check = step.get('method')(health_check=True)
-                print(f'Healthcheck returned {health_check}')
+                # print(f'Healthcheck returned {health_check}')
                 if health_check:
-                    print('health_check and setting thread status to RAN')  # WIP, please wait and check back later
+                    # print('health_check and setting thread status to RAN')  # WIP, please wait and check back later
                     steps[index] = {**steps[index], 'status': Thread.RAN}
+                #     check if all previous step are ran otherwise return to PENDING
                 elif max_health_check:
-                    print('Using max_health_check potion to retry')  # WIP, please wait and check back later
+                    Printer.basic_print('Using max_health_check potion to retry')  # WIP, please wait and check back later
                     steps[index] = {**steps[index], 'max_health_check': max_health_check - 1}
                 else:
                     print(f'Terminating {health_check} for no reason I guess')
                     Mediator.terminate(url)
                 break
             elif (status == Thread.RAN) and (index == len(self.steps) - 1) and self.exit_on_complete:
-                print(f'Terminating due to exit_on_complete')
+                Printer.basic_print(f'Terminating due to exit_on_complete')
                 self.job.status = RAN
                 self.job.save()
                 Mediator.terminate(url)
                 break
             elif (status == Thread.RAN) and (index == len(self.steps) - 1):
-                # print('Releasing Thread')
+                Printer.basic_print('Releasing Thread')
                 self.job.status = RAN
                 self.job.save()
                 self.release()
@@ -334,15 +347,15 @@ class ThreadFactory:
 
     def register_thread(self, job):
         url = job.url
-        print(f'url === {url}  and Mediator.threads === {Mediator.threads}')
+        # print(f'url === print{url}  and Mediator.threads === {Mediator.threads}')
         if url in Mediator.threads.keys():
-            print(f'Using Existing Thread Runner for new f{job.id}')
+            # print(f'Using Existing Thread Runner for new {job.id}')
             existing_thread = Mediator.threads.get(url)
             existing_thread.set_job(job)
             return existing_thread
         if url == QUILL_URL:
             new_thread = QuillThread(job)
-            print('Starting new Quill thread and waiting for 3  sec')
+            # print('Starting new Quill thread and waiting for 3  sec')
             time.sleep(3)
         else:
             web_master = WebMaster.get(WebMaster.id == job.web_master_id)
@@ -356,10 +369,10 @@ class ThreadFactory:
         if new_thread:
             try:
                 if not len(Mediator.browser.history):
-                    print('Mediator.browser.driver.get(url)')
+                    Printer.basic_print('Mediator.browser.driver.get(url)')
                     Mediator.browser.get(url)
                 else:
-                    print('Mediator.browser.open_link_in_new_tab(url)')
+                    Printer.basic_print('Mediator.browser.open_link_in_new_tab(url)')
                     Mediator.browser.open_link_in_new_tab(url)
                 Mediator.threads[url] = new_thread
             except Exception as e:
@@ -389,6 +402,8 @@ class QuillThread(Thread):
             {'method': self.step_4, 'retries': 4,
              'timeout': 20, 'max_health_check': 40, 'sleep': 0}
         ]
+        self.section_1_paraphrased_cache = None
+        self.duo_paraphrasing = False
 
     def step_1(self, health_check=False):
         # login to quill
@@ -409,7 +424,23 @@ class QuillThread(Thread):
             blogger = Blogger()
             blogger.set_state(self.payload)
             self.blogger = blogger
-            c_input = blogger.get_rephrase_text()
+            section_1, section_2 = blogger.get_rephrase_text()
+            if section_2:
+                Printer.print('Duo Paraphrasing mode')
+                self.duo_paraphrasing = True
+
+            if not section_2:
+                c_input = section_1
+                self.job.meta['c_input'] = c_input
+            elif not self.section_1_paraphrased_cache:
+                c_input = section_1
+                self.job.meta['c_input'] = c_input
+            elif section_2 and self.section_1_paraphrased_cache:
+                Printer.print('Setting Input for the second section')
+                c_input = section_2
+                self.job.meta['c_input'] += f'\\n\\n\\n{c_input}'
+            else:
+                c_input = section_1
             paraphrased_text = self.job.meta.get('paraphrased_text', None)
             if self.payload.get('opener', False) or (
                     self.job.status not in [PENDING, RUNNING]):  # FAILED OR QUEUED along
@@ -423,7 +454,6 @@ class QuillThread(Thread):
                 steps[2] = {**self.steps[2], 'status': RAN}
                 self.steps = steps
             else:
-                self.job.meta['c_input'] = c_input
                 self.job.save()
                 self.quill.set_text(c_input)
 
@@ -440,14 +470,30 @@ class QuillThread(Thread):
             return True
         else:
             endpoint = self.job.meta.get('endpoint', None)
-            print(f'Endpoint is = {endpoint}')
+            Printer.basic_print(f'Endpoint is = {endpoint}')
             paraphrased_text = self.job.meta.get('paraphrased_text', None)
             exceptional_tag_map = self.job.meta.get('exceptional_tag_map', {})
-            if not paraphrased_text:
+            if not paraphrased_text and not self.duo_paraphrasing:
+                Printer.print('Not Duo, copying text')
                 paraphrased_text = self.quill.copy()
+            elif self.duo_paraphrasing and not self.section_1_paraphrased_cache:
+                Printer.print('Duo Mode, copying text and pending previous steps for rerun')
+                self.section_1_paraphrased_cache = self.quill.copy()
+                steps = self.steps
+                steps[1] = {**self.steps[1], 'status': PENDING} # Ensure quillbot can go through one more time before going downstream
+                # steps[2] = {**self.steps[2], 'status': PENDING}
+                # steps[3] = {**self.steps[3], 'status': PENDING}
+                self.steps = steps
+                return
+
+            elif self.duo_paraphrasing and self.section_1_paraphrased_cache:
+                paraphrased_text = f"{self.section_1_paraphrased_cache}\\n\\n\\n{self.quill.copy()}"
+            else:
+                paraphrased_text = 'Illegitimate'
             self.blogger.save_local_content(paraphrased_text, '-output-1-raw')
             self.blogger.save_local_content(paraphrased_text.replace('\n\n\n', '\n'), '-output-1')
             try:
+                Printer.basic_print('About to save')
                 self.blogger.exceptional_tag_map = exceptional_tag_map
                 self.blogger.remove_stamp_from_tag_map(paraphrased_text)
                 self.blogger.release_exceptional_tags()
@@ -456,12 +502,16 @@ class QuillThread(Thread):
                 self.blogger.send_post(endpoint, {'job_id': self.job.id})
                 self.job.meta['post_data'] = self.blogger.post_to_string()
                 self.job.sub_status = ''
+                Printer.basic_print('Saving..................')
                 self.job.save()
             except Exception as e:
                 self.job.sub_status = PARAPHRASING_MISMATCH_ERROR
                 self.job.meta['paraphrased_text'] = paraphrased_text
                 self.job.save()
                 print(e)
+            finally:
+                self.duo_paraphrasing = False
+                self.section_1_paraphrased_cache = None
 
 
 class ReconnaissanceThread(Thread):
@@ -574,3 +624,17 @@ class SiteMapReconnaissanceThread(Thread):
             except Exception as e:
                 self.browser.driver.get(url)
                 raise Exception(e)
+
+
+class Printer:
+    debugMode = False
+    @staticmethod
+    def print(message):
+        if Printer.debugMode:
+            print('######################################################################')
+            print(message)
+            print('######################################################################')
+    @staticmethod
+    def basic_print(message):
+        if Printer.debugMode:
+            print(message)

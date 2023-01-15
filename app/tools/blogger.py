@@ -31,6 +31,7 @@ class Blogger(ValidateUrl):
     }
 
     def __init__(self):
+        from app.threads.mediator import Printer
         self.html_to_text = None
         self.posts = []
         self.soup = None
@@ -44,6 +45,7 @@ class Blogger(ValidateUrl):
         self.link_map = []
         self.preferred_first_image = False
         self.config = {}
+        self.printer = Printer
 
     def find(self, node, find_all=False):
         '''
@@ -52,7 +54,7 @@ class Blogger(ValidateUrl):
         :return: text or tag or list of tags
         [["h1", "class", "lg:text-4xl", "0"], "text"]]
         '''
-        print('node ========= ', node)
+        self.printer.basic_print(f'node ========= {node}')
         finder = self.soup.find
         node[0][3] = int(node[0][3])
         if find_all:
@@ -77,7 +79,7 @@ class Blogger(ValidateUrl):
 
     def should_not_be_parsed(self):
         bad_signatures = self.config.get('bad_signatures', [])
-        print('bad_signatures', bad_signatures)
+        self.printer.basic_print('bad_signatures  ==  {bad_signatures}')
         output = False
         for bad_signature in bad_signatures:
             try:
@@ -236,6 +238,11 @@ class Blogger(ValidateUrl):
         # print(self.html_to_text)
         # print('#################END HTML TEXT##########################')
 
+    def split_list(self, a_list):
+        half = len(a_list) // 2
+        return a_list[:half], a_list[half:]
+    def word_counter(self, words):
+        return len(words.split(' '))
     def find_all(self, tag):
         return re.findall(f'#{tag}#(.+?)@{tag}@', self.html_to_text)
 
@@ -252,14 +259,20 @@ class Blogger(ValidateUrl):
         self.stamp_tag_map(self.find_all('p'), 'p')
         self.stamp_tag_map(self.alt, 'alt')
         self.stamp_tag_map([description_text], 'description')
+
+
         c_input = '\\n\\n\\n'.join(self.word_map)
         self.save_local_content(self.html_to_text, '-paraphrased')
         self.save_local_content(c_input, '-input')
         self.save_local_content(self.word_map, '-word_map')
-        return c_input
+
+        if len(c_input.split(' ')) > 1200:
+            section_1, section_2 = self.split_list(self.word_map)
+            return '\\n\\n\\n'.join(section_1), '\\n\\n\\n'.join(section_2)
+        return c_input, None
 
     def get_description(self, soup):
-        print('Default Blogger get_description')
+        self.printer.basic_print('Default Blogger get_description')
         return soup.find('meta', property="og:description").attrs['content']
     def secure_internal_links(self, main_content):
         self.link_map = []
@@ -419,7 +432,7 @@ class Blogger(ValidateUrl):
                 'document': document
             }
         '''
-        print('crawling 123')
+        self.printer.basic_print('crawling 123')
         # print(self.browser.history)
         self.soup = BeautifulSoup(html, "html.parser")
         if self.should_not_be_parsed():
@@ -434,16 +447,16 @@ class Blogger(ValidateUrl):
             self.post.created_at = datetime.datetime.now()
             print('error processing date')
         self.post.title = self.get_h1()
-        print('Getting main content')
+        self.printer.basic_print('Getting main content')
         try:
             main_content = self.get_main_content(self.soup)
             # return main_content
         except Exception as e:
             print('Error occured', e)
             return False
-        print('Setting description image')
+        self.printer.basic_print('Setting description image')
         self.set_description_image(main_content)
-        print('remove_unwanted_blocks')
+        self.printer.basic_print('remove_unwanted_blocks')
         main_content = self.remove_unwanted_blocks(main_content)
         main_content = self.secure_image(main_content)
 
@@ -453,7 +466,7 @@ class Blogger(ValidateUrl):
         main_content_str = main_content_str.replace('<br/>', ' ')
         self.save_local_content(main_content_str, 'main-content')
         main_content = BeautifulSoup(main_content_str, "html.parser")
-        print('Escaping tags')
+        self.printer.basic_print('Escaping tags')
         document = {}
         for each_tag in self.recognizable_tags:  # ['h1', 'h2', 'p' ......]
             for tag in main_content.find_all(each_tag):  # ['h1': [<h1>Block buster</h1>]]
@@ -469,11 +482,11 @@ class Blogger(ValidateUrl):
                 document[each_tag] = re.sub(r"(.*?)#img#.*src=(.*?)@img@(.*?)", f"\g<1> \g<3>",
                                             document[each_tag])
         self.html_to_text = str(main_content.text)
-        print(f'Still going through {url}')
+        self.printer.basic_print(f'Still going through {url}')
         self.html_to_text = re.sub(r"(.*?)#p##img#.*?src=(.*?)@img@@p@(.*?)", f"\g<1><img src=\g<2> /><div class='text-small d-inline image-source'><i>TechCabal</i></div>\g<3>",
                                    self.html_to_text)
         # print(self.html_to_text)
-        print('Paraphrasing')
+        self.printer.basic_print('Paraphrasing')
         try:
             self.clean_empty_tags()
             self.terminate()

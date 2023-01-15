@@ -57,10 +57,10 @@ class Spider(Scanner):
                 print(e)
             self.valid_cache[reformed_link] = True
             self.urls = list(set(self.urls))
-            print(f'Crawling length == {len(self.urls)}')
+            self.printer.basic_print(f'Crawling length == {len(self.urls)}')
 
     def get_page_content(self):
-        print(str(super().get_page_content()))
+        self.printer.basic_print(str(super().get_page_content()))
         hrefs = re.findall(self.config.get('href_regex'), str(super().get_page_content()))
         self.links = hrefs
         return hrefs
@@ -74,7 +74,7 @@ class Spider(Scanner):
                 break
             try:
                 script = f"Array.from(document.getElementsByTagName('{possible_tag}')).filter(item => item.innerText === '{read_more_text}')[0]"
-                print(script)
+                self.printer.basic_print(script)
                 if find:
                     self.browser.driver \
                         .execute_script(f'{script}.innerText')
@@ -92,7 +92,7 @@ class Spider(Scanner):
         return read_more_btn
 
     def get_read_more_button(self):
-        print('Finding read_more_btn done')
+        self.printer.basic_print('Finding read_more_btn done')
         if self.first_page:
             return True
         try:
@@ -104,8 +104,8 @@ class Spider(Scanner):
         return False
 
     def click_next_page(self):
-        print('click_next_page Waiting for content to load')
-        print('Content loaded clicking button')
+        self.printer.basic_print('click_next_page Waiting for content to load')
+        self.printer.basic_print('Content loaded clicking button')
         if self.first_page:
             self.current_page += 1
             self.driver.get(self.config.get('url').replace('{page}', str(self.current_page)))
