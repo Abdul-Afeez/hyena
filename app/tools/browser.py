@@ -5,8 +5,6 @@ from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
 from fake_useragent import UserAgent
 
-from app.threads.mediator import Printer
-
 
 class Browser:
     driver = None
@@ -21,6 +19,7 @@ class Browser:
     # options.add_argument('--disable-gpu')
     # options.add_argument("--disable-dev-shm-usage")
     def __init__(self):
+        from app.tools.printer import Printer
         self.printer = Printer
     @staticmethod
     def set_desired_capabilities(desired_capabilities):

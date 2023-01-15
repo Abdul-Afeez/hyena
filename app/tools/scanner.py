@@ -11,7 +11,7 @@ class Scanner(ValidateUrl):
     driver = None
 
     def __init__(self):
-        from app.threads.mediator import Printer
+        from app.tools.printer import Printer
         self.output = []
         self.urls = []
         self.url = None

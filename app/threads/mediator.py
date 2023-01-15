@@ -23,6 +23,9 @@ class Inspector:
 
     To run: curl localhost/inpector
     '''
+    def __init__(self):
+        from app.tools.printer import Printer
+        self.printer = Printer
     def get_pending_jobs(self):
         return Job.filter(Job.sub_status == MARKED_FOR_INSPECTION)
 
@@ -44,7 +47,7 @@ class Inspector:
                 job = None
                 if data:
                     job_web_master = WebMaster.get(WebMaster.id == pending_job.web_master_id)
-                    Printer.basic_print(f'Setting endpoint by job_web_master = {job_web_master.name}')
+                    self.printer.basic_print(f'Setting endpoint by job_web_master = {job_web_master.name}')
                     data['endpoint'] = job_web_master.reconnaissance.get('endpoint')
                     data['cannibalism'] = cannibalism
                     quill_webmaster = WebMaster.get(WebMaster.url == QUILL_URL)
@@ -75,6 +78,8 @@ class Scheduler:
     rules = {}  # for fast and accessible storage like timeout, next_run (delays)
 
     def __init__(self):
+        from app.tools.printer import Printer
+        self.printer = Printer
         # Delete Old Quill jobs
         Job.delete().where((Job.url == QUILL_URL & Job.sub_status != PARAPHRASING_MISMATCH_ERROR) &
                            ((Job.status == RUNNING) | (Job.status == RAN) & Job.reference_url is None)).execute()
@@ -117,7 +122,7 @@ class Scheduler:
                 # print(f'Setting next run time to {new_next_run}')
                 Scheduler.rules[web_master.id] = {**Scheduler.rules[web_master.id], 'next_run': new_next_run}
             elif now < next_run and len(pending_or_running_jobs):
-                Printer.basic_print(f'Delaying  because next_run {next_run} is < now {now} ')
+                self.printer.basic_print(f'Delaying  because next_run {next_run} is < now {now} ')
                 continue
             # print(f'pending_or_running_jobs == {len(pending_or_running_jobs)}')
             difference = 0
@@ -136,7 +141,7 @@ class Scheduler:
                     queued_job.status = PENDING
                     queued_job.save()
             else:
-                Printer.basic_print(f'More jobs are sufficiently running for now on WebMaster {web_master.name}')
+                self.printer.basic_print(f'More jobs are sufficiently running for now on WebMaster {web_master.name}')
                 pass
 
         # print('Sleeping till jobs arrive')
@@ -150,6 +155,8 @@ class Mediator:
     browser = None
 
     def __init__(self):
+        from app.tools.printer import Printer
+        self.printer = Printer
         Mediator.browser = Browser()
         Mediator.browser.get_driver()
         self.thread_factory = ThreadFactory()
@@ -160,7 +167,7 @@ class Mediator:
             pending_jobs = scheduler.get_pending_jobs()
             for job in pending_jobs:
                 # print(job.meta)
-                Printer.basic_print(f'Enqueuing job with url === {job.url}')
+                self.printer.basic_print(f'Enqueuing job with url === {job.url}')
                 self.enqueue_thread(job)
                 # print(f'Enqueued job with url === {job.url} successfully')
             # print(f'Browser History = {Browser.history}')
@@ -183,7 +190,7 @@ class Mediator:
 
     def enqueue_thread(self, job):
         try:
-            Printer.basic_print(f'Registering {job.id} on {job.url}')
+            self.printer.basic_print(f'Registering {job.id} on {job.url}')
             self.thread_factory.register_thread(job)
         except Exception as e:
             print(e)
@@ -197,11 +204,11 @@ class Mediator:
                 Browser.session_id = None
             else:
                 previous_tab_index = Mediator.browser.history.index(url) - 1
-            Printer.basic_print(f'Removing {url} from {Mediator.threads}')
+            self.printer.basic_print(f'Removing {url} from {Mediator.threads}')
 
             del Mediator.threads[url]
             Mediator.browser.close_tab(url)
-            Printer.basic_print('Switching browser to previous tab')
+            self.printer.basic_print('Switching browser to previous tab')
             Mediator.browser.switch_to_tab(Mediator.browser.history[previous_tab_index])
         except Exception as e:
             print(e)
@@ -214,6 +221,8 @@ class Thread:
     RAN = 'RAN'
 
     def __init__(self, job):
+        from app.tools.printer import Printer
+        self.printer = Printer
         self.browser = Mediator.browser
         self.driver = Mediator.browser.driver
         self.job = job
@@ -228,7 +237,7 @@ class Thread:
     def release(self):
         # self.job.status = PENDING
         # self.job.save()
-        Printer.basic_print(f'Releasing after self.job.id == {self.job.id}, self.job.status == {self.job.status}')
+        self.printer.basic_print(f'Releasing after self.job.id == {self.job.id}, self.job.status == {self.job.status}')
         steps = self.steps
         for index, step in enumerate(steps):
             if index == 0:
@@ -274,7 +283,7 @@ class Thread:
             execution_time = (now - started_at)
             timed_out = execution_time >= timeout
             if not retries or (self.job.status == RUNNING and timed_out):
-                Printer.basic_print('Timed out')
+                self.printer.basic_print('Timed out')
                 self.job.status = FAILED if retries else TIMEOUT
                 self.job.meta = {**self.job.meta, 'retries': retries, 'execution_time': execution_time,
                                  'timed_out': timed_out}
@@ -317,20 +326,20 @@ class Thread:
                     steps[index] = {**steps[index], 'status': Thread.RAN}
                 #     check if all previous step are ran otherwise return to PENDING
                 elif max_health_check:
-                    Printer.basic_print('Using max_health_check potion to retry')  # WIP, please wait and check back later
+                    self.printer.basic_print('Using max_health_check potion to retry')  # WIP, please wait and check back later
                     steps[index] = {**steps[index], 'max_health_check': max_health_check - 1}
                 else:
                     print(f'Terminating {health_check} for no reason I guess')
                     Mediator.terminate(url)
                 break
             elif (status == Thread.RAN) and (index == len(self.steps) - 1) and self.exit_on_complete:
-                Printer.basic_print(f'Terminating due to exit_on_complete')
+                self.printer.basic_print(f'Terminating due to exit_on_complete')
                 self.job.status = RAN
                 self.job.save()
                 Mediator.terminate(url)
                 break
             elif (status == Thread.RAN) and (index == len(self.steps) - 1):
-                Printer.basic_print('Releasing Thread')
+                self.printer.basic_print('Releasing Thread')
                 self.job.status = RAN
                 self.job.save()
                 self.release()
@@ -343,6 +352,8 @@ class Thread:
 class ThreadFactory:
 
     def __int__(self):
+        from app.tools.printer import Printer
+        self.printer = Printer
         pass
 
     def register_thread(self, job):
@@ -369,10 +380,10 @@ class ThreadFactory:
         if new_thread:
             try:
                 if not len(Mediator.browser.history):
-                    Printer.basic_print('Mediator.browser.driver.get(url)')
+                    self.printer.basic_print('Mediator.browser.driver.get(url)')
                     Mediator.browser.get(url)
                 else:
-                    Printer.basic_print('Mediator.browser.open_link_in_new_tab(url)')
+                    self.printer.basic_print('Mediator.browser.open_link_in_new_tab(url)')
                     Mediator.browser.open_link_in_new_tab(url)
                 Mediator.threads[url] = new_thread
             except Exception as e:
@@ -470,14 +481,14 @@ class QuillThread(Thread):
             return True
         else:
             endpoint = self.job.meta.get('endpoint', None)
-            Printer.basic_print(f'Endpoint is = {endpoint}')
+            self.printer.basic_print(f'Endpoint is = {endpoint}')
             paraphrased_text = self.job.meta.get('paraphrased_text', None)
             exceptional_tag_map = self.job.meta.get('exceptional_tag_map', {})
             if not paraphrased_text and not self.duo_paraphrasing:
-                Printer.print('Not Duo, copying text')
+                self.printer.print('Not Duo, copying text')
                 paraphrased_text = self.quill.copy()
             elif self.duo_paraphrasing and not self.section_1_paraphrased_cache:
-                Printer.print('Duo Mode, copying text and pending previous steps for rerun')
+                self.printer.print('Duo Mode, copying text and pending previous steps for rerun')
                 self.section_1_paraphrased_cache = self.quill.copy()
                 steps = self.steps
                 steps[1] = {**self.steps[1], 'status': PENDING} # Ensure quillbot can go through one more time before going downstream
@@ -493,7 +504,7 @@ class QuillThread(Thread):
             self.blogger.save_local_content(paraphrased_text, '-output-1-raw')
             self.blogger.save_local_content(paraphrased_text.replace('\n\n\n', '\n'), '-output-1')
             try:
-                Printer.basic_print('About to save')
+                self.printer.basic_print('About to save')
                 self.blogger.exceptional_tag_map = exceptional_tag_map
                 self.blogger.remove_stamp_from_tag_map(paraphrased_text)
                 self.blogger.release_exceptional_tags()
@@ -502,7 +513,7 @@ class QuillThread(Thread):
                 self.blogger.send_post(endpoint, {'job_id': self.job.id})
                 self.job.meta['post_data'] = self.blogger.post_to_string()
                 self.job.sub_status = ''
-                Printer.basic_print('Saving..................')
+                self.printer.basic_print('Saving..................')
                 self.job.save()
             except Exception as e:
                 self.job.sub_status = PARAPHRASING_MISMATCH_ERROR
@@ -624,17 +635,3 @@ class SiteMapReconnaissanceThread(Thread):
             except Exception as e:
                 self.browser.driver.get(url)
                 raise Exception(e)
-
-
-class Printer:
-    debugMode = False
-    @staticmethod
-    def print(message):
-        if Printer.debugMode:
-            print('######################################################################')
-            print(message)
-            print('######################################################################')
-    @staticmethod
-    def basic_print(message):
-        if Printer.debugMode:
-            print(message)

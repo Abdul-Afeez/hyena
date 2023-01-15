@@ -2,7 +2,7 @@ import time
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 
-from app.threads.mediator import Printer
+from app.tools.printer import Printer
 
 
 def handle_failure(func):
