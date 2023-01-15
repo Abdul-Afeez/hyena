@@ -62,7 +62,7 @@ class Inspector:
                 pending_job.sub_status = INSPECTION_COMPLETED
                 pending_job.save()
                 if job and job.status == QUEUED:
-                    Job.delete().where(id == pending_job.id).execute()
+                    Job.delete().where(Job.id == pending_job.id).execute()
                 print('Waiting for 10 seconds')
                 time.sleep(10)
             print('Waiting for 20 seconds')
@@ -513,6 +513,8 @@ class QuillThread(Thread):
                 self.blogger.send_post(endpoint, {'job_id': self.job.id})
                 self.job.meta['post_data'] = self.blogger.post_to_string()
                 self.job.sub_status = ''
+                if not self.printer.debugMode:
+                    self.job.meta = {}
                 self.printer.basic_print('Saving..................')
                 self.job.save()
             except Exception as e:

@@ -1,6 +1,6 @@
 
 class Printer:
-    debugMode = True
+    debugMode = False
     @staticmethod
     def print(message):
         if Printer.debugMode:
