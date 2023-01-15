@@ -572,8 +572,9 @@ class Blogger(ValidateUrl):
                 break
 
     def save_local_content(self, content, index=None):
-        folder_name = f'build/{self.get_post_folder_name(self.post.title)}'
-        self.save_content(content, index, folder_name)
+        if self.printer.debugMode:
+            folder_name = f'build/{self.get_post_folder_name(self.post.title)}'
+            self.save_content(content, index, folder_name)
 
     def post_to_string(self):
         return {
