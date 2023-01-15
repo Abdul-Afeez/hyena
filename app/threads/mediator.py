@@ -500,7 +500,7 @@ class QuillThread(Thread):
             elif self.duo_paraphrasing and self.section_1_paraphrased_cache:
                 paraphrased_text = f"{self.section_1_paraphrased_cache}\\n\\n\\n{self.quill.copy()}"
             else:
-                paraphrased_text = 'Illegitimate'
+                pass
             self.blogger.save_local_content(paraphrased_text, '-output-1-raw')
             self.blogger.save_local_content(paraphrased_text.replace('\n\n\n', '\n'), '-output-1')
             try:
