@@ -36,27 +36,30 @@ class Inspector:
                 data = pending_job.meta
                 document = data.get('document', {})
                 keyword_cannibal_free = True
-                cannibalism, jit_score, shards_log = ComparativeScorer(Index, document).scorer()
-                if len(cannibalism) > 0:
-                    keyword_cannibal_free = False
-                if keyword_cannibal_free:
-                    ind = Indexer(pending_job.id, Index, document)
-                    ind.bulk_tokenize()
-                else:
-                    data['shards_log'] = shards_log
+
                 job = None
                 if data:
                     job_web_master = WebMaster.get(WebMaster.id == pending_job.web_master_id)
                     self.printer.basic_print(f'Setting endpoint by job_web_master = {job_web_master.name}')
                     data['endpoint'] = job_web_master.reconnaissance.get('endpoint')
-                    data['cannibalism'] = cannibalism
                     quill_webmaster = WebMaster.get(WebMaster.url == QUILL_URL)
                     job = Job()
                     job.url = QUILL_URL
                     job.reference_url = pending_job.url
                     job.meta = data
-                    job.jit_score = jit_score
                     job.web_master_id = quill_webmaster.id
+                    job.save()
+                    # job = Job
+                    cannibalism, jit_score, shards_log = ComparativeScorer(Index, document).scorer()
+                    if len(cannibalism) > 0:
+                        keyword_cannibal_free = False
+                    if keyword_cannibal_free:
+                        ind = Indexer(job.id, Index, document)
+                        ind.bulk_tokenize()
+                    else:
+                        data['shards_log'] = shards_log
+                    data['cannibalism'] = cannibalism
+                    job.jit_score = jit_score
                     job.status = QUEUED if keyword_cannibal_free else KEYWORD_CANNIBALIZATION
                     job.save()
                 pending_job.sub_status = INSPECTION_COMPLETED
