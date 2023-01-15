@@ -197,6 +197,7 @@ class Mediator:
 
     @staticmethod
     def terminate(url):
+        from app.tools.printer import Printer
         try:
             previous_tab_index = 0
             history_length = len(Mediator.browser.history)
@@ -204,11 +205,11 @@ class Mediator:
                 Browser.session_id = None
             else:
                 previous_tab_index = Mediator.browser.history.index(url) - 1
-            self.printer.basic_print(f'Removing {url} from {Mediator.threads}')
+            Printer.basic_print(f'Removing {url} from {Mediator.threads}')
 
             del Mediator.threads[url]
             Mediator.browser.close_tab(url)
-            self.printer.basic_print('Switching browser to previous tab')
+            Printer.basic_print('Switching browser to previous tab')
             Mediator.browser.switch_to_tab(Mediator.browser.history[previous_tab_index])
         except Exception as e:
             print(e)
@@ -351,10 +352,9 @@ class Thread:
 
 class ThreadFactory:
 
-    def __int__(self):
+    def __init__(self):
         from app.tools.printer import Printer
         self.printer = Printer
-        pass
 
     def register_thread(self, job):
         url = job.url
@@ -437,7 +437,7 @@ class QuillThread(Thread):
             self.blogger = blogger
             section_1, section_2 = blogger.get_rephrase_text()
             if section_2:
-                Printer.print('Duo Paraphrasing mode')
+                self.printer.print('Duo Paraphrasing mode')
                 self.duo_paraphrasing = True
 
             if not section_2:
@@ -447,7 +447,7 @@ class QuillThread(Thread):
                 c_input = section_1
                 self.job.meta['c_input'] = c_input
             elif section_2 and self.section_1_paraphrased_cache:
-                Printer.print('Setting Input for the second section')
+                self.printer.print('Setting Input for the second section')
                 c_input = section_2
                 self.job.meta['c_input'] += f'\\n\\n\\n{c_input}'
             else:

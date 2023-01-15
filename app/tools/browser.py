@@ -58,8 +58,8 @@ class Browser:
                     chrome_options.add_argument(f'user-agent={user_agent}')
 
                     print('Connecting to web driver.......')
-                    Browser.driver = webdriver.Remote("http://selenium-hub:4444", desired_capabilities=Browser.desired_capabilities, options=chrome_options)
-                    # Browser.driver = webdriver.Chrome(executable_path="app/tools/drivers/chromedriver", chrome_options=chrome_options)
+                    # Browser.driver = webdriver.Remote("http://selenium-hub:4444", desired_capabilities=Browser.desired_capabilities, options=chrome_options)
+                    Browser.driver = webdriver.Chrome(executable_path="app/tools/drivers/chromedriver", chrome_options=chrome_options)
                     if not Browser.session_id:
                         Printer.basic_print(f'saving session_id: ====== {Browser.driver.session_id}')
                         Browser.session_id = Browser.driver.session_id

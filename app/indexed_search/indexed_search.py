@@ -22,7 +22,7 @@ class Tokenizer:
         'div': 1
     }
     def __init__(self):
-        from app.threads.mediator import Printer
+        from app.tools.printer import Printer
         self.printer = Printer
     def tokenize(self, block):
         # tokens = word_tokenize(block)
