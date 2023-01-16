@@ -200,29 +200,17 @@ class Blogger(ValidateUrl):
             self.save_local_content(self.link_map, '-link_map')
             tag = reverse_word_map.get('tag')
             if tag in self.recognizable_tags:
-                # print('Entering conditioning 2', self.link_map)
                 for link_index, link in enumerate(self.link_map):
-                    # print('Entering conditioning 3', link_index, link)
-                    if not link:
+                    if not link or 'h' in tag:
                         continue
                     key = list(link.keys())[0]
                     a_tag = list(link.values())[0]
-                    # print('key, a_tag')
-                    # print(key, a_tag)
                     if not a_tag:
                         continue
-                    # print('Entering conditioning')
                     if (key in reverse_word_map.get('lookup')) and (key in block):
-                        # print("if (key in reverse_word_map.get('lookup')) and (key in block):")
-                        # print(f"if ({key} in {reverse_word_map.get('lookup')}) and ({key} in {block}):")
                         block = block.replace(key, a_tag, 1)
-                        # print('##################REPLACING###########################')
-                        # print(block)
-                        # print('##################REPLACED###########################')
                         self.link_map[link_index] = None
                     elif key in reverse_word_map.get('lookup'):
-                        # print("elif key in reverse_word_map.get('lookup'):")
-                        # print(f"elif {key} in {reverse_word_map.get('lookup')}:")
                         block = f'{block} {a_tag}'
                         self.link_map[link_index] = None
                 self.html_to_text = self.html_to_text.replace(reverse_word_map.get('lookup'),

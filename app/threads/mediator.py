@@ -33,7 +33,7 @@ class Inspector:
         while True:
             pending_jobs = self.get_pending_jobs()
             for pending_job in pending_jobs:
-                data = pending_job.meta
+                data = pending_job.meta or {}
                 document = data.get('document', {})
                 keyword_cannibal_free = True
 
@@ -66,9 +66,9 @@ class Inspector:
                 pending_job.save()
                 if job and job.status == QUEUED:
                     Job.delete().where(Job.id == pending_job.id).execute()
-                print('Waiting for 10 seconds')
+                self.printer.basic_print('Waiting for 10 seconds')
                 time.sleep(10)
-            print('Waiting for 20 seconds')
+            self.printer.basic_print('Waiting for 20 seconds')
             time.sleep(20)
 
 
@@ -517,7 +517,7 @@ class QuillThread(Thread):
                 self.job.meta['post_data'] = self.blogger.post_to_string()
                 self.job.sub_status = ''
                 if not self.printer.debugMode:
-                    self.job.meta = {}
+                    self.job.meta = {'document': self.job.meta.get('document', '')}
                 self.printer.basic_print('Saving..................')
                 self.job.save()
             except Exception as e:
